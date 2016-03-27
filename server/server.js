@@ -36,9 +36,9 @@ app.use(express.static(path.resolve(__dirname, '..','public')));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 
-app.get('/events', function(req, res) {
+app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
-    console.log('events', events);
+    // console.log('events', events);
     if(err){
       res.send("error error");
     }
@@ -46,7 +46,7 @@ app.get('/events', function(req, res) {
   });
 });
 
-app.post('/events', function(req, res){
+app.post('/api/events', function(req, res){
   //TODO: ajax request POST for Ben's setContent
   var newEvent = new Event({
     title: req.body.title,
@@ -57,8 +57,9 @@ app.post('/events', function(req, res){
     start_time: req.body.start_time,
     posts: req.body.posts
   });
-  newEvent.save(function(){
-    res.send('Done');
+  newEvent.save(function(events){
+    console.log('events', events);
+    res.json(events);
   });
 });
 
