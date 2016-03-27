@@ -11,3 +11,8 @@ body {
 html, body, #mapid {
     height: 100%;
 }
+
+textarea {
+  width: 290px;
+  height: 100px;
+}
