@@ -47,19 +47,20 @@ app.get('/api/events', function(req, res) {
 });
 
 app.post('/api/events', function(req, res){
+  console.log('req.body', req.body);
   //TODO: ajax request POST for Ben's setContent
   var newEvent = new Event({
     title: req.body.title,
     created_by: req.body.created_by,
     description: req.body.description,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    start_time: req.body.start_time,
-    posts: req.body.posts
+    // latitude: req.body.latitude,
+    // longitude: req.body.longitude,
+    // start_time: req.body.start_time,
+    // posts: req.body.posts
   });
-  newEvent.save(function(events){
-    console.log('events', events);
-    res.json(events);
+  newEvent.save(function(err, event){
+    console.log('event', event);
+    res.json(event);
   });
 });
 

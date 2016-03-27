@@ -18,6 +18,15 @@
            markers="markers">
   </leaflet>
   </div>
+  <div ng-controller="EventController">
+    <h3>Create Event</h3>
+      <form ng-submit="newEvent($event)">
+        <div>Title<input type="text" ng-model="title" name="title"/></div>
+        <div>Created By<input type="text" ng-model="created_by" name="createdBy"/></div>
+        <div>Description<input type="text" ng-model="description" name="description"/></div>
+        <div><input type="submit" id="submit" value="Submit"/></div>
+      </form>
+  </div>
   <div ng-view></div>
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
   <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>

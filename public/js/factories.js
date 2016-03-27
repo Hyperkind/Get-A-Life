@@ -7,7 +7,7 @@ app.factory('EventFactory', [
       getEvents: function() {
         return $http({
           method: 'GET',
-          url: "api/events",
+          url: "/api/events",
         });
       },
 

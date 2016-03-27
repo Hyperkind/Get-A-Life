@@ -2,6 +2,21 @@ angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
 
 var app = angular.module('app');
 
+app
+  .config(function($routeProvider){
+    $routeProvider
+    .when('/new', {
+      templateUrl: '/index.html',
+      controller: 'EventController',
+    });
+    console.log('Created new event');
+  })
+  .run([
+    '$rootScope',
+    function($rootScope){
+    }
+  ]);
+
 // var map = L.map('mapid');
 
 // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
