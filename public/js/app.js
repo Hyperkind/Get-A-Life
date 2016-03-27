@@ -30,7 +30,7 @@ map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
 
 map.locate({
-  setView: true, 
+  setView: true,
   maxZoom: 16,
 });
 
@@ -38,7 +38,7 @@ map.locate({
 
 function addMarker(e){
     // Add marker to map at click location; add popup window
-  var newMarker = 
+  var newMarker =
   new L.marker(e.latlng,{
     clickable: true,
     draggable: true,
@@ -50,10 +50,10 @@ function addMarker(e){
     var changePos = event.target.getLatLng();
     console.log(changePos);
   });
-  var popup = 
+  var popup =
     L.popup({
       maxWidth: 300,
-      minWidth: 200, 
+      minWidth: 200,
       maxHeight: 400,
       autoPan: true,
       closeButton: true,
@@ -63,7 +63,7 @@ function addMarker(e){
     .setContent('<h1>Party at MIC</h1> <h2>2800 Woodlawn Dr #100, Honolulu, HI 96822</h2> <h3>Date: March 31, 2016 Time: 7:00pm - 10:00pm</h3><p>this is a an event at Manoa Innovation Center</p>');
     console.log(map);
   newMarker.bindPopup(popup);
-  
+
 }
 
 

@@ -1,10 +1,13 @@
-tktMstrAPI();
-evntBriteAPI(honolulu);
+var lat = '21.3096086419986';
+var long = '-157.8086566532421';
 
-function tktMstrAPI() {
+tktMstrAPI(lat,long);
+evntBriteAPI(lat, long);
+
+function tktMstrAPI(lat, long) {
   $.ajax({
     method: "GET",
-    url: "https://app.ticketmaster.com/discovery/v1/events.json?radius=20&size=5&marketId=49&apikey=kejQVntR3erc03OmcE6rGwHIlVV0aNG0",
+    url: "https://app.ticketmaster.com/discovery/v1/events.json?latlong=" + lat + "%2C" + long + "&apikey=kejQVntR3erc03OmcE6rGwHIlVV0aNG0",
     async: true,
     dataType: "json",
     success: function(data) {
@@ -16,10 +19,10 @@ function tktMstrAPI() {
   });
 }
 
-function evntBriteAPI(cityName) {
+function evntBriteAPI(lat, long) {
   $.ajax({
     method: "GET",
-    url: "https://www.eventbriteapi.com/v3/events/search/?venue.city=" + cityName + "&token=BDMUJMKAWOGCYVJD7SYA",
+    url: "https://www.eventbriteapi.com/v3/events/search/?location.latitude=" + lat + "&location.longitude=" + long + "&token=BDMUJMKAWOGCYVJD7SYA",
     async: true,
     dataType: "json",
     success: function(data) {
