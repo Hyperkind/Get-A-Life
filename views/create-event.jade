@@ -1,0 +1,21 @@
+html
+  head Create Event
+
+  body
+    h1
+    block content
+    form(action="/events" method="post")
+      p Title
+      input(type="text" name="title")
+      p Created By
+      input(type="text" name="created_by")
+      p Description
+      input(type="text" name="description")
+      P Number of Attendees
+      input(type="text" name="attendees")
+      p Start Time
+      input(type="text" name="start_time")
+      P
+      input(type="submit" id="submit" value="Submit")
+
+      script(type='text/javascript', src='http://code.jquery.com/jquery-1.10.2.min.js')

@@ -1,3 +1,6 @@
+angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
+
+var app = angular.module('app');
 
 var map = L.map('mapid');
 
