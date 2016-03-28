@@ -4,7 +4,7 @@ var app = angular.module('app', ['ui-leaflet']);
 app.controller('MapController', [
   '$scope',
   function($scope){
-   angular.extend($scope, {
+    angular.extend($scope, {
       defaults: {
         tileLayer: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
         MaxZoom: 18,
@@ -16,23 +16,37 @@ app.controller('MapController', [
       },
       center: {
        autoDiscover: true,
-       zoom: 18  
+       zoom: 18
       }
-   });
-  $scope.markers = new Array();
-  $scope.$on("leafletDirectiveMap.click", function(event, args) {
-    var markerData = args.leafletEvent;
-    console.log(markerData);
-    $scope.markers.push({
-      lat: markerData.latlng.lat,
-      lng: markerData.latlng.lng,
-      message: "New Marker"
     });
-  });
+
+    $scope.markers = new Array();
+    $scope.$on("leafletDirectiveMap.click", function(event, args) {
+      var markerData = args.leafletEvent;
+      console.log(markerData);
+      $scope.markers.push({
+        lat: markerData.latlng.lat,
+        lng: markerData.latlng.lng,
+        message: "New Marker"
+      });
+    });
   }
 
 ]);
 
+app.controller('EventController', [
+  '$scope',
+  'Events',
+  function($scope, Events) {
+    $scope.tktMstrEvents = [];
+
+    Events.getTktMstr()
+      .then(function(res) {
+        $scope.tktMstrEvents = res.data;
+        console.log(res.data);
+      });
+  }
+]);
 
 // app.controller('AutoCenter', [
 //   '$scope',

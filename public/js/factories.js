@@ -1,6 +1,6 @@
 var app = angular.module('app');
 
-app.factory('EventFactory', [
+app.factory('Events', [
   '$http',
   function($http){
     return {
@@ -9,6 +9,12 @@ app.factory('EventFactory', [
           method: 'GET',
           url: "api/events",
         });
+      },
+
+      getTktMstr: function() {
+        return $http.get(
+          'https://app.ticketmaster.com/discovery/v1/events.json?marketId=49&apikey=kejQVntR3erc03OmcE6rGwHIlVV0aNG0'
+        );
       },
 
       postEvent: function(data){
@@ -23,4 +29,8 @@ app.factory('EventFactory', [
     };
 
   }
+]);
+
+app.factory('TktMstrFactory', [
+  '$http',
 ]);

@@ -2,6 +2,14 @@ angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
 
 var app = angular.module('app');
 
+app
+  .config(function($routeProvider) {
+
+  })
+  .run(function() {
+    console.log('Everything is running');
+  });
+
 // var map = L.map('mapid');
 
 // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -9,7 +17,7 @@ var app = angular.module('app');
 //     maxZoom: 18,
 //     id: 'mapbox.streets',
 //     accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
-//     continuousWorld: false, 
+//     continuousWorld: false,
 //     noWrap: true,
 //     trackResize: true,
 //     closePopupOnClick: true
@@ -52,7 +60,7 @@ var app = angular.module('app');
 //   position: 'topright',
 //   drawCircle: true,
 //   follow: true,
-//   setView: true, 
+//   setView: true,
 //   remainActive: false
 //   // stopFollwingOnDrag: false //DEPRICATED?
 // }).addTo(map);
@@ -82,7 +90,7 @@ var app = angular.module('app');
 //       offset: L.point(1000, 500)
 //     })
 //     .setLatLng(e.latlng)
-//     .setContent('<h2>Add Event</h2>' + 
+//     .setContent('<h2>Add Event</h2>' +
 //                 '<form>' +
 //                   '<input type="text" name="title" placeholder="Title">' +
 //                   '<input type="text" name="location" placeholder="Location">' +
