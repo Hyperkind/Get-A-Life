@@ -17,6 +17,12 @@ app.factory('EventFactory', [
         );
       },
 
+      getEvntBrite: function() {
+        return $http.get(
+          'https://www.eventbriteapi.com/v3/events/search/?venue.city=honolulu&token=BDMUJMKAWOGCYVJD7SYA'
+        );
+      },
+
       postEvent: function(data){
         return $http.post(
           "/api/events",
