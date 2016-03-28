@@ -1,6 +1,6 @@
 var app = angular.module('app');
 
-app.factory('Events', [
+app.factory('EventFactory', [
   '$http',
   function($http){
     return {
@@ -29,8 +29,4 @@ app.factory('Events', [
     };
 
   }
-]);
-
-app.factory('TktMstrFactory', [
-  '$http',
 ]);

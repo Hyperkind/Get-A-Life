@@ -35,15 +35,15 @@ app.controller('MapController', [
 ]);
 
 app.controller('EventController', [
-  '$scope',
-  'Events',
-  function($scope, Events) {
+  "$scope",
+  'EventFactory',
+  function($scope, EventFactory) {
     $scope.tktMstrEvents = [];
 
-    Events.getTktMstr()
+    EventFactory.getTktMstr()
       .then(function(res) {
         $scope.tktMstrEvents = res.data;
-        console.log(res.data);
+        console.log('tktmstr', res.data);
       });
   }
 ]);
