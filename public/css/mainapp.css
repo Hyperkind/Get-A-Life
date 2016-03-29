@@ -1,18 +1,34 @@
+/* google */
+html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 100%;
+    }
+
 /*#map { 
   height: 400px; 
 
 }
 */
 
-body {
+/*body {
+    width: 100%;
+    height: 100%;
     padding: 0;
     margin: 0;
 }
-html, body, #mapid {
+*/
+/*.angular-google-map-container { height: 400px; }*/
+/*html, body, #mapid {
     height: 100%;
 }
 
 textarea {
   width: 290px;
   height: 100px;
-}
+}*/
+
+

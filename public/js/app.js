@@ -1,7 +1,17 @@
-angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
+var app = angular.module('app', ['uiGmapgoogle-maps']);
 
-var app = angular.module('app');
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+}
 
+//leaflet
+// angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
+
+// ------ leaflet
 // var map = L.map('mapid');
 
 // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
