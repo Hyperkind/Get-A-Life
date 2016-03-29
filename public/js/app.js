@@ -3,19 +3,25 @@ angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
 var app = angular.module('app');
 
 app
-  .config(function($routeProvider){
-    $routeProvider
-    .when('/', {
-      templateUrl: '/index.html',
-      controller: 'EventController',
-    });
-    console.log('Created new event');
+  // .config(function($routeProvider){
+  //   $routeProvider
+  //   .when('/', {
+  //     templateUrl: '/index.html',
+  //     controller: 'EventController',
+  //   });
+  //   console.log('Created new event');
+  // })
+  // .run([
+  //   '$rootScope',
+  //   function($rootScope){
+  //   }
+  // ]);
+  .config(function($routeProvider) {
+
   })
-  .run([
-    '$rootScope',
-    function($rootScope){
-    }
-  ]);
+  .run(function() {
+    console.log('Everything is running');
+  });
 
 // var map = L.map('mapid');
 

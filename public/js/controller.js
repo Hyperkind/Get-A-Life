@@ -26,40 +26,62 @@ app.controller("MapController", [
       lat: markerData.latlng.lat,
       lng: markerData.latlng.lng,
       message: "New Marker"
+      });
     });
-  });
   }
 ]);
 
-app.controller("EventController", [
-  '$scope',
-  'EventFactory',
-  function($scope, EventFactory){
-    EventFactory.getEvents()
-    .then(function(event){
-      $scope.events = events.data;
-    });
+// app.controller("EventController", [
+//   '$scope',
+//   'EventFactory',
+//   function($scope, EventFactory){
+//     EventFactory.getEvents()
+//     .then(function(event){
+//       $scope.events = events.data;
+//     });
 
-    $scope.newEvent = function(event){
-      event.preventDefault();
-      if ($scope.title){
-        var data = {
-          title: $scope.title,
-          created_by: $scope.created_by,
-          description: $scope.description,
-        };
-        EventFactory.postEvent(data)
-        .then(function(newEvent){
-          console.log('NEW event created!');
-          $scope.events = newEvent.data;
-          $scope.title = '';
-          $scope.created_by = '';
-          $scope.description = '';
-        });
-      }
-    };
+//     $scope.newEvent = function(event){
+//       event.preventDefault();
+//       if ($scope.title){
+//         var data = {
+//           title: $scope.title,
+//           created_by: $scope.created_by,
+//           description: $scope.description,
+//         };
+//         EventFactory.postEvent(data)
+//         .then(function(newEvent){
+//           console.log('NEW event created!');
+//           $scope.events = newEvent.data;
+//           $scope.title = '';
+//           $scope.created_by = '';
+//           $scope.description = '';
+//         });
+//       }
+//     };
+//   }
+//   ]);
+
+app.controller('EventController', [
+  "$scope",
+  'EventFactory',
+  function($scope, EventFactory) {
+    $scope.tktMstrEvents = [];
+    $scope.evntBriteEvents = [];
+
+    EventFactory.getTktMstr()
+      .then(function(res) {
+        $scope.tktMstrEvents = res.data;
+        console.log('tktmstr', res.data);
+      });
+
+    EventFactory.getEvntBrite()
+      .then(function(res) {
+        $scope.evntBriteEvents = res.data;
+        console.log('evntbrite', res.data);
+      });
   }
-  ]);
+]);
+
 
 // app.controller('AutoCenter', [
 //   '$scope',
