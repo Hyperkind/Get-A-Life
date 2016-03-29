@@ -31,35 +31,38 @@ app.controller("MapController", [
   }
 ]);
 
-// app.controller("EventController", [
-//   '$scope',
-//   'EventFactory',
-//   function($scope, EventFactory){
-//     EventFactory.getEvents()
-//     .then(function(event){
-//       $scope.events = events.data;
-//     });
+app.controller("EventController", [
+  '$scope',
+  'EventFactory',
+  function($scope, EventFactory){
+    $scope.events = [];
+    EventFactory.getEvents()
+    .then(function(events){
+      $scope.events = events.data;
+    });
 
-//     $scope.newEvent = function(event){
-//       event.preventDefault();
-//       if ($scope.title){
-//         var data = {
-//           title: $scope.title,
-//           created_by: $scope.created_by,
-//           description: $scope.description,
-//         };
-//         EventFactory.postEvent(data)
-//         .then(function(newEvent){
-//           console.log('NEW event created!');
-//           $scope.events = newEvent.data;
-//           $scope.title = '';
-//           $scope.created_by = '';
-//           $scope.description = '';
-//         });
-//       }
-//     };
-//   }
-//   ]);
+    $scope.newEvent = function(event){
+      event.preventDefault();
+      if ($scope.title){
+        var data = {
+          title: $scope.title,
+          created_by: $scope.created_by,
+          description: $scope.description,
+          start_time: $scope.start_time,
+        };
+        EventFactory.postEvent(data)
+        .then(function(newEvent){
+          console.log('NEW event created!');
+          $scope.events = newEvent.data;
+          $scope.title = '';
+          $scope.created_by = '';
+          $scope.description = '';
+          $scope.start_time = '';
+        });
+      }
+    };
+  }
+  ]);
 
 app.controller('TktMstrController', [
   "$scope",

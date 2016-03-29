@@ -27,8 +27,17 @@
         <div>Title<input type="text" ng-model="title" name="title"/></div>
         <div>Created By<input type="text" ng-model="created_by" name="createdBy"/></div>
         <div>Description<input type="text" ng-model="description" name="description"/></div>
+        <div>Start Time<input type="date" ng-model="start_time" name="start_time"/></div>
         <div><input type="submit" id="submit" value="Submit"/></div>
       </form>
+        <ul>
+          <li class="new events" ng-repeat="event in events">
+            <p>Event Id: {{ event._id }}</p>
+            <p>Event Title: {{ event.title }}</p>
+            <p>Created By: {{ event.created_by }}</p>
+            <p>Description: {{ event.description }}</p>
+            <p>Start Time: {{ event.start_time}}</p>
+        </ul>
   </div>
   <div ng-view></div>
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
