@@ -41,6 +41,14 @@ app.factory('EventFactory', [
             return res.data;
           });
       },
+
+      deleteEvent: function(data, id){
+        console.log('Deleted event id ' + eventId);
+        return $http.delete(
+          "api/events/delete/" + id,
+          data
+        );
+      },
     };
 
   }

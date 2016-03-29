@@ -82,9 +82,17 @@ app.put('/api/events/edit/:id', function(req, res){
     return event.save();
   })
   .then(function(){
-    res.send({
-      redirect: '/events/' + eventId
-    });
+    res.send("This card " + eventId + " has been updated");
+  });
+});
+
+app.delete('/api/events/delete/:id', function(req, res){
+  var eventId = req.params.id;
+
+  Event.findByIdAndRemove({
+    _id: eventId
+  }).then(function(event){
+    res.send("This event " + eventId + " has been deleted");
   });
 });
 
