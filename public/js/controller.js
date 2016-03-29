@@ -61,7 +61,7 @@ app.controller("MapController", [
 //   }
 //   ]);
 
-app.controller('EventController', [
+app.controller('TktMstrController', [
   "$scope",
   'EventFactory',
   function($scope, EventFactory) {

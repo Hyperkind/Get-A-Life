@@ -32,6 +32,15 @@ app.factory('EventFactory', [
           return newEvent;
         });
       },
+
+      updateEvent: function(data, id){
+        return $http.put(
+          "/api/events/edit/" + id,
+          data
+          ).then(function(res){
+            return res.data;
+          });
+      },
     };
 
   }

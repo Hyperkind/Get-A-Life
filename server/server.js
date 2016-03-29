@@ -66,6 +66,28 @@ app.post('/api/events', function(req, res){
   });
 });
 
+app.put('/api/events/edit/:id', function(req, res){
+  var eventId = req.params.id;
+
+  Event.findOne({ _id: eventId })
+  .then(function(event){
+    event.title = req.body.title;
+    event.created_by = req.body.created_by;
+    event.description = req.body.description;
+    event.latitude = req.body.latitude;
+    event.longitude = req.body.longitude;
+    event.start_time = req.body.start_time;
+    event.posts = req.body.posts;
+
+    return event.save();
+  })
+  .then(function(){
+    res.send({
+      redirect: '/events/' + eventId
+    });
+  });
+});
+
 app.listen(3000, function() {
   console.log('server is connected');
 });

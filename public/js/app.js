@@ -4,20 +4,18 @@ var app = angular.module('app');
 
 app
   // .config(function($routeProvider){
-  //   $routeProvider
-  //   .when('/', {
-  //     templateUrl: '/index.html',
-  //     controller: 'EventController',
-  //   });
-  //   console.log('Created new event');
-  // })
   // .run([
   //   '$rootScope',
   //   function($rootScope){
   //   }
   // ]);
   .config(function($routeProvider) {
-
+    $routeProvider
+    .when('/', {
+      templateUrl: '/index.html',
+      controller: 'EventController',
+    });
+    console.log('Created new event');
   })
   .run(function() {
     console.log('Everything is running');
