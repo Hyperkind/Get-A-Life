@@ -5,7 +5,7 @@ var app = angular.module('app');
 app
   .config(function($routeProvider){
     $routeProvider
-    .when('/new', {
+    .when('/', {
       templateUrl: '/index.html',
       controller: 'EventController',
     });

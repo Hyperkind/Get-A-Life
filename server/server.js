@@ -53,10 +53,10 @@ app.post('/api/events', function(req, res){
     title: req.body.title,
     created_by: req.body.created_by,
     description: req.body.description,
-    // latitude: req.body.latitude,
-    // longitude: req.body.longitude,
-    // start_time: req.body.start_time,
-    // posts: req.body.posts
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    start_time: req.body.start_time,
+    posts: req.body.posts
   });
   newEvent.save(function(err, event){
     console.log('event', event);
