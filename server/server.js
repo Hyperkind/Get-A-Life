@@ -59,7 +59,8 @@ app.post('/api/events', function(req, res){
     start_time: req.body.start_time,
     posts: req.body.posts
   });
-  newEvent.save(function(err, event){
+   newEvent.save(function(err, event){
+    var eventId = newEvent._id;
     console.log('event', event);
     res.json(event);
   });
