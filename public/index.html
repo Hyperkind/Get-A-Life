@@ -32,7 +32,7 @@
       </form>
       <div>
         <ul>
-          <li class="new events" ng-repeat="event in events | filter: {created_by: 'Ben'} | orderBy: '+start_time'">
+          <li class="new events" ng-repeat="event in events | filter: {created_by: 'Gail' } | orderBy: '+start_time'">
             <p>Event Id: {{ event._id }}</p>
             <p>Event Title: {{ event.title }}</p>
             <p>Created By: {{ event.created_by }}</p>

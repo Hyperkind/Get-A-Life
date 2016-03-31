@@ -53,7 +53,7 @@ app.controller("EventController", [
         EventFactory.postEvent(data)
         .then(function(newEvent){
           console.log('NEW event created!');
-          $scope.events = newEvent.data;
+          $scope.events = $scope.events.concat(newEvent.data);
           $scope.title = '';
           $scope.created_by = '';
           $scope.description = '';
