@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
 var CONFIG = require('../public/config');
@@ -98,6 +99,37 @@ passport.use(new FacebookStrategy({
   }
 ));
 
+passport.use(new TwitterStrategy({
+  consumerKey: CONFIG.TWITTER.CONSUMER_KEY,
+  consumerSecret: CONFIG.TWITTER.CONSUMER_SECRET,
+  callbackURL: CONFIG.TWITTER.CALLBACK
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({ oauthID: profile.id }, function(err, user) {
+      if(err) {
+        console.log(err);
+      }
+      if(!err && user !== null) {
+        done(null, user);
+      } else {
+        user = new User({
+          oauthID: profile.id,
+          name: profile.displayName,
+          created: Date.now()
+        });
+        user.save(function(err) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log('saving user...');
+            done(null, user);
+          }
+        });
+      }
+    });
+  }
+));
+
 passport.serializeUser(function (user, done) {
   return done(null, user.id);
 });
@@ -162,7 +194,17 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    res.send('/users');
+    res.redirect('/');
+  });
+
+app.get('/auth/twitter',
+  passport.authenticate('twitter'),
+  function(req, res) {});
+
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
   });
 
 app.listen(3000, function() {
