@@ -46,7 +46,7 @@ app.get('/api/events', function(req, res) {
   });
 });
 
-//QUESTION: why showing a GET 404
+//QUESTION: why showing a GET 404? Is it b/c goes right to a PUT?
 app.get('api/events/:id', function(req, res){
   var eventId = req.params.id;
   Event.findById(eventId, function(err, events){
