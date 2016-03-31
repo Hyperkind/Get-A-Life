@@ -61,6 +61,22 @@ app.controller("EventController", [
         });
       }
     };
+
+    $scope.remove = function(event){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_time: $scope.start_time,
+      };
+      EventFactory.deleteEvent(data, event._id)
+      .then(function(remove){
+        EventFactory.getEvents()
+        .then(function(events){
+          $scope.events = events.data;
+        });
+      });
+    };
   }
   ]);
 

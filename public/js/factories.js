@@ -43,7 +43,7 @@ app.factory('EventFactory', [
       },
 
       deleteEvent: function(data, id){
-        console.log('Deleted event id ' + eventId);
+        console.log('Deleted event id ' + id);
         return $http.delete(
           "api/events/delete/" + id,
           data
