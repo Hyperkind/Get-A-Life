@@ -2,23 +2,18 @@ angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
 
 var app = angular.module('app');
 
+//don't route to your index.html, will just keep re-creating
+//use this just for template re-routing
 app
-  // .config(function($routeProvider){
-  // .run([
-  //   '$rootScope',
-  //   function($rootScope){
-  //   }
-  // ]);
   .config(function($routeProvider) {
     $routeProvider
-    .when('/', {
-      templateUrl: '/index.html',
-      controller: 'EventController',
+    .when('/:id/edit', {
+      templateUrl: '/templates/edit-event.html',
+      controller: 'EditController'
     });
-    console.log('Created new event');
   })
-  .run(function() {
-    console.log('Everything is running');
+  .run(function(){
+    console.log('everything is');
   });
 
 // var map = L.map('mapid');

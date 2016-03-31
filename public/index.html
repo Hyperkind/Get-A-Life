@@ -39,6 +39,7 @@
             <p>Description: {{ event.description }}</p>
             <p>Start Time: {{ event.start_time }}</p>
             <button type="submit" ng-click="remove(event)">Delete Event</button>
+            <a href="/#/edit/{{event.id}}">Edit Event</a>
            </li>
         </ul>
       </div>

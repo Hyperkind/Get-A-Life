@@ -47,6 +47,15 @@ app.get('/api/events', function(req, res) {
   });
 });
 
+app.get('api/events/:id', function(req, res){
+  var eventId = req.params.id;
+
+  Event.findById({ _id: eventId })
+  .then(function(event){
+    res.json(event);
+  });
+});
+
 app.post('/api/events', function(req, res){
   console.log('req.body', req.body);
   //TODO: ajax request POST for Ben's setContent

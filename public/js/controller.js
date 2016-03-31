@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui-leaflet', 'nemLogging']);
+var app = angular.module('app');
 
 app.controller("MapController", [
   '$scope',
@@ -69,7 +69,7 @@ app.controller("EventController", [
         description: $scope.description,
         start_time: $scope.start_time,
       };
-      EventFactory.deleteEvent(data, event._id)
+      EventFactory.deleteEvent(data, event.id)
       .then(function(remove){
         EventFactory.getEvents()
         .then(function(events){
@@ -78,7 +78,41 @@ app.controller("EventController", [
       });
     };
   }
-  ]);
+]);
+
+app.controller('EditController', [
+  '$scope',
+  '$routeParams',
+  'EventFactory',
+  '$location',
+  function($scope, $routeParams, EventFactory, $location){
+    EventFactory.getEventById($routeParams.id)
+    .then(function(res){
+      var event = res.data;
+
+      $scope.title = event.title;
+      $scope.created_by = event.created_by;
+      $scope.description = event.description;
+      $scope.start_time = event.start_time;
+    });
+    console.log('$routeParams', $routeParams);
+    // make sure on markup (html) differentiate DOM event from your $event, add '$'
+    $scope.editingEvent = function(event){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_time: $scope.start_time,
+        };
+      console.log('event', event);
+      event.preventDefault();
+      EventFactory.updateEvent(data, $routeParams.id)
+      .then(function(editingEvent){
+        $location.path('/');
+      });
+    };
+  }
+]);
 
 app.controller('TktMstrController', [
   "$scope",

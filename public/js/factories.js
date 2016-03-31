@@ -11,6 +11,13 @@ app.factory('EventFactory', [
         });
       },
 
+      getEventById: function(id){
+        return $http({
+          method: "GET",
+          url: "/api/events/" + id,
+        });
+      },
+
       getTktMstr: function() {
         return $http.get(
           'https://app.ticketmaster.com/discovery/v1/events.json?marketId=49&apikey=kejQVntR3erc03OmcE6rGwHIlVV0aNG0'
