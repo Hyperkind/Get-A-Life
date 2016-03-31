@@ -18,6 +18,7 @@ app.controller('MapController', [
        autoDiscover: true,
        zoom: 18  
       }
+
    });
   $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.click", function(event, args) {
@@ -26,7 +27,9 @@ app.controller('MapController', [
     $scope.markers.push({
       lat: markerData.latlng.lat,
       lng: markerData.latlng.lng,
-      message: "New Marker"
+      message: {},
+      draggable: true
+
     });
   });
   }
