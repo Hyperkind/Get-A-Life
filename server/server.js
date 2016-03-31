@@ -6,6 +6,7 @@ var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
 var CONFIG = require('../public/config');
@@ -28,6 +29,9 @@ var Event = mongoose.model('Event', eventSchema);
 var userSchema = mongoose.Schema({
   username: String,
   password: String,
+  oauthID: Number,
+  name: String,
+  created: Date
 });
 var User = mongoose.model('User', userSchema);
 
@@ -62,6 +66,37 @@ passport.use(new localStrategy (
     });
   })
 );
+
+passport.use(new FacebookStrategy({
+  clientID: CONFIG.FACEBOOK.APP_ID,
+  clientSecret: CONFIG.FACEBOOK.SECRET,
+  callbackURL: CONFIG.FACEBOOK.CALLBACK
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({ oauthID: profile.id }, function(err, user) {
+      if(err) {
+        console.log(err);
+      }
+      if(!err && user !== null) {
+        done(null, user);
+      } else {
+        user = new User({
+          oauthID: profile.id,
+          name: profile.displayName,
+          created: Date.now()
+        });
+        user.save(function(err) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log('saving user ...');
+            done(null, user);
+          }
+        });
+      }
+    });
+  }
+));
 
 passport.serializeUser(function (user, done) {
   return done(null, user.id);
@@ -120,6 +155,15 @@ app.route('/login')
     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
   );
 
+app.get('/auth/facebook',
+  passport.authenticate('facebook'),
+  function(req, res) {});
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.send('/users');
+  });
 
 app.listen(3000, function() {
   console.log('server is connected');
