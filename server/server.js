@@ -97,7 +97,7 @@ app.put('/api/events/edit/:id', function(req, res){
 
 app.delete('/api/events/delete/:id', function(req, res){
   var eventId = req.params.id;
-
+  console.log('eventId', eventId);
   Event.findByIdAndRemove({
     _id: eventId
   }).then(function(event){

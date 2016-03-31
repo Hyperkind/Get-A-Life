@@ -7,13 +7,21 @@ var app = angular.module('app');
 app
   .config(function($routeProvider) {
     $routeProvider
+    .when('/new', {
+      templateUrl: '/templates/create-event.html',
+      controller: 'EventController'
+    })
+    .when('/', {
+      templateUrl: '/templates/events.html',
+      controller: 'EventController'
+    })
     .when('/:id/edit', {
       templateUrl: '/templates/edit-event.html',
       controller: 'EditController'
     });
   })
   .run(function(){
-    console.log('everything is');
+    console.log('everything is running');
   });
 
 // var map = L.map('mapid');

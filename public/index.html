@@ -21,29 +21,8 @@
       <li ng-repeat="event in tktMstrEvents"></li>
     </ul>
   </div>
-  <div ng-controller="EventController">
-    <h3>Create Event</h3>
-      <form ng-submit="newEvent($event)">
-        <div>Title<input type="text" ng-model="title" name="title"/></div>
-        <div>Created By<input type="text" ng-model="created_by" name="createdBy"/></div>
-        <div>Description<input type="text" ng-model="description" name="description"/></div>
-        <div>Start Time<input type="date" ng-model="start_time" name="start_time"/></div>
-        <div><input type="submit" id="submit" value="Submit"/></div>
-      </form>
-      <div>
-        <ul>
-          <li class="new events" ng-repeat="event in events | filter: {created_by: 'Gail' } | orderBy: '+start_time'">
-            <p>Event Id: {{ event._id }}</p>
-            <p>Event Title: {{ event.title }}</p>
-            <p>Created By: {{ event.created_by }}</p>
-            <p>Description: {{ event.description }}</p>
-            <p>Start Time: {{ event.start_time }}</p>
-            <button type="submit" ng-click="remove(event)">Delete Event</button>
-            <a href="/#/edit/{{event.id}}">Edit Event</a>
-           </li>
-        </ul>
-      </div>
-  </div>
+    <a href="/#/">View All Events</a>
+    <a href="/#/new">Create Event</a>
   <div ng-view></div>
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
   <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
