@@ -1,0 +1,10 @@
+{
+  "session": {
+    "secret": "NyanCat",
+    "RESAVE": true,
+    "SAVEUNINITIALIZED": true
+  },
+  "crypto": {
+    "secret": "YouCantGuessThis"
+  }
+}
