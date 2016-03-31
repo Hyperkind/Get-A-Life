@@ -69,7 +69,7 @@ app.controller("EventController", [
         description: $scope.description,
         start_time: $scope.start_time,
       };
-      EventFactory.deleteEvent(data, event.id)
+      EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
         EventFactory.getEvents()
         .then(function(events){

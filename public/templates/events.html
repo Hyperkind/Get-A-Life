@@ -6,7 +6,7 @@
       <p>Created By: {{ event.created_by }}</p>
       <p>Description: {{ event.description }}</p>
       <p>Start Time: {{ event.start_time }}</p>
-      <button type="submit" ng-click="remove($event)">Delete Event</button>
+      <button type="submit" ng-click="remove(event)">Delete Event</button>
       <a href="/#/edit/{{event.id}}">Edit Event</a>
      </li>
   </ul>

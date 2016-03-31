@@ -39,10 +39,11 @@ app.use(methodOverride('_method'));
 
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
-    // console.log('events', events);
+    console.log('events', events);
     if(err){
       res.send("error error");
     }
+    console.log('req.body', req.body);
     res.json(events);
   });
 });
@@ -81,7 +82,7 @@ app.post('/api/events', function(req, res){
 
 app.put('/api/events/edit/:id', function(req, res){
   var eventId = req.params.id;
-
+  console.log('eventId in PUT', eventId);
   Event.findOne({ _id: eventId })
   .then(function(event){
     event.title = req.body.title;
