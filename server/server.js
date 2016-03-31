@@ -63,18 +63,6 @@ passport.use(new localStrategy (
   })
 );
 
-// passport.use(new localStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) {
-//         return done(null, false, { message: 'Incorrect username.' });
-//       }
-//       return done(null, user);
-//     });
-//   }
-// ));
-
 passport.serializeUser(function (user, done) {
   return done(null, user.id);
 });
@@ -122,10 +110,6 @@ app.post('/events', function(req, res){
   newEvent.save(function(){
     res.send('Done');
   });
-});
-
-app.get('/logintest', isAuthenticated, function(req, res) {
-  document.write('did you log in?');
 });
 
 app.route('/login')
