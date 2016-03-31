@@ -49,8 +49,12 @@ app.get('/api/events', function(req, res) {
 
 app.get('api/events/:id', function(req, res){
   var eventId = req.params.id;
-
-  Event.findById({ _id: eventId })
+    console.log('first eventId', eventId);
+  Event.findById(eventId, function(err, events){
+    if(err){
+      console.log(eventId + ' is not a valid ID');
+    }
+  })
   .then(function(event){
     res.json(event);
   });
@@ -96,6 +100,7 @@ app.put('/api/events/edit/:id', function(req, res){
 });
 
 app.delete('/api/events/delete/:id', function(req, res){
+  console.log(req.body);
   var eventId = req.params.id;
   console.log('eventId', eventId);
   Event.findByIdAndRemove({

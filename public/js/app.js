@@ -7,12 +7,12 @@ var app = angular.module('app');
 app
   .config(function($routeProvider) {
     $routeProvider
-    .when('/new', {
-      templateUrl: '/templates/create-event.html',
-      controller: 'EventController'
-    })
     .when('/', {
       templateUrl: '/templates/events.html',
+      controller: 'EventController'
+    })
+    .when('/new', {
+      templateUrl: '/templates/create-event.html',
       controller: 'EventController'
     })
     .when('/:id/edit', {
