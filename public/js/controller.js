@@ -104,7 +104,6 @@ app.controller('EditController', [
         description: $scope.description,
         start_time: $scope.start_time,
         };
-      console.log('event', event);
       event.preventDefault();
       EventFactory.updateEvent(data, $routeParams.id)
       .then(function(editingEvent){

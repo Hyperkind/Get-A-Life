@@ -15,7 +15,7 @@ app
       templateUrl: '/templates/create-event.html',
       controller: 'EventController'
     })
-    .when('/:id/edit', {
+    .when('/edit/:id', {
       templateUrl: '/templates/edit-event.html',
       controller: 'EditController'
     });

@@ -39,18 +39,16 @@ app.use(methodOverride('_method'));
 
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
-    console.log('events', events);
     if(err){
       res.send("error error");
     }
-    console.log('req.body', req.body);
     res.json(events);
   });
 });
 
+//QUESTION: why showing a GET 404
 app.get('api/events/:id', function(req, res){
   var eventId = req.params.id;
-    console.log('first eventId', eventId);
   Event.findById(eventId, function(err, events){
     if(err){
       console.log(eventId + ' is not a valid ID');
@@ -75,7 +73,6 @@ app.post('/api/events', function(req, res){
   });
    newEvent.save(function(err, event){
     var eventId = newEvent._id;
-    console.log('event', event);
     res.json(event);
   });
 });
@@ -101,7 +98,6 @@ app.put('/api/events/edit/:id', function(req, res){
 });
 
 app.delete('/api/events/delete/:id', function(req, res){
-  console.log(req.body);
   var eventId = req.params.id;
   console.log('eventId', eventId);
   Event.findByIdAndRemove({
