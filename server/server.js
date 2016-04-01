@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
-var CONFIG = require('../config.json');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
