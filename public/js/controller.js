@@ -34,7 +34,7 @@ app.controller("MapController", [
     $scope.markers.push({
       lat: markerData.latlng.lat,
       lng: markerData.latlng.lng,
-
+      //TODO: create a directive to replace create event html
       message: '<h1>New Event</h1>' +
                '<form>' +
                   '<input type="text" name="title" placeholder="Title">' +
