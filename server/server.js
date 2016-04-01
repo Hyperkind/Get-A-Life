@@ -195,7 +195,6 @@ app.get('/users', function(req, res) {
 
 //TODO: ajax request POST for Ben's setContent
 
-
 app.put('/api/events/edit/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
