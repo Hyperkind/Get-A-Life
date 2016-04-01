@@ -12,6 +12,7 @@
     "jade": "^1.11.0",
     "leaflet": "^0.7.7",
     "leaflet-plugins": "^1.5.2",
+    "express-session": "^1.13.0",
     "leaflet.locatecontrol": "^0.48.0",
     "method-override": "^2.3.5",
     "migrate": "^0.2.2",
@@ -19,6 +20,10 @@
     "mongoose": "^4.4.10",
     "mongoose-migrate": "^0.2.4",
     "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "ui-leaflet": "^1.0.0"
   },
   "devDependencies": {
