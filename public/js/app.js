@@ -2,12 +2,26 @@ angular.module('app', ['ngRoute', 'nemLogging', 'ui-leaflet']);
 
 var app = angular.module('app');
 
+//don't route to your index.html, will just keep re-creating
+//use this just for template re-routing
 app
   .config(function($routeProvider) {
-
+    $routeProvider
+    .when('/', {
+      templateUrl: '/templates/events.html',
+      controller: 'EventController'
+    })
+    .when('/new', {
+      templateUrl: '/templates/create-event.html',
+      controller: 'EventController'
+    })
+    .when('/:id/edit', {
+      templateUrl: '/templates/edit-event.html',
+      controller: 'EditController'
+    });
   })
-  .run(function() {
-    console.log('Everything is running');
+  .run(function(){
+    console.log('everything is running');
   });
 
 // var map = L.map('mapid');
@@ -47,9 +61,6 @@ app
 // map.on('locationfound', onLocationFound);
 // map.on('locationerror', onLocationError);
 
-
-
-
 // map.locate({
 //   setView: true,
 //   maxZoom: 16,
@@ -75,7 +86,6 @@ app
 //     riseOnHover: true,
 //     riseOffset: 100
 //     }).addTo(map);
-//   console.log(newMarker);
 //   newMarker.on('dragend', function(event){
 //     var changePos = event.target.getLatLng();
 //     console.log(changePos);
@@ -104,8 +114,6 @@ app
 //   newMarker.bindPopup(popup);
 
 // }
-
-
 
 
 

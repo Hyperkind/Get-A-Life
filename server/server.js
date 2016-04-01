@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
+var CONFIG = require('../config.json');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -112,13 +113,42 @@ passport.deserializeUser(function (userId, done) {
     });
 });
 
-app.get('/events', function(req, res) {
+app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
-    console.log('events', events);
     if(err){
       res.send("error error");
     }
     res.json(events);
+  });
+});
+
+//QUESTION: why showing a GET 404? Is it b/c goes right to a PUT?
+app.get('api/events/:id', function(req, res){
+  var eventId = req.params.id;
+  Event.findById(eventId, function(err, events){
+    if(err){
+      console.log(eventId + ' is not a valid ID');
+    }
+  })
+  .then(function(event){
+    res.json(event);
+  });
+});
+
+app.post('/api/events', function(req, res){
+  console.log('req.body', req.body);
+  var newEvent = new Event({
+    title: req.body.title,
+    created_by: req.body.created_by,
+    description: req.body.description,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    start_time: req.body.start_time,
+    posts: req.body.posts
+  });
+   newEvent.save(function(err, event){
+    var eventId = newEvent._id;
+    res.json(event);
   });
 });
 
@@ -131,19 +161,36 @@ app.get('/users', function(req, res) {
   });
 });
 
-app.post('/events', function(req, res){
-  //TODO: ajax request POST for Ben's setContent
-  var newEvent = new Event({
-    title: req.body.title,
-    created_by: req.body.created_by,
-    description: req.body.description,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    start_time: req.body.start_time,
-    posts: req.body.posts
+//TODO: ajax request POST for Ben's setContent
+
+
+app.put('/api/events/edit/:id', function(req, res){
+  var eventId = req.params.id;
+  console.log('eventId in PUT', eventId);
+  Event.findOne({ _id: eventId })
+  .then(function(event){
+    event.title = req.body.title;
+    event.created_by = req.body.created_by;
+    event.description = req.body.description;
+    event.latitude = req.body.latitude;
+    event.longitude = req.body.longitude;
+    event.start_time = req.body.start_time;
+    event.posts = req.body.posts;
+
+    return event.save();
+  })
+  .then(function(){
+    res.send("This card " + eventId + " has been updated");
   });
-  newEvent.save(function(){
-    res.send('Done');
+});
+
+app.delete('/api/events/delete/:id', function(req, res){
+  var eventId = req.params.id;
+  console.log('eventId', eventId);
+  Event.findByIdAndRemove({
+    _id: eventId
+  }).then(function(event){
+    res.send("This event " + eventId + " has been deleted");
   });
 });
 

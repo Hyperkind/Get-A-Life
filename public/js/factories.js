@@ -8,7 +8,14 @@ app.factory('EventFactory', [
       getEvents: function() {
         return $http({
           method: 'GET',
-          url: "api/events",
+          url: "/api/events",
+        });
+      },
+
+      getEventById: function(id){
+        return $http({
+          method: "GET",
+          url: "/api/events/" + id,
         });
       },
 
@@ -32,6 +39,23 @@ app.factory('EventFactory', [
           //TODO: on controller.js create newEvent
           return newEvent;
         });
+      },
+
+      updateEvent: function(data, id){
+        return $http.put(
+          "/api/events/edit/" + id,
+          data
+          ).then(function(res){
+            return res.data;
+          });
+      },
+
+      deleteEvent: function(data, id){
+        console.log('Deleted event id ' + id);
+        return $http.delete(
+          "api/events/delete/" + id,
+          data
+        );
       },
     };
 
