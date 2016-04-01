@@ -153,7 +153,6 @@ app.get('/api/events', function(req, res) {
   });
 });
 
-//QUESTION: why showing a GET 404? Is it b/c goes right to a PUT?
 app.get('/api/events/:id', function(req, res){
   console.log('hello');
   var eventId = req.params.id;
@@ -196,6 +195,7 @@ app.get('/users', function(req, res) {
 
 //TODO: ajax request POST for Ben's setContent
 
+//RESEARCH: edit date, how to retain original date
 app.put('/api/events/edit/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
