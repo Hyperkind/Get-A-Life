@@ -2,7 +2,8 @@ var app = angular.module('app');
 
 app.controller("MapController", [
   '$scope',
-  function($scope){
+  'EventFactory',
+  function($scope, EventFactory){
     angular.extend($scope, {
       defaults: {
         tileLayer: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -19,7 +20,13 @@ app.controller("MapController", [
       }
   });
 
-  $scope.markers = new Array();
+  $scope.markers = [];
+  $scope.events = [];
+  EventFactory.getTktMstr()
+  .then(function(events){
+    $scope.events = events.data;
+    console.log('events', events);
+  });
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
     console.log(markerData);
