@@ -2,7 +2,8 @@ var app = angular.module('app');
 
 app.factory('EventFactory', [
   '$http',
-  function($http){
+  'myConfig',
+  function($http, myConfig){
     return {
       getEvents: function() {
         return $http({
@@ -20,13 +21,13 @@ app.factory('EventFactory', [
 
       getTktMstr: function() {
         return $http.get(
-          'https://app.ticketmaster.com/discovery/v1/events.json?marketId=49&apikey=kejQVntR3erc03OmcE6rGwHIlVV0aNG0'
+          'https://app.ticketmaster.com/discovery/v1/events.json?marketId=49&apikey=' + myConfig.tktMstrKey
         );
       },
 
       getEvntBrite: function() {
         return $http.get(
-          'https://www.eventbriteapi.com/v3/events/search/?venue.city=honolulu&token=BDMUJMKAWOGCYVJD7SYA'
+          'https://www.eventbriteapi.com/v3/events/search/?venue.city=honolulu&token=' + myConfig.evntBriteKey
         );
       },
 
