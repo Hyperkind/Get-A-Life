@@ -32,7 +32,7 @@ var userSchema = mongoose.Schema({
   password: String,
   oauthID: Number,
   name: String,
-  created: Date
+  created: Date.now()
 });
 var User = mongoose.model('User', userSchema);
 
@@ -225,6 +225,22 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
+app.post('/register', function(req, res) {
+  User.register(new User({ username: req.body.username }),
+    req.body.password, function(err, account) {
+    if (err) {
+      return res.status(500).json({
+        err: err
+      });
+    }
+    passport.authenticate('local')(req, res, function () {
+      return res.status(200).json({
+        status: 'Registration successful!'
+      });
+    });
+  });
+});
+
 app.route('/login')
   .get(function(req, res) {
     res.redirect('/login.html');
@@ -232,6 +248,11 @@ app.route('/login')
   .post(
     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
   );
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'),

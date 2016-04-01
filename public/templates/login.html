@@ -3,14 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Get a Life</title>
-    <h3>Login</h3>
-      <form>
-        <div>username<input type="text" name="username" placeholder="username"></div>
-        <div>password<input type="password" name="password" placeholder="password"></div>
-        <button type="submit">Login</button>
-      </form>
+    <h3>Login template test2</h3>
 </head>
-<body>
-
+<body ng-app="app" ng-controller="loginController">
+    <form>
+      <div>username<input type="text" name="username" placeholder="username"></div>
+      <div>password<input type="password" name="password" placeholder="password"></div>
+    </form>
+      <button ng-click="userLogin()">Login</button>
+    <a id="FBLogin" href="/auth/facebook">Login via facebook</a>
+    <a id="TwitterLogin" href="/auth/twitter">Login via twitter</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-leaflet-directive/0.10.0/angular-leaflet-directive.min.js"></script>
+    <script type="text/javascript" src="/js/angular-simple-logger.js"></script>
+    <script type="text/javascript" src="/js/angular-leaflet-directive.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/controller.js"></script>
+    <script type="text/javascript" src="/js/factories.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
 </body>
 </html>

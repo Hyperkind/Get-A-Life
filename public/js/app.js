@@ -18,6 +18,10 @@ app
     .when('/:id/edit', {
       templateUrl: '/templates/edit-event.html',
       controller: 'EditController'
+    })
+    .when('/login', {
+      templateUrl: '/templates/login.html',
+      // controller: 'loginController'
     });
   })
   .run(function(){

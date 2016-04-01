@@ -149,6 +149,32 @@ app.controller('TktMstrController', [
   }
 ]);
 
+// app.controller('loginController',
+//   function($scope) {
+//     $scope.showModal = false;
+//     $scope.toggleModal = function() {
+//       $scope.showModal = !$scope.showModal;
+//     };
+//   })
+// .
+
+
+app.controller('loginController', [
+  '$compile',
+  '$scope',
+  '$window',
+  function($compile, $scope, $window) {
+    $scope.openWindow = function() {
+      $window.open('/templates/login.html', '', 'width=500, height=400');
+    };
+
+    $scope.userLogin = function(req, res) {
+      console.log('login button clicked');
+      passport.authenticate('local', { failureRedirect: '/login' });
+      // $window.close();
+    };
+  }
+]);
 
 // app.controller('AutoCenter', [
 //   '$scope',
