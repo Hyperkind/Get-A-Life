@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
-var CONFIG = require('../config.json');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -23,7 +22,7 @@ var eventSchema = mongoose.Schema({
   description: String,
   latitude: Number,
   longitude: Number,
-  start_time: Date,
+  start_date: Date,
   posts: Array
 });
 var Event = mongoose.model('Event', eventSchema);
@@ -155,11 +154,13 @@ app.get('/api/events', function(req, res) {
 });
 
 //QUESTION: why showing a GET 404? Is it b/c goes right to a PUT?
-app.get('api/events/:id', function(req, res){
+app.get('/api/events/:id', function(req, res){
+  console.log('hello');
   var eventId = req.params.id;
-  Event.findById(eventId, function(err, events){
+  Event.findById(eventId, function(err, event){
     if(err){
       console.log(eventId + ' is not a valid ID');
+      throw err;
     }
   })
   .then(function(event){
@@ -175,7 +176,7 @@ app.post('/api/events', function(req, res){
     description: req.body.description,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    start_time: req.body.start_time,
+    start_date: req.body.start_date,
     posts: req.body.posts
   });
    newEvent.save(function(err, event){
@@ -205,7 +206,7 @@ app.put('/api/events/edit/:id', function(req, res){
     event.description = req.body.description;
     event.latitude = req.body.latitude;
     event.longitude = req.body.longitude;
-    event.start_time = req.body.start_time;
+    event.start_date = req.body.start_date;
     event.posts = req.body.posts;
 
     return event.save();

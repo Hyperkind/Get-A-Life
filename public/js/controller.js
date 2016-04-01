@@ -63,7 +63,7 @@ app.controller("EventController", [
           title: $scope.title,
           created_by: $scope.created_by,
           description: $scope.description,
-          start_time: $scope.start_time,
+          start_date: $scope.start_date,
         };
         EventFactory.postEvent(data)
         .then(function(newEvent){
@@ -72,7 +72,7 @@ app.controller("EventController", [
           $scope.title = '';
           $scope.created_by = '';
           $scope.description = '';
-          $scope.start_time = '';
+          $scope.start_date = '';
         });
       }
     };
@@ -82,7 +82,7 @@ app.controller("EventController", [
         title: $scope.title,
         created_by: $scope.created_by,
         description: $scope.description,
-        start_time: $scope.start_time,
+        start_date: $scope.start_date,
       };
       EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
@@ -108,7 +108,7 @@ app.controller('EditController', [
       $scope.title = event.title;
       $scope.created_by = event.created_by;
       $scope.description = event.description;
-      $scope.start_time = event.start_time;
+      $scope.start_date = event.start_date;
     });
     console.log('$routeParams', $routeParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
@@ -117,7 +117,7 @@ app.controller('EditController', [
         title: $scope.title,
         created_by: $scope.created_by,
         description: $scope.description,
-        start_time: $scope.start_time,
+        start_date: $scope.start_date,
         };
       event.preventDefault();
       EventFactory.updateEvent(data, $routeParams.id)
