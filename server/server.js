@@ -227,7 +227,7 @@ app.delete('/api/events/delete/:id', function(req, res){
 
 app.route('/login')
   .get(function(req, res) {
-    res.redirect('/login.html');
+    res.redirect('login.html');
   })
   .post(
     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
@@ -235,12 +235,12 @@ app.route('/login')
 
 app.route('/register')
   .get(function(req, res) {
-    res.redirect('/register.html');
+    res.redirect('register.html');
   })
   .post(function(req, res) {
     User.create(req.body)
       .then(function() {
-        res.redirect('/login.html');
+        res.redirect('login.html');
       });
   });
 
