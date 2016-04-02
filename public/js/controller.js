@@ -86,26 +86,26 @@ app.controller("EventController", [
       $scope.events = events.data;
     });
 
-    $scope.newEvent = function(event){
-      event.preventDefault();
-      if ($scope.title){
-        var data = {
-          title: $scope.title,
-          created_by: $scope.created_by,
-          description: $scope.description,
-          start_date: $scope.start_date,
-        };
-        EventFactory.postEvent(data)
-        .then(function(newEvent){
-          console.log('NEW event created!');
-          $scope.events = $scope.events.concat(newEvent.data);
-          $scope.title = '';
-          $scope.created_by = '';
-          $scope.description = '';
-          $scope.start_date = '';
-        });
-      }
-    };
+    // $scope.newEvent = function(event){
+    //   event.preventDefault();
+    //   if ($scope.title){
+    //     var data = {
+    //       title: $scope.title,
+    //       created_by: $scope.created_by,
+    //       description: $scope.description,
+    //       start_date: $scope.start_date,
+    //     };
+    //     EventFactory.postEvent(data)
+    //     .then(function(newEvent){
+    //       console.log('NEW event created!');
+    //       $scope.events = $scope.events.concat(newEvent.data);
+    //       $scope.title = '';
+    //       $scope.created_by = '';
+    //       $scope.description = '';
+    //       $scope.start_date = '';
+    //     });
+    //   }
+    // };
 
     $scope.remove = function(event){
       var data = {
