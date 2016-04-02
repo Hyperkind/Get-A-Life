@@ -21,12 +21,12 @@ app.controller("MapController", [
   });
 
   $scope.markers = [];
-  $scope.events = [];
-  EventFactory.getTktMstr()
-  .then(function(events){
-    $scope.events = events.data;
-    console.log('events', events);
-  });
+  // $scope.events = [];
+  // EventFactory.getTktMstr()
+  // .then(function(events){
+  //   $scope.events = events.data;
+  //   console.log('events', events);
+  // });
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
     console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
@@ -45,7 +45,12 @@ app.controller("MapController", [
       });
       markers = $scope.markers;
       console.log('markers', markers);
-      $scope.message = markers.message;
+      // $scope.message = markers.message;
+      $scope.events = [];
+      EventFactory.getEvents()
+      .then(function(events){
+        $scope.events = events.data;
+      });
 
         $scope.newEvent = function(event){
         event.preventDefault();
