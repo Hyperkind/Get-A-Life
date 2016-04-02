@@ -29,8 +29,11 @@ app.controller("MapController", [
   });
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
-    console.log(markerData);
-    console.log($scope.markers);
+    console.log('markerData', markerData.latlng.lat);
+
+    $scope.lat = markerData.latlng.lat;
+    $scope.lng = markerData.latlng.lng;
+
     $scope.markers.push({
       lat: markerData.latlng.lat,
       lng: markerData.latlng.lng,
