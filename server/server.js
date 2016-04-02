@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
-var CONFIG = require('../config.json');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -136,7 +135,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (userId, done) {
-  users.findById(userId)
+  User.findById(userId)
     .then(function(userId) {
       if (!userId) {
         return done(null, false);
@@ -178,7 +177,7 @@ app.post('/api/events', function(req, res){
     start_time: req.body.start_time,
     posts: req.body.posts
   });
-   newEvent.save(function(err, event){
+  newEvent.save(function(err, event){
     var eventId = newEvent._id;
     res.json(event);
   });
@@ -228,11 +227,22 @@ app.delete('/api/events/delete/:id', function(req, res){
 
 app.route('/login')
   .get(function(req, res) {
-    res.redirect('/login.html');
+    res.redirect('login.html');
   })
   .post(
     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
   );
+
+app.route('/register')
+  .get(function(req, res) {
+    res.redirect('register.html');
+  })
+  .post(function(req, res) {
+    User.create(req.body)
+      .then(function() {
+        res.redirect('login.html');
+      });
+  });
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'),

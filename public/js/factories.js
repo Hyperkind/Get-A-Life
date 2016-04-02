@@ -21,7 +21,7 @@ app.factory('EventFactory', [
 
       getTktMstr: function() {
         return $http.get(
-          'https://app.ticketmaster.com/discovery/v1/events.json?marketId=49&apikey=' + myConfig.tktMstrKey
+          'https://app.ticketmaster.com/discovery/v2/venues/KovZpZAFnIEA.json?apikey=' + myConfig.tktMstrKey
         );
       },
 
