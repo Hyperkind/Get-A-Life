@@ -177,7 +177,7 @@ app.post('/api/events', function(req, res){
     start_time: req.body.start_time,
     posts: req.body.posts
   });
-   newEvent.save(function(err, event){
+  newEvent.save(function(err, event){
     var eventId = newEvent._id;
     res.json(event);
   });
@@ -232,6 +232,17 @@ app.route('/login')
   .post(
     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
   );
+
+app.route('/register')
+  .get(function(req, res) {
+    res.redirect('/register.html');
+  })
+  .post(function(req, res) {
+    User.create(req.body)
+      .then(function() {
+        res.redirect('/login.html');
+      });
+  });
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'),
