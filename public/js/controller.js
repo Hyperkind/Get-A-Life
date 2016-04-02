@@ -29,29 +29,44 @@ app.controller("MapController", [
   });
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
-    console.log('markerData', markerData.latlng.lat);
+    console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
 
     $scope.lat = markerData.latlng.lat;
     $scope.lng = markerData.latlng.lng;
 
+    //single click
     $scope.markers.push({
       lat: markerData.latlng.lat,
       lng: markerData.latlng.lng,
+      message: '<div>Add New Event</div><a href="/#/mapNew"> + </a>',
       //TODO: create a directive to replace create event html
-      message: '<h1>New Event</h1>' +
-               '<form>' +
-                  '<input type="text" name="title" placeholder="Title">' +
-                  '<input type="text" name="location" placeholder="Location">' +
-                  '<input type="text" name="date" placeholder="Date">' +
-                  '<input type="text" name="time" placeholder="Time">' +
-                  '<input type="file" name="img" multiple>' +
-                  '<textarea name="description" wrap="physical" width="200"></textarea>' +
-                '</form>' +
-                '<button action="">Delete</button>' +
-                '<button action="index" method="POST">ADD</button>',
       draggable: true
 
       });
+      markers = $scope.markers;
+      console.log('markers', markers);
+      $scope.message = markers.message;
+
+        $scope.newEvent = function(event){
+        event.preventDefault();
+        if ($scope.title){
+          var data = {
+            title: $scope.title,
+            created_by: $scope.created_by,
+            description: $scope.description,
+            start_date: $scope.start_date,
+          };
+          EventFactory.postEvent(data)
+          .then(function(newEvent){
+            console.log('NEW event created!');
+            $scope.events = $scope.events.concat(newEvent.data);
+            $scope.title = '';
+            $scope.created_by = '';
+            $scope.description = '';
+            $scope.start_date = '';
+          });
+        }
+      };
     });
   }
 ]);
