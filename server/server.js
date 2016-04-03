@@ -10,7 +10,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
-var CONFIG = require('../public/config');
+var CONFIG = require('../config');
 
 var app = express();
 
@@ -46,6 +46,12 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+//CORS cross origin between server (localhost:3000 and 8100)
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 passport.use(new localStrategy (
   {

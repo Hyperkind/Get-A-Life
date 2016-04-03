@@ -1,0 +1,8 @@
+<li class="new events" ng-repeat="event in events | filter: {created_by: '' } | orderBy: '+start_time'">
+  <p>Created By: {{ event.created_by }}</p>
+  <p>Description: {{ event.description }}</p>
+  <p>Start Date: {{ event.start_date }}</p>
+
+  <button type="submit" ng-click="remove(event)">Delete Event</button>
+  <a href="/#/{{event._id}}/edit">Edit Event</a>
+</li>

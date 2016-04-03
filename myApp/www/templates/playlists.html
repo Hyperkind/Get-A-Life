@@ -1,10 +1,13 @@
 <ion-view view-title="Map">
   <ion-content>
-  <div id="mapid">
+   <div ng-controller="MapController">
     <leaflet center="center"
                width="100%" height="650px"
                markers="markers">
     </leaflet>
-  </div>
+      <pre>{{ coordinate }}</pre>
+      <a href="/#/">View All Events</a>
+      <a href="/#/mapNew">Add Event to Map</a>
+    </div>
   </ion-content>
 </ion-view>
