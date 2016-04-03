@@ -12,6 +12,13 @@ var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
 var CONFIG = require('../config');
 
+var geocoderProvider = 'google';
+var httpAdapter = 'https';
+var extra = {
+  apiKey: CONFIG.GOOGLE_GEOCODER.apiKey,
+  formatter:null
+};
+
 var app = express();
 
 mongoose.connect('mongodb://localhost/Get_A_Life');
@@ -150,12 +157,14 @@ passport.deserializeUser(function (userId, done) {
     });
 });
 
+
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
     if(err){
       res.send("error error");
     }
     res.json(events);
+    console.log(req.query);
   });
 });
 
