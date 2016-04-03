@@ -1,5 +1,6 @@
 angular.module('starter.controllers', [])
 
+
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -40,13 +41,21 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 })
-
-.controller('PlaylistsCtrl', function($scope) {
+.value('Coordinate',
+  {
+    lat:null,
+    lng: null,
+    draggable: true
+  }
+)
+.controller('PlaylistsCtrl', [
+  '$scope',
+  'Coordinate',
+  function  ($scope, Coordinate) {
   angular.extend($scope, {
       center: {
        autoDiscover: true,
        zoom: 18
-
       },
       defaults: {
           tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -59,22 +68,83 @@ angular.module('starter.controllers', [])
               color: '#800000',
               opacity: 1
           }    
-      }
-    
-      
+      }    
   });
-  $scope.markers = new Array();
-  $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-      var leafEvent = args.leafletEvent;
-      $scope.markers.push({
-          lat: leafEvent.latlng.lat,
-          lng: leafEvent.latlng.lng,
-          draggable: true,
-          setContent: '<h1>Hello</h1>'
-      });
+  $scope.coordinate = Coordinate;
+  $scope.markers = [Coordinate];
+
+  $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
+    var markerData = args.leafletEvent;
+    console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
+
+    Coordinate.lat = markerData.latlng.lat;
+    Coordinate.lng = markerData.latlng.lng;
+
   });
+
+}]);
+
+// .controller("EventController", [
+//   '$scope',
+//   'Coordinate',
+//   'EventFactory',
+//   function($scope, Coordinate, EventFactory){
+//     $scope.coordinate = Coordinate;
+//     $scope.events = [];
+//     EventFactory.getEvents()
+//     .then(function(events){
+//       $scope.events = events.data;
+//     });
+
+//     $scope.newEvent = function(event){
+//       event.preventDefault();
+//       if ($scope.title){
+//         var data = {
+//           title: $scope.title,
+//           created_by: $scope.created_by,
+//           description: $scope.description,
+//           start_date: $scope.start_date,
+//         };
+//         EventFactory.postEvent(data)
+//         .then(function(newEvent){
+//           console.log('NEW event created!');
+//           $scope.events = $scope.events.concat(newEvent.data);
+//           $scope.title = '';
+//           $scope.created_by = '';
+//           $scope.description = '';
+//           $scope.start_date = '';
+//         });
+//       }
+//     };
+
+//     $scope.remove = function(event){
+//       var data = {
+//         title: $scope.title,
+//         created_by: $scope.created_by,
+//         description: $scope.description,
+//         start_date: $scope.start_date,
+//       };
+//       EventFactory.deleteEvent(data, event._id)
+//       .then(function(remove){
+//         EventFactory.getEvents()
+//         .then(function(events){
+//           $scope.events = events.data;
+//         });
+//       });
+//     };
+//   }
+// ]);
+  // $scope.markers = new Array();
+  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
+  //     var leafEvent = args.leafletEvent;
+  //     $scope.markers.push({
+  //         lat: leafEvent.latlng.lat,
+  //         lng: leafEvent.latlng.lng,
+  //         draggable: true,
+  //         setContent: '<h1>Hello</h1>'
+  //     });
+  // });
   // creates markers
-});
 // function addMarker(e){
 //   var newMarker =
 //   new L.marker(e.latlng,{
