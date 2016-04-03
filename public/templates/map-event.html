@@ -4,6 +4,7 @@
   <div>Created By<input type="text" ng-model="created_by" name="createdBy"/></div>
   <div>Description<input type="text" ng-model="description" name="description"/></div>
   <div>Start Date<input type="date" ng-model="start_date" name="start_date"/></div>
-  <pre>{{ coordinate }}</pre>
+  <div><input type="hidden" ng-model="latitude" name="latitude">{{ event.coordinate }}</input></div>
+  <!-- <pre>{{ coordinate }}</pre> -->
   <div><input type="submit" id="submit" value="Submit"/></div>
 </form>

@@ -11,10 +11,6 @@ app
       templateUrl: '/templates/events.html',
       controller: 'EventController'
     })
-    .when('/new', {
-      templateUrl: '/templates/create-event.html',
-      controller: 'EventController'
-    })
     .when('/mapNew', {
       templateUrl: '/templates/map-event.html',
       controller: 'EventController'

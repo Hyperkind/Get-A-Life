@@ -68,6 +68,7 @@ app.controller("EventController", [
           created_by: $scope.created_by,
           description: $scope.description,
           start_date: $scope.start_date,
+          latitude: $scope.coordinate,
         };
         EventFactory.postEvent(data)
         .then(function(newEvent){
@@ -77,6 +78,7 @@ app.controller("EventController", [
           $scope.created_by = '';
           $scope.description = '';
           $scope.start_date = '';
+          $scope.coordinate = '';
         });
       }
     };
