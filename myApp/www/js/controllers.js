@@ -70,13 +70,18 @@ angular.module('starter.controllers', ['ui-leaflet'])
   });
   $scope.coordinate = Coordinate;
   $scope.markers = [Coordinate];
-
+  $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
     console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
-
-    Coordinate.lat = markerData.latlng.lat;
-    Coordinate.lng = markerData.latlng.lng;
+    $scope.markers.push({
+          lat: markerData.latlng.lat,
+          lng: markerData.latlng.lng,
+          draggable: true,
+          message: '<h1>Hello</h1>'
+      });
+    // Coordinate.lat = markerData.latlng.lat;
+    // Coordinate.lng = markerData.latlng.lng;
 
   });
 
