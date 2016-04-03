@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
   <title>Get-A-Life</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
   <!-- <link rel="stylesheet" href="leaflet.zoomhome.css"/> -->
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+  <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
 </head>
 <body ng-app="app">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=915050535282900";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
   <h1>Event Map</h1>
   <a href="/login">Sign Up/Login</a>
   <div ng-controller="MapController">
@@ -17,13 +25,14 @@
              markers="markers">
     </leaflet>
   </div>
-  <div ng-controller="TktMstrController">
+<!--   <div ng-controller="TktMstrController">
     <ul>
       <li ng-repeat="event in tktMstrEvents"></li>
     </ul>
-  </div>
+  </div> -->
   <a href="/#/">View All Events</a>
   <a href="/#/new">Create Event</a>
+  <div class="fb-share-button" data-href="https://get-a-life.dev:3000" data-layout="button"></div>
   <div ng-view></div>
   <script src='//maps.googleapis.com/maps/api/js?key=AIzaSyD-l3hQ0tNUkw4lcMGZm9cRcYnD6WHxMTU&libraries=geometry,places'></script>
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
