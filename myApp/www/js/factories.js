@@ -1,9 +1,9 @@
-angular.module('starter.controllers', [])
+angular.module('starter.factories', ['starter.config'])
 
 .factory('EventFactory', [
   '$http',
   'myConfig',
-  function($http, myConfig){
+  function ($http, myConfig){
     return {
       getEvents: function() {
         return $http({

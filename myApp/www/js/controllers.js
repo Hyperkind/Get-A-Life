@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ui-leaflet'])
+angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
@@ -51,92 +51,91 @@ angular.module('starter.controllers', ['ui-leaflet'])
 .controller('MapController', [
   '$scope',
   'Coordinate',
-  function  ($scope, Coordinate) {
+  'EventFactory', 
+  function  ($scope, Coordinate, EventFactory) {
   angular.extend($scope, {
       center: {
         autoDiscover: true,
         zoom: 18
       },
       defaults: {
-          tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
-          maxZoom: 14,
-          noWrap: true,
-          path: {
-              weight: 10,
-              color: '#800000',
-              opacity: 1
-          }    
+        tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
+        maxZoom: 14,
+        noWrap: true,
+        path: {
+            weight: 10,
+            color: '#800000',
+            opacity: 1
+        }    
       }    
   });
   $scope.coordinate = Coordinate;
   $scope.markers = [Coordinate];
-  $scope.markers = new Array();
+  // $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
     console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
-    $scope.markers.push({
-          lat: markerData.latlng.lat,
-          lng: markerData.latlng.lng,
-          draggable: true,
-          message: '<h1>Hello</h1>'
-      });
-    // Coordinate.lat = markerData.latlng.lat;
-    // Coordinate.lng = markerData.latlng.lng;
-
+    // $scope.markers.push({
+    //       lat: markerData.latlng.lat,
+    //       lng: markerData.latlng.lng,
+    //       draggable: true,
+    //       message: '<h1>Hello</h1>'
+    //   });
+    Coordinate.lat = markerData.latlng.lat;
+    Coordinate.lng = markerData.latlng.lng;
   });
 
-}]);
+}])
+.controller("EventController", [
+  '$scope',
+  'Coordinate',
+  'EventFactory',
+  function ($scope, Coordinate, EventFactory){
+    $scope.coordinate = Coordinate;
+    $scope.events = [];
+    EventFactory.getEvents()
+    .then(function(events){
+      $scope.events = events.data;
+    });
 
-// .controller("EventController", [
-//   '$scope',
-//   'Coordinate',
-//   'EventFactory',
-//   function($scope, Coordinate, EventFactory){
-//     $scope.coordinate = Coordinate;
-//     $scope.events = [];
-//     EventFactory.getEvents()
-//     .then(function(events){
-//       $scope.events = events.data;
-//     });
+    $scope.newEvent = function(event){
+      event.preventDefault();
+      if ($scope.title){
+        var data = {
+          title: $scope.title,
+          created_by: $scope.created_by,
+          description: $scope.description,
+          start_date: $scope.start_date,
+        };
+        EventFactory.postEvent(data)
+        .then(function(newEvent){
+          console.log('NEW event created!');
+          $scope.events = $scope.events.concat(newEvent.data);
+          $scope.title = '';
+          $scope.created_by = '';
+          $scope.description = '';
+          $scope.start_date = '';
+        });
+      }
+    };
 
-//     $scope.newEvent = function(event){
-//       event.preventDefault();
-//       if ($scope.title){
-//         var data = {
-//           title: $scope.title,
-//           created_by: $scope.created_by,
-//           description: $scope.description,
-//           start_date: $scope.start_date,
-//         };
-//         EventFactory.postEvent(data)
-//         .then(function(newEvent){
-//           console.log('NEW event created!');
-//           $scope.events = $scope.events.concat(newEvent.data);
-//           $scope.title = '';
-//           $scope.created_by = '';
-//           $scope.description = '';
-//           $scope.start_date = '';
-//         });
-//       }
-//     };
-
-//     $scope.remove = function(event){
-//       var data = {
-//         title: $scope.title,
-//         created_by: $scope.created_by,
-//         description: $scope.description,
-//         start_date: $scope.start_date,
-//       };
-//       EventFactory.deleteEvent(data, event._id)
-//       .then(function(remove){
-//         EventFactory.getEvents()
-//         .then(function(events){
-//           $scope.events = events.data;
-//         });
-//       });
-//     };
-//   }
-// ]);
+    $scope.remove = function(event){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_date: $scope.start_date,
+      };
+      EventFactory.deleteEvent(data, event._id)
+      .then(function(remove){
+        EventFactory.getEvents()
+        .then(function(events){
+          $scope.events = events.data;
+        });
+      });
+    };
+  }
+]);
   // $scope.markers = new Array();
   // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
   //     var leafEvent = args.leafletEvent;
