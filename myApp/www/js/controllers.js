@@ -74,7 +74,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   // $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
-    console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
+    console.log('markerData.lat ' + markerData.latlng.lat + 'markerData.lng ' + markerData.latlng.lng);
     // $scope.markers.push({
     //       lat: markerData.latlng.lat,
     //       lng: markerData.latlng.lng,
@@ -83,9 +83,36 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     //   });
     Coordinate.lat = markerData.latlng.lat;
     Coordinate.lng = markerData.latlng.lng;
-  });
 
+  });
 }])
+.controller('CreateEventControl', function($scope, $ionicModal) {
+  $ionicModal.fromTemplateUrl('add-popup.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+})
+  //event controller accesing tcktmaster and eventbrite
 .controller("EventController", [
   '$scope',
   'Coordinate',
@@ -156,6 +183,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       });
   }
 ]);
+
   // $scope.markers = new Array();
   // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
   //     var leafEvent = args.leafletEvent;
