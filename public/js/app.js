@@ -17,7 +17,7 @@ app
     })
     .when('/mapNew', {
       templateUrl: '/templates/map-event.html',
-      controller: 'MapController'
+      controller: 'EventController'
     })
     .when('/:id/edit', {
       templateUrl: '/templates/edit-event.html',
