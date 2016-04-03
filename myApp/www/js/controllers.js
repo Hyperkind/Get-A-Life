@@ -135,6 +135,26 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       });
     };
   }
+])
+.controller('TktMstrController', [
+  "$scope",
+  'EventFactory',
+  function($scope, EventFactory) {
+    $scope.tktMstrEvents = [];
+    $scope.evntBriteEvents = [];
+
+    EventFactory.getTktMstr()
+      .then(function(res) {
+        $scope.tktMstrEvents = res.data;
+        console.log('tktmstr', res.data);
+      });
+
+    EventFactory.getEvntBrite()
+      .then(function(res) {
+        $scope.evntBriteEvents = res.data;
+        console.log('evntbrite', res.data);
+      });
+  }
 ]);
   // $scope.markers = new Array();
   // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
