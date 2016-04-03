@@ -54,7 +54,7 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
       views: {
         'menuContent': {
           templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'MapController'
         }
       }
     })
@@ -64,7 +64,7 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     views: {
       'menuContent': {
         templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistsCtrl'
+        controller: 'MapController'
       }
     }
   });

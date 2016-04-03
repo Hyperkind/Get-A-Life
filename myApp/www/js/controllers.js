@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ui-leaflet'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
@@ -43,24 +43,22 @@ angular.module('starter.controllers', [])
 })
 .value('Coordinate',
   {
-    lat:null,
-    lng: null,
+    lat: 21.3069,
+    lng: -157.8583,
     draggable: true
   }
 )
-.controller('PlaylistsCtrl', [
+.controller('MapController', [
   '$scope',
   'Coordinate',
   function  ($scope, Coordinate) {
   angular.extend($scope, {
       center: {
-       autoDiscover: true,
-       zoom: 18
+        autoDiscover: true,
+        zoom: 18
       },
       defaults: {
           tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
-          attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          continuousWorld: false,
           maxZoom: 14,
           noWrap: true,
           path: {
