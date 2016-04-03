@@ -2,6 +2,7 @@ var app = angular.module('app');
 
 app.controller("MapController", [
   '$scope',
+  'leafletData',
   function($scope){
     angular.extend($scope, {
       defaults: {
@@ -18,6 +19,22 @@ app.controller("MapController", [
        zoom: 18
       }
   });
+
+  $scope.getLocation = function() {
+    leafletData.getMap('map')
+      .then(function(map) {
+        map.locate({
+          setView: true,
+          maxZoom: 18,
+          watch: true,
+          enableHighAccuracy: true
+        });
+        map.on('locationfound', onLocationFound);
+        function onLocationFound(e) {
+          var radius = e.accuracy /2;
+        }
+      });
+  };
 
   $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
@@ -141,11 +158,11 @@ app.controller('TktMstrController', [
         console.log('tktmstr', res.data);
       });
 
-    EventFactory.getEvntBrite()
-      .then(function(res) {
-        $scope.evntBriteEvents = res.data;
-        console.log('evntbrite', res.data);
-      });
+    // EventFactory.getEvntBrite()
+    //   .then(function(res) {
+    //     $scope.evntBriteEvents = res.data;
+    //     console.log('evntbrite', res.data);
+    //   });
   }
 ]);
 
