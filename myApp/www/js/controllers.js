@@ -132,6 +132,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         .then(function(events){
           $scope.events = events.data;
         });
+      console.log(event._id);
       });
     };
   }

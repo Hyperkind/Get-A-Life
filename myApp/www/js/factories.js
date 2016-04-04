@@ -54,7 +54,7 @@ angular.module('starter.factories', ['starter.config'])
       deleteEvent: function(data, id){
         console.log('Deleted event id ' + id);
         return $http.delete(
-          ENDPOINT + "api/events/delete/" + id,
+          ENDPOINT + "/api/events/delete/" + id,
           data
         );
       },
