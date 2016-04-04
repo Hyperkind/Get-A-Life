@@ -51,7 +51,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 .controller('MapController', [
   '$scope',
   'Coordinate',
-  'EventFactory', 
+  'EventFactory',
   function  ($scope, Coordinate, EventFactory) {
   angular.extend($scope, {
       center: {
@@ -66,8 +66,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
             weight: 10,
             color: '#800000',
             opacity: 1
-        }    
-      }    
+        }
+      }
   });
   $scope.coordinate = Coordinate;
   $scope.markers = [Coordinate];
@@ -203,7 +203,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   newMarker.bindPopup(popup);
 // }
 // });
- 
+
 
 
 
@@ -242,7 +242,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   position: 'topright',
 //   drawCircle: true,
 //   follow: true,
-//   icon: 'icon-location', 
+//   icon: 'icon-location',
 //   iconLoading: 'icon-spinner  animate-spin',
 //   setView: true,
 //   remainActive: false

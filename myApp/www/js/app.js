@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
- 
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -41,11 +41,12 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.events', {
+      url: '/events',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/events.html',
+          controller: 'EventController'
         }
       }
     })

@@ -14,10 +14,6 @@ var CONFIG = require('../config');
 
 var geocoderProvider = 'google';
 var httpAdapter = 'https';
-var extra = {
-  apiKey: CONFIG.GOOGLE_GEOCODER.apiKey,
-  formatter:null
-};
 
 var app = express();
 
