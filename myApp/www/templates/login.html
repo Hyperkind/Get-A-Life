@@ -19,8 +19,16 @@
         <label class="item">
           <button class="button button-block button-positive" type="submit">Log in</button>
         </label>
+        <label class="item">
+          <button class="button button-block button-positive" ng-click="fbLogin()">
+            Login with Facebook
+          </button>
+        </label>
       </div>
-      <a href="http://localhost:3000/auth/facebook">Login via facebook</a>
+      <a class="tab-item" ng-click="share()">
+          <i class="icon ion-share"></i>
+          Share
+      </a>
       <a href="http://localhost:3000/auth/twitter">Login via twitter</a>
     </form>
   </ion-content>

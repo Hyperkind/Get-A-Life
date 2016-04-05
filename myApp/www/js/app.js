@@ -4,9 +4,11 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
+angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet', 'ngOpenFB'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, ngFB) {
+ngFB.init({ appId: '915050535282900' });
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -50,11 +52,11 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.map', {
+      url: '/map',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
+          templateUrl: 'templates/map.html',
           controller: 'MapController'
         }
       }
@@ -70,5 +72,5 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/map');
 });

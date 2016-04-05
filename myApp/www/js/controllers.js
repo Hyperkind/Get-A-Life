@@ -1,7 +1,7 @@
-angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
+angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -40,6 +40,38 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.fbLogin = function() {
+    ngFB.login({scope: 'email, publish_actions'})
+      .then(function(response) {
+        if (response.status === 'connected') {
+          console.log('Facebook login succeeded');
+          $timeout(function() {
+            $scope.closeLogin();
+          }, 1000);
+        } else {
+          alert('Facebook login failed');
+        }
+      });
+  };
+
+  // TODO: finish configuring sharing events to FB
+  $scope.share = function(event) {
+    ngFB.api({
+      method: 'POST',
+      path: '/me/feed',
+      params: {
+        message: "I can share!"
+      }
+    })
+    .then(function() {
+      alert('The session was shared on Facebook');
+    },
+    function() {
+      alert('An error occured while sharing this session on Facebook');
+    });
+  };
+
 })
 .value('Coordinate',
   {
@@ -86,6 +118,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   });
 
 }])
+
 .controller("EventController", [
   '$scope',
   'Coordinate',
@@ -137,6 +170,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     };
   }
 ])
+
 .controller('TktMstrController', [
   "$scope",
   'EventFactory',
