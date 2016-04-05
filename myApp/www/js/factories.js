@@ -3,19 +3,20 @@ angular.module('starter.factories', ['starter.config'])
 .factory('EventFactory', [
   '$http',
   'myConfig',
-  function ($http, myConfig){
+  'ENDPOINT',
+  function ($http, myConfig, ENDPOINT){
     return {
       getEvents: function() {
         return $http({
           method: 'GET',
-          url: "/api/events",
+          url: ENDPOINT + "/api/events",
         });
       },
 
       getEventById: function(id){
         return $http({
           method: "GET",
-          url: "/api/events/" + id,
+          url: ENDPOINT + "/api/events/" + id,
         });
       },
 
@@ -33,7 +34,7 @@ angular.module('starter.factories', ['starter.config'])
 
       postEvent: function(data){
         return $http.post(
-          "/api/events",
+          ENDPOINT + "/api/events",
           data
         ).then(function(newEvent){
           //TODO: on controller.js create newEvent
@@ -43,7 +44,7 @@ angular.module('starter.factories', ['starter.config'])
 
       updateEvent: function(data, id){
         return $http.put(
-          "/api/events/edit/" + id,
+          ENDPOINT + "/api/events/edit/" + id,
           data
           ).then(function(res){
             return res.data;
@@ -53,7 +54,7 @@ angular.module('starter.factories', ['starter.config'])
       deleteEvent: function(data, id){
         console.log('Deleted event id ' + id);
         return $http.delete(
-          "api/events/delete/" + id,
+          ENDPOINT + "/api/events/delete/" + id,
           data
         );
       },
