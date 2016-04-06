@@ -86,31 +86,25 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
   });
 }])
-.controller('CreateEventControl', function($scope, $ionicModal) {
-  $ionicModal.fromTemplateUrl('add-popup.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
+.controller('AppCtrl', function($scope, $ionicModal) {
+  
+  $scope.contacts = [
+    { name: 'Gordon Freeman' },
+    { name: 'Barney Calhoun' },
+    { name: 'Lamarr the Headcrab' },
+  ];
+
+  $ionicModal.fromTemplateUrl('templates/add-popup.html', {
+    scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
+  
+  $scope.createContact = function(u) {        
+    $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
     $scope.modal.hide();
   };
-  //Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
-  // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
-    // Execute action
-  });
-  // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
-    // Execute action
-  });
+
 })
   //event controller accesing tcktmaster and eventbrite
 .controller("EventController", [
