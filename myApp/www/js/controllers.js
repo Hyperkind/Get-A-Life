@@ -52,7 +52,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'Coordinate',
   'EventFactory', 
-  function  ($scope, Coordinate, EventFactory) {
+  function  ($scope, Coordinate, EventFactory) { 
+  // var map = L.map('mapid', 'mapbox.streets');
   angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -67,8 +68,10 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
             color: '#800000',
             opacity: 1
         }    
-      }    
+      }  
+
   });
+
   $scope.coordinate = Coordinate;
   $scope.markers = [Coordinate];
   // $scope.markers = new Array();
@@ -85,25 +88,47 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     Coordinate.lng = markerData.latlng.lng;
 
   });
+//   L.control.locate({
+//   position: 'topright',
+//   drawCircle: true,
+//   follow: true,
+//   icon: 'icon-location', 
+//   iconLoading: 'icon-spinner  animate-spin',
+//   setView: true,
+//   remainActive: false
+//   // stopFollwingOnDrag: false //DEPRICATED?
+// }).addTo(map);
+
+//    function onLocationFound(e) {
+//     var radius = e.accuracy;
+//     console.log(e.latlng);
+//     L.marker(e.latlng).addTo(map)
+//     .bindPopup("You are within " + radius + " meters from this point").openPopup();
+//     L.circle(e.latlng, radius, {
+//       color: 'red'
+//       }).addTo(map)
+//         .bindPopup("Your Location").openPopup();
+// }
+//   function onLocationError(e) {
+//      alert(e.message);
+//   }
+//   map.on('locationfound', onLocationFound);
+//   map.on('locationerror', onLocationError);
+
 }])
 .controller('AppCtrl', function($scope, $ionicModal) {
   
-  $scope.contacts = [
-    { name: 'Gordon Freeman' },
-    { name: 'Barney Calhoun' },
-    { name: 'Lamarr the Headcrab' },
-  ];
-
+ 
   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
   
-  $scope.createContact = function(u) {        
-    $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
-    $scope.modal.hide();
-  };
+  // $scope.createContact = function(u) {        
+  //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+  //   $scope.modal.hide();
+  // };
 
 })
   //event controller accesing tcktmaster and eventbrite
@@ -228,24 +253,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
  
 
 
-
-// function onLocationFound(e) {
-//     var radius = e.accuracy;
-//     console.log(e.latlng);
-//     L.marker(e.latlng).addTo(map)
-//         .bindPopup("You are within " + radius + " meters from this point").openPopup();
-//     L.circle(e.latlng, radius, {
-//       color: 'red'
-//       }).addTo(map)
-//         .bindPopup("Your Location").openPopup();
-// }
-// function onLocationError(e) {
-//     alert(e.message);
-// }
-
-// map.on('locationfound', onLocationFound);
-// map.on('locationerror', onLocationError);
-
 //   L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
 //     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 //     maxZoom: 18,
@@ -258,7 +265,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //     // closePopupOnClick: true
 //     }).addTo(map);
 //   newMarkerGroup = L.LayerGroup();
-
+// var map = L.map('mapid');
      // home button
 // L.control.locate({
 //   position: 'topright',
@@ -284,8 +291,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   function onLocationError(e) {
 //      alert(e.message);
 //   }
-  // map.on('locationfound', onLocationFound);
-  // map.on('locationerror', onLocationError);
+//   map.on('locationfound', onLocationFound);
+//   map.on('locationerror', onLocationError);
 
 // .controller('PlaylistCtrl', function($scope, $stateParams) {
 // });
