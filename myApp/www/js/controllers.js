@@ -28,6 +28,23 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     $scope.addEventModal.hide();
   };
 
+  $scope.newEvent = {};
+  $scope.doEvent = function() {
+    console.log("EVENT - title: " + $scope.newEvent.title + " - date: " + $scope.newEvent.date + " - time: " + $scope.newEvent.time + " - description: " + $scope.newEvent.description);
+    $http.post(ENDPOINT + '/api/events', $scope.newEvent)
+    .success(function(data) {
+      $scope.newEvent = {};
+      $scope.todos  = $scope.newEvent;
+      console.log('event created');
+    })
+    .error(function(data) {
+      console.log('Error: ' + $scope.newEvent);
+    });
+    $timeout(function(data) {
+      $scope.closeEvent();
+    }, 1000);
+  };
+
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
