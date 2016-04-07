@@ -10,7 +10,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
-// var CONFIG = require('../config');
+var CONFIG = require('./config');
 
 var app = express();
 
@@ -58,6 +58,7 @@ passport.use(new localStrategy (
     passReqToCallback: true
   },
   function (req, username, password, done) {
+    console.log('searching...');
     return User.findOne({
       username: username
     })
@@ -150,7 +151,6 @@ passport.use(new localStrategy (
 //     });
 // });
 
-
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
     if(err){
@@ -234,15 +234,21 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
-app.route('/login')
-  .get(function(req, res) {
-    res.redirect('login.html');
-  })
-  .post(
-    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
-  );
+app.post('/api/login', function(req, res) {
+  passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'});
+  console.log('testing', req.body);
+  res.send('login ' + req.body);
+});
 
-app.route('/register')
+// app.route('/api/login')
+//   .get(function(req, res) {
+//     res.redirect('/login.html');
+//   })
+//   .post(
+//     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/dashboard/#/kanban'})
+//   );
+
+app.route('/api/register')
   .get(function(req, res) {
     res.redirect('register.html');
   })

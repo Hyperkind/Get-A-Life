@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -30,10 +30,19 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     $scope.modal.show();
   };
 
+  $scope.loginData = {};
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
+    console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+    $http.post('http://10.0.0.12:3000/api/login', $scope.loginData)
+      .success(function(data) {
+        $scope.loginData = {};
+        $scope.todos = $scope.loginData;
+        console.log('login successful');
+      })
+      .error(function(data) {
+        console.log('Error: ' + $scope.loginData);
+      });
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
@@ -73,6 +82,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   };
 
 })
+
 .value('Coordinate',
   {
     lat: 21.3069,
@@ -80,6 +90,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     draggable: true
   }
 )
+
 .controller('MapController', [
   '$scope',
   'Coordinate',
