@@ -99,52 +99,117 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 })
 
-.value('Coordinate',
-  {
-    lat: 21.3069,
-    lng: -157.8583,
-    draggable: true
-  }
-)
+// .value('Coordinate',
+//   {
+//     lat: 21.3069,
+//     lng: -157.8583,
+//     draggable: true
+//   }
+// )
 
 .controller('MapController', [
   '$scope',
-  'Coordinate',
+  // 'Coordinate',
   'EventFactory',
-  function  ($scope, Coordinate, EventFactory) {
-  angular.extend($scope, {
+  'leafletData',
+  function  ($scope, EventFactory, leafletData) {
+    // $scope.map = L.map('mapid');
+     
+    // $scope.center = {
+    //   autoDiscover: true,
+    //   zoom: 12
+    // };
+    angular.extend($scope, {
       center: {
         autoDiscover: true,
         zoom: 18
-      },
-      defaults: {
-        tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
-        maxZoom: 14,
-        noWrap: true,
-        path: {
-            weight: 10,
-            color: '#800000',
-            opacity: 1
-        }
       }
-  });
+    });
 
-  $scope.coordinate = Coordinate;
-  $scope.markers = [Coordinate];
-  // $scope.markers = new Array();
-  $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
-    var markerData = args.leafletEvent;
-    console.log('markerData.lat ' + markerData.latlng.lat + 'markerData.lng ' + markerData.latlng.lng);
-    // $scope.markers.push({
-    //       lat: markerData.latlng.lat,
-    //       lng: markerData.latlng.lng,
-    //       draggable: true,
-    //       message: '<h1>Hello</h1>'
-    //   });
-    Coordinate.lat = markerData.latlng.lat;
-    Coordinate.lng = markerData.latlng.lng;
+      
+    leafletData.getMap().then(function(map) {
+      L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
+        continuousWorld: false,
+        noWrap: true,
+        trackResize: true,
+        setView: true,
+      // closePopupOnClick: true
+      }).addTo(map);
+      L.control.locate({
+        position: 'topleft',  // set the location of the control 
+          layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
+          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
+          follow: true,  // follow the user's location 
+          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
+          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
+          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
+          remainActive: false, // if true locate control remains active on click even if the user's location is in view. 
+          markerClass: L.circleMarker, // L.circleMarker or L.marker 
+          circleStyle: {},  // change the style of the circle around the user's location 
+          markerStyle: {},
+          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following 
+          followMarkerStyle: {},
+          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker 
+          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon 
+          iconElementTag: 'span',  // tag for the icon element, span or i 
+          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
+          metric: true,  // use metric or imperial units 
+          onLocationError: function(err) {alert(err.message)},  // define an error callback function 
+          onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
+                  alert(context.options.strings.outsideMapBoundsMsg);
+          },
+          showPopup: true, // display a popup when the user click on the inner marker 
+          strings: {
+              title: "Show me where I am",  // title of the locate control 
+              metersUnit: "meters", // string for metric units 
+              feetUnit: "feet", // string for imperial units 
+              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle 
+              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds 
+          },
+          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
+      }).addTo(map);
+   
+    });
 
-  });
+
+  
+  // angular.extend($scope, {
+  //     center: {
+  //       autoDiscover: true,
+  //       zoom: 18
+  //     },
+  //     defaults: {
+  //       tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
+  //       maxZoom: 14,
+  //       noWrap: true,
+  //       path: {
+  //           weight: 10,
+  //           color: '#800000',
+  //           opacity: 1
+  //       }
+  //     }
+  // });
+
+  // $scope.coordinate = Coordinate;
+  // $scope.markers = [Coordinate];
+  // // $scope.markers = new Array();
+  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
+  //   var markerData = args.leafletEvent;
+  //   console.log('markerData.lat ' + markerData.latlng.lat + 'markerData.lng ' + markerData.latlng.lng);
+  //   // $scope.markers.push({
+  //   //       lat: markerData.latlng.lat,
+  //   //       lng: markerData.latlng.lng,
+  //   //       draggable: true,
+  //   //       message: '<h1>Hello</h1>'
+  //   //   });
+  //   Coordinate.lat = markerData.latlng.lat;
+  //   Coordinate.lng = markerData.latlng.lng;
+
+  
 //   L.control.locate({
 //   position: 'topright',
 //   drawCircle: true,
@@ -174,21 +239,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 }])
 
-// .controller('AppCtrl', function($scope, $ionicModal) {
-
-
-//   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
-//     scope: $scope
-//   }).then(function(modal) {
-//     $scope.modal = modal;
-//   });
-
-//   // $scope.createContact = function(u) {
-//   //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
-//   //   $scope.modal.hide();
-//   // };
-
-// })
   //event controller accesing tcktmaster and eventbrite
 
 .controller("EventController", [
