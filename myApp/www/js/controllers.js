@@ -51,9 +51,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 .controller('MapController', [
   '$scope',
   'Coordinate',
-  'EventFactory', 
-  function  ($scope, Coordinate, EventFactory) { 
-  // var map = L.map('mapid', 'mapbox.streets');
+  'EventFactory',
+  function  ($scope, Coordinate, EventFactory) {
   angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -67,9 +66,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
             weight: 10,
             color: '#800000',
             opacity: 1
-        }    
-      }  
-
+        }
+      }
   });
 
   $scope.coordinate = Coordinate;
@@ -92,7 +90,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   position: 'topright',
 //   drawCircle: true,
 //   follow: true,
-//   icon: 'icon-location', 
+//   icon: 'icon-location',
 //   iconLoading: 'icon-spinner  animate-spin',
 //   setView: true,
 //   remainActive: false
@@ -117,15 +115,15 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 }])
 .controller('AppCtrl', function($scope, $ionicModal) {
-  
- 
+
+
   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
-  
-  // $scope.createContact = function(u) {        
+
+  // $scope.createContact = function(u) {
   //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
   //   $scope.modal.hide();
   // };
@@ -178,6 +176,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         .then(function(events){
           $scope.events = events.data;
         });
+      console.log(event._id);
       });
     };
   }
@@ -250,7 +249,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   newMarker.bindPopup(popup);
 // }
 // });
- 
+
 
 
 //   L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -271,7 +270,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   position: 'topright',
 //   drawCircle: true,
 //   follow: true,
-//   icon: 'icon-location', 
+//   icon: 'icon-location',
 //   iconLoading: 'icon-spinner  animate-spin',
 //   setView: true,
 //   remainActive: false
