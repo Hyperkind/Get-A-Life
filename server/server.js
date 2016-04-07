@@ -137,19 +137,19 @@ passport.use(new localStrategy (
 //   }
 // ));
 
-// passport.serializeUser(function (user, done) {
-//   return done(null, user.id);
-// });
+passport.serializeUser(function (user, done) {
+  return done(null, user.id);
+});
 
-// passport.deserializeUser(function (userId, done) {
-//   User.findById(userId)
-//     .then(function(userId) {
-//       if (!userId) {
-//         return done(null, false);
-//       }
-//       return done(null, userId);
-//     });
-// });
+passport.deserializeUser(function (userId, done) {
+  User.findById(userId)
+    .then(function(userId) {
+      if (!userId) {
+        return done(null, false);
+      }
+      return done(null, userId);
+    });
+});
 
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
@@ -234,19 +234,9 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
-app.post('/api/login', function(req, res) {
-  passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'});
-  console.log('testing', req.body);
-  res.send('login ' + req.body);
-});
-
-// app.route('/api/login')
-//   .get(function(req, res) {
-//     res.redirect('/login.html');
-//   })
-//   .post(
-//     passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/dashboard/#/kanban'})
-//   );
+app.post('/api/login',
+  passport.authenticate('local', { failureFlash: 'Invalid Username or Password', successRedirect: '/index.html'})
+);
 
 app.route('/api/register')
   .get(function(req, res) {

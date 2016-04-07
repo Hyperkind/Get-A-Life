@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -34,7 +34,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
-    $http.post('http://10.0.0.12:3000/api/login', $scope.loginData)
+    $http.post(ENDPOINT + '/api/login', $scope.loginData)
       .success(function(data) {
         $scope.loginData = {};
         $scope.todos = $scope.loginData;
