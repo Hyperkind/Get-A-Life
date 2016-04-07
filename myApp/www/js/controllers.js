@@ -13,21 +13,37 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   // Form data for the login modal
   $scope.loginData = {};
 
+  $ionicModal.fromTemplateUrl('templates/add-popup.html', {
+    scope: $scope
+  }).then(function(eventModal) {
+    $scope.addEventModal = eventModal;
+  });
+
+  $scope.addEvent = function() {
+    console.log('test');
+    $scope.addEventModal.show();
+  };
+
+  $scope.closeEvent = function() {
+    $scope.addEventModal.hide();
+  };
+
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
+  }).then(function(loginModal) {
+    $scope.loginModal = loginModal;
   });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
 
   // Open the login modal
   $scope.login = function() {
-    $scope.modal.show();
+    console.log('test');
+    $scope.loginModal.show();
+  };
+
+  // Triggered in the login modal to close it
+  $scope.closeLogin = function() {
+    $scope.loginModal.hide();
   };
 
   $scope.loginData = {};
@@ -158,21 +174,21 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 }])
 
-.controller('AppCtrl', function($scope, $ionicModal) {
+// .controller('AppCtrl', function($scope, $ionicModal) {
 
 
-  $ionicModal.fromTemplateUrl('templates/add-popup.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+//   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
+//     scope: $scope
+//   }).then(function(modal) {
+//     $scope.modal = modal;
+//   });
 
-  // $scope.createContact = function(u) {
-  //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
-  //   $scope.modal.hide();
-  // };
+//   // $scope.createContact = function(u) {
+//   //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+//   //   $scope.modal.hide();
+//   // };
 
-})
+// })
   //event controller accesing tcktmaster and eventbrite
 
 .controller("EventController", [
