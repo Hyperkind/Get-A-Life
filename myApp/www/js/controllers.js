@@ -12,6 +12,72 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
   // Form data for the login modal
   $scope.loginData = {};
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(loginModal) {
+    $scope.loginModal = loginModal;
+  });
+
+  // Open the login modal
+  $scope.login = function() {
+    $scope.loginModal.show();
+  };
+
+  // Triggered in the login modal to close it
+  $scope.closeLogin = function() {
+    $scope.loginModal.hide();
+  };
+
+  // Perform the login action when the user submits the login form
+  $scope.doLogin = function() {
+    console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+    $http.post(ENDPOINT + '/api/login', $scope.loginData)
+      .success(function(data) {
+        $scope.loginData = {};
+        $scope.todos = $scope.loginData;
+        console.log('login successful');
+      })
+      .error(function(data) {
+        console.log('Error: ' + $scope.loginData);
+      });
+    // Simulate a login delay. Remove this and replace with your login
+    // code if using a login system
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
+  };
+
+  $scope.registerData = {};
+  $ionicModal.fromTemplateUrl('templates/register.html', {
+    scope: $scope
+  }).then(function(registerModal) {
+    $scope.registerModal = registerModal;
+  });
+
+  $scope.register = function() {
+    $scope.registerModal.show();
+  };
+
+  $scope.closeRegister = function() {
+    $scope.registerModal.hide();
+  };
+
+  $scope.newUser = function() {
+    console.log("REGISTER - user: " + $scope.registerData.username + " - PW: " + $scope.registerData.password);
+    $http.post(ENDPOINT + '/api/register', $scope.registerData)
+      .success(function(data) {
+        $scope.userData = {};
+        $scope.todos = $scope.userData;
+        console.log('new user created');
+      })
+      .error(function(data) {
+        console.log('Error: ' + $scope.userData);
+      });
+    $timeout(function() {
+      $scope.closeRegister();
+    }, 1000);
+  };
 
   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
     scope: $scope
@@ -42,44 +108,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     });
     $timeout(function(data) {
       $scope.closeEvent();
-    }, 1000);
-  };
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(loginModal) {
-    $scope.loginModal = loginModal;
-  });
-
-  // Open the login modal
-  $scope.login = function() {
-    console.log('test');
-    $scope.loginModal.show();
-  };
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.loginModal.hide();
-  };
-
-  $scope.loginData = {};
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
-    $http.post(ENDPOINT + '/api/login', $scope.loginData)
-      .success(function(data) {
-        $scope.loginData = {};
-        $scope.todos = $scope.loginData;
-        console.log('login successful');
-      })
-      .error(function(data) {
-        console.log('Error: ' + $scope.loginData);
-      });
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
     }, 1000);
   };
 

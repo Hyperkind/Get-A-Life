@@ -240,16 +240,17 @@ app.post('/api/login',
   passport.authenticate('local')
 );
 
-app.route('/api/register')
-  .get(function(req, res) {
-    res.redirect('register.html');
-  })
-  .post(function(req, res) {
-    User.create(req.body)
-      .then(function() {
-        res.redirect('login.html');
-      });
+app.post('/api/register', function(req, res) {
+  var newUser = new User ({
+    username: req.body.username,
+    password: req.body.password
   });
+  console.log(newUser);
+  newUser.save(function(err, event){
+    var userId = newUser._id;
+    res.json(event);
+  });
+});
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'),
