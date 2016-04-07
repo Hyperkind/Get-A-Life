@@ -10,10 +10,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
-var CONFIG = require('../config');
-
-var geocoderProvider = 'google';
-var httpAdapter = 'https';
+var CONFIG = require('./config');
 
 var app = express();
 
@@ -45,7 +42,7 @@ app.use(express.static(path.resolve(__dirname, '..','public')));
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 app.use(session({
-  secret: CONFIG.session.secret
+  secret: 'placeholder'
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -61,6 +58,7 @@ passport.use(new localStrategy (
     passReqToCallback: true
   },
   function (req, username, password, done) {
+    console.log('searching...');
     return User.findOne({
       username: username
     })
@@ -77,67 +75,67 @@ passport.use(new localStrategy (
   })
 );
 
-passport.use(new FacebookStrategy({
-  clientID: CONFIG.FACEBOOK.APP_ID,
-  clientSecret: CONFIG.FACEBOOK.SECRET,
-  callbackURL: CONFIG.FACEBOOK.CALLBACK
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ oauthID: profile.id }, function(err, user) {
-      if(err) {
-        console.log(err);
-      }
-      if(!err && user !== null) {
-        done(null, user);
-      } else {
-        user = new User({
-          oauthID: profile.id,
-          name: profile.displayName,
-          created: Date.now()
-        });
-        user.save(function(err) {
-          if(err) {
-            console.log(err);
-          } else {
-            console.log('saving user ...');
-            done(null, user);
-          }
-        });
-      }
-    });
-  }
-));
+// passport.use(new FacebookStrategy({
+//   clientID: CONFIG.FACEBOOK.APP_ID,
+//   clientSecret: CONFIG.FACEBOOK.SECRET,
+//   callbackURL: CONFIG.FACEBOOK.CALLBACK
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     User.findOne({ oauthID: profile.id }, function(err, user) {
+//       if(err) {
+//         console.log(err);
+//       }
+//       if(!err && user !== null) {
+//         done(null, user);
+//       } else {
+//         user = new User({
+//           oauthID: profile.id,
+//           name: profile.displayName,
+//           created: Date.now()
+//         });
+//         user.save(function(err) {
+//           if(err) {
+//             console.log(err);
+//           } else {
+//             console.log('saving user ...');
+//             done(null, user);
+//           }
+//         });
+//       }
+//     });
+//   }
+// ));
 
-passport.use(new TwitterStrategy({
-  consumerKey: CONFIG.TWITTER.CONSUMER_KEY,
-  consumerSecret: CONFIG.TWITTER.CONSUMER_SECRET,
-  callbackURL: CONFIG.TWITTER.CALLBACK
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ oauthID: profile.id }, function(err, user) {
-      if(err) {
-        console.log(err);
-      }
-      if(!err && user !== null) {
-        done(null, user);
-      } else {
-        user = new User({
-          oauthID: profile.id,
-          name: profile.displayName,
-          created: Date.now()
-        });
-        user.save(function(err) {
-          if(err) {
-            console.log(err);
-          } else {
-            console.log('saving user...');
-            done(null, user);
-          }
-        });
-      }
-    });
-  }
-));
+// passport.use(new TwitterStrategy({
+//   consumerKey: CONFIG.TWITTER.CONSUMER_KEY,
+//   consumerSecret: CONFIG.TWITTER.CONSUMER_SECRET,
+//   callbackURL: CONFIG.TWITTER.CALLBACK
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     User.findOne({ oauthID: profile.id }, function(err, user) {
+//       if(err) {
+//         console.log(err);
+//       }
+//       if(!err && user !== null) {
+//         done(null, user);
+//       } else {
+//         user = new User({
+//           oauthID: profile.id,
+//           name: profile.displayName,
+//           created: Date.now()
+//         });
+//         user.save(function(err) {
+//           if(err) {
+//             console.log(err);
+//           } else {
+//             console.log('saving user...');
+//             done(null, user);
+//           }
+//         });
+//       }
+//     });
+//   }
+// ));
 
 passport.serializeUser(function (user, done) {
   return done(null, user.id);
@@ -152,7 +150,6 @@ passport.deserializeUser(function (userId, done) {
       return done(null, userId);
     });
 });
-
 
 app.get('/api/events', function(req, res) {
   Event.find({}, function(err, events){
@@ -237,15 +234,11 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
-app.route('/login')
-  .get(function(req, res) {
-    res.redirect('login.html');
-  })
-  .post(
-    passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/index.html'})
-  );
+app.post('/api/login',
+  passport.authenticate('local', { failureFlash: 'Invalid Username or Password', successRedirect: '/index.html'})
+);
 
-app.route('/register')
+app.route('/api/register')
   .get(function(req, res) {
     res.redirect('register.html');
   })

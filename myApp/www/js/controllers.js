@@ -1,7 +1,7 @@
-angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
+angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -30,17 +30,59 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     $scope.modal.show();
   };
 
+  $scope.loginData = {};
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
+    console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+    $http.post(ENDPOINT + '/api/login', $scope.loginData)
+      .success(function(data) {
+        $scope.loginData = {};
+        $scope.todos = $scope.loginData;
+        console.log('login successful');
+      })
+      .error(function(data) {
+        console.log('Error: ' + $scope.loginData);
+      });
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.fbLogin = function() {
+    ngFB.login({scope: 'email, publish_actions'})
+      .then(function(response) {
+        if (response.status === 'connected') {
+          console.log('Facebook login succeeded');
+          $timeout(function() {
+            $scope.closeLogin();
+          }, 1000);
+        } else {
+          alert('Facebook login failed');
+        }
+      });
+  };
+
+  // TODO: finish configuring sharing events to FB
+  $scope.share = function(event) {
+    ngFB.api({
+      method: 'POST',
+      path: '/me/feed',
+      params: {
+        message: "I can share!"
+      }
+    })
+    .then(function() {
+      alert('The session was shared on Facebook');
+    },
+    function() {
+      alert('An error occured while sharing this session on Facebook');
+    });
+  };
+
 })
+
 .value('Coordinate',
   {
     lat: 21.3069,
@@ -48,6 +90,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     draggable: true
   }
 )
+
 .controller('MapController', [
   '$scope',
   'Coordinate',
@@ -114,6 +157,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   map.on('locationerror', onLocationError);
 
 }])
+
 .controller('AppCtrl', function($scope, $ionicModal) {
 
 
@@ -130,6 +174,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 })
   //event controller accesing tcktmaster and eventbrite
+
 .controller("EventController", [
   '$scope',
   'Coordinate',
@@ -181,6 +226,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     };
   }
 ])
+
 .controller('TktMstrController', [
   "$scope",
   'EventFactory',
