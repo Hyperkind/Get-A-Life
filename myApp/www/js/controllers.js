@@ -112,12 +112,13 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         }
       }
   });
+
   $scope.coordinate = Coordinate;
   $scope.markers = [Coordinate];
   // $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
-    console.log('markerData lat ' + markerData.latlng.lat + 'markerData lng ' + markerData.latlng.lng);
+    console.log('markerData.lat ' + markerData.latlng.lat + 'markerData.lng ' + markerData.latlng.lng);
     // $scope.markers.push({
     //       lat: markerData.latlng.lat,
     //       lng: markerData.latlng.lng,
@@ -126,9 +127,53 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     //   });
     Coordinate.lat = markerData.latlng.lat;
     Coordinate.lng = markerData.latlng.lng;
+
   });
+//   L.control.locate({
+//   position: 'topright',
+//   drawCircle: true,
+//   follow: true,
+//   icon: 'icon-location',
+//   iconLoading: 'icon-spinner  animate-spin',
+//   setView: true,
+//   remainActive: false
+//   // stopFollwingOnDrag: false //DEPRICATED?
+// }).addTo(map);
+
+//    function onLocationFound(e) {
+//     var radius = e.accuracy;
+//     console.log(e.latlng);
+//     L.marker(e.latlng).addTo(map)
+//     .bindPopup("You are within " + radius + " meters from this point").openPopup();
+//     L.circle(e.latlng, radius, {
+//       color: 'red'
+//       }).addTo(map)
+//         .bindPopup("Your Location").openPopup();
+// }
+//   function onLocationError(e) {
+//      alert(e.message);
+//   }
+//   map.on('locationfound', onLocationFound);
+//   map.on('locationerror', onLocationError);
 
 }])
+
+.controller('AppCtrl', function($scope, $ionicModal) {
+
+
+  $ionicModal.fromTemplateUrl('templates/add-popup.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  // $scope.createContact = function(u) {
+  //   $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+  //   $scope.modal.hide();
+  // };
+
+})
+  //event controller accesing tcktmaster and eventbrite
 
 .controller("EventController", [
   '$scope',
@@ -202,6 +247,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       });
   }
 ]);
+
   // $scope.markers = new Array();
   // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
   //     var leafEvent = args.leafletEvent;
@@ -252,24 +298,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 
 
-
-// function onLocationFound(e) {
-//     var radius = e.accuracy;
-//     console.log(e.latlng);
-//     L.marker(e.latlng).addTo(map)
-//         .bindPopup("You are within " + radius + " meters from this point").openPopup();
-//     L.circle(e.latlng, radius, {
-//       color: 'red'
-//       }).addTo(map)
-//         .bindPopup("Your Location").openPopup();
-// }
-// function onLocationError(e) {
-//     alert(e.message);
-// }
-
-// map.on('locationfound', onLocationFound);
-// map.on('locationerror', onLocationError);
-
 //   L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
 //     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 //     maxZoom: 18,
@@ -282,7 +310,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 //     // closePopupOnClick: true
 //     }).addTo(map);
 //   newMarkerGroup = L.LayerGroup();
-
+// var map = L.map('mapid');
      // home button
 // L.control.locate({
 //   position: 'topright',
@@ -308,8 +336,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 //   function onLocationError(e) {
 //      alert(e.message);
 //   }
-  // map.on('locationfound', onLocationFound);
-  // map.on('locationerror', onLocationError);
+//   map.on('locationfound', onLocationFound);
+//   map.on('locationerror', onLocationError);
 
 // .controller('PlaylistCtrl', function($scope, $stateParams) {
 // });
