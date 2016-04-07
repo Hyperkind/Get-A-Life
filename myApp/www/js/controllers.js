@@ -113,12 +113,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   'EventFactory',
   'leafletData',
   function  ($scope, EventFactory, leafletData) {
-    // $scope.map = L.map('mapid');
-     
-    // $scope.center = {
-    //   autoDiscover: true,
-    //   zoom: 12
-    // };
     angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -126,7 +120,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       }
     });
 
-      
     leafletData.getMap().then(function(map) {
       L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -139,8 +132,35 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         setView: true,
       // closePopupOnClick: true
       }).addTo(map);
+      // function onLocationFound(e) {
+      // var radius = e.accuracy;
+      //   console.log(e.latlng);
+      //   L.marker(e.latlng).addTo(map)
+      //   .bindPopup("You are within " + radius + " meters from this point").openPopup();
+      //   L.circle(e.latlng, radius, {
+      //     color: 'red'
+      //     }).addTo(map)
+      //       .bindPopup("Your Location").openPopup();
+      // }
+      // function onLocationError(e) {
+      //    alert(e.message);
+      // }
+      // map.on('locationfound', onLocationFound);
+      // map.on('locationerror', onLocationError);
+      // L.control.locate({
+//   position: 'topright',
+//   drawCircle: true,
+//   follow: true,
+//   icon: 'icon-location',
+//   iconLoading: 'icon-spinner  animate-spin',
+//   setView: true,
+//   remainActive: false
+//   // stopFollwingOnDrag: false //DEPRICATED?
+// }).addTo(map);
+
+
       L.control.locate({
-        position: 'topleft',  // set the location of the control 
+        position: 'bottomleft',  // set the location of the control 
           layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
           drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
           follow: true,  // follow the user's location 
@@ -158,10 +178,10 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
           iconElementTag: 'span',  // tag for the icon element, span or i 
           circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
           metric: true,  // use metric or imperial units 
-          onLocationError: function(err) {alert(err.message)},  // define an error callback function 
-          onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
-                  alert(context.options.strings.outsideMapBoundsMsg);
-          },
+          // onLocationError: function(err) {alert(err.message)},  // define an error callback function 
+          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
+          //         alert(context.options.strings.outsideMapBoundsMsg);
+          // },
           showPopup: true, // display a popup when the user click on the inner marker 
           strings: {
               title: "Show me where I am",  // title of the locate control 
@@ -172,70 +192,12 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
           },
           locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
       }).addTo(map);
-   
+     
     });
 
 
   
-  // angular.extend($scope, {
-  //     center: {
-  //       autoDiscover: true,
-  //       zoom: 18
-  //     },
-  //     defaults: {
-  //       tileLayer: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}',
-  //       maxZoom: 14,
-  //       noWrap: true,
-  //       path: {
-  //           weight: 10,
-  //           color: '#800000',
-  //           opacity: 1
-  //       }
-  //     }
-  // });
 
-  // $scope.coordinate = Coordinate;
-  // $scope.markers = [Coordinate];
-  // // $scope.markers = new Array();
-  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
-  //   var markerData = args.leafletEvent;
-  //   console.log('markerData.lat ' + markerData.latlng.lat + 'markerData.lng ' + markerData.latlng.lng);
-  //   // $scope.markers.push({
-  //   //       lat: markerData.latlng.lat,
-  //   //       lng: markerData.latlng.lng,
-  //   //       draggable: true,
-  //   //       message: '<h1>Hello</h1>'
-  //   //   });
-  //   Coordinate.lat = markerData.latlng.lat;
-  //   Coordinate.lng = markerData.latlng.lng;
-
-  
-//   L.control.locate({
-//   position: 'topright',
-//   drawCircle: true,
-//   follow: true,
-//   icon: 'icon-location',
-//   iconLoading: 'icon-spinner  animate-spin',
-//   setView: true,
-//   remainActive: false
-//   // stopFollwingOnDrag: false //DEPRICATED?
-// }).addTo(map);
-
-//    function onLocationFound(e) {
-//     var radius = e.accuracy;
-//     console.log(e.latlng);
-//     L.marker(e.latlng).addTo(map)
-//     .bindPopup("You are within " + radius + " meters from this point").openPopup();
-//     L.circle(e.latlng, radius, {
-//       color: 'red'
-//       }).addTo(map)
-//         .bindPopup("Your Location").openPopup();
-// }
-//   function onLocationError(e) {
-//      alert(e.message);
-//   }
-//   map.on('locationfound', onLocationFound);
-//   map.on('locationerror', onLocationError);
 
 }])
 
