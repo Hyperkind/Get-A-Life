@@ -37,7 +37,7 @@ angular.module('starter.factories', ['starter.config'])
           ENDPOINT + "/api/events",
           data
         ).then(function(newEvent){
-          //TODO: on controller.js create newEvent
+          //TODO: create newEvent on map
           return newEvent;
         });
       },
@@ -58,7 +58,21 @@ angular.module('starter.factories', ['starter.config'])
           data
         );
       },
-    };
 
+    };
+  }
+])
+
+.factory('UserFactory', [
+  '$http',
+  'ENDPOINT',
+  function($http, ENDPOINT) {
+    return {
+      getUser: function(data, id) {
+        return $http.get(
+          ENDPOINT + "/api/users/"
+        );
+      }
+    };
   }
 ]);

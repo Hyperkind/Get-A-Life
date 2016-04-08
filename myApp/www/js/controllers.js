@@ -1,7 +1,14 @@
 angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
+.controller('AppCtrl', [
+  '$scope',
+  '$ionicModal',
+  '$timeout',
+  'ngFB',
+  '$http',
+  'ENDPOINT',
+  function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -142,15 +149,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     });
   };
 
-})
-
-// .value('Coordinate',
-//   {
-//     lat: 21.3069,
-//     lng: -157.8583,
-//     draggable: true
-//   }
-// )
+}])
 
 .controller('MapController', [
   '$scope',
@@ -162,8 +161,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       center: {
         autoDiscover: true,
         zoom: 18
-      }
-    });
+      },
+      markers: []
+  });
 
     leafletData.getMap().then(function(map) {
       L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -203,45 +203,59 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 //   // stopFollwingOnDrag: false //DEPRICATED?
 // }).addTo(map);
 
+      $scope.markerData = [];
+      $scope.markers = [];
+      EventFactory.getEvents()
+      .then(function loadEventMarkers(events) {
+        $scope.markerData = events.data;
+        for (var i = 0; i < $scope.markerData.length; i++) {
+          $scope.location = new L.LatLng($scope.markerData[i].latitude, $scope.markerData[i].longitude);
+          $scope.name = $scope.markerData[i].name;
+          $scope.markers.push($scope.location);
+        }
+        $scope.marker = new L.Marker($scope.location, {
+          title: $scope.markerData.name
+        }).addTo(map);
+      });
 
       L.control.locate({
-        position: 'bottomleft',  // set the location of the control 
-          layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
-          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
-          follow: true,  // follow the user's location 
-          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
-          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
-          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
-          remainActive: false, // if true locate control remains active on click even if the user's location is in view. 
-          markerClass: L.circleMarker, // L.circleMarker or L.marker 
-          circleStyle: {},  // change the style of the circle around the user's location 
+        position: 'bottomleft',  // set the location of the control
+          layer: undefined,  // use your own layer for the location marker, creates a new layer by default
+          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
+          follow: true,  // follow the user's location
+          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
+          remainActive: false, // if true locate control remains active on click even if the user's location is in view.
+          markerClass: L.circleMarker, // L.circleMarker or L.marker
+          circleStyle: {},  // change the style of the circle around the user's location
           markerStyle: {},
-          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following 
+          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
           followMarkerStyle: {},
-          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker 
-          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon 
-          iconElementTag: 'span',  // tag for the icon element, span or i 
-          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
-          metric: true,  // use metric or imperial units 
-          // onLocationError: function(err) {alert(err.message)},  // define an error callback function 
-          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
+          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
+          iconElementTag: 'span',  // tag for the icon element, span or i
+          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+          metric: true,  // use metric or imperial units
+          // onLocationError: function(err) {alert(err.message)},  // define an error callback function
+          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries
           //         alert(context.options.strings.outsideMapBoundsMsg);
           // },
-          showPopup: true, // display a popup when the user click on the inner marker 
+          showPopup: true, // display a popup when the user click on the inner marker
           strings: {
-              title: "Show me where I am",  // title of the locate control 
-              metersUnit: "meters", // string for metric units 
-              feetUnit: "feet", // string for imperial units 
-              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle 
-              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds 
+              title: "Show me where I am",  // title of the locate control
+              metersUnit: "meters", // string for metric units
+              feetUnit: "feet", // string for imperial units
+              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
           },
-          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
+          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
       }).addTo(map);
-     
+
     });
 
 
-  
+
 
 
 }])
@@ -250,14 +264,13 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 .controller("EventController", [
   '$scope',
-  'Coordinate',
   'EventFactory',
-  function ($scope, Coordinate, EventFactory){
-    $scope.coordinate = Coordinate;
+  function ($scope, EventFactory){
     $scope.events = [];
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
+      console.log($scope.events);
     });
 
     $scope.newEvent = function(event){
@@ -288,6 +301,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         description: $scope.description,
         start_date: $scope.start_date,
       };
+      console.log(data);
       EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
         EventFactory.getEvents()
@@ -318,6 +332,19 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         $scope.evntBriteEvents = res.data;
         console.log('evntbrite', res.data);
       });
+  }
+])
+
+.controller('UserController', [
+  '$scope',
+  'UserFactory',
+  function($scope, UserFactory) {
+    $scope.user = [];
+    UserFactory.getUser()
+    .then(function(user) {
+      $scope.user = user.data;
+      console.log($scope.user);
+    });
   }
 ]);
 
