@@ -11,6 +11,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
 var CONFIG = require('./config');
+var moment = require('moment');
 
 var app = express();
 
@@ -176,16 +177,16 @@ app.get('/api/events/:id', function(req, res){
 });
 
 app.post('/api/events', function(req, res){
-  console.log('req.body', req.body);
   var newEvent = new Event({
     title: req.body.title,
     created_by: req.body.created_by,
     description: req.body.description,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    start_date: req.body.start_date,
+    start_date: moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate(),
     posts: req.body.posts
   });
+  console.log(newEvent);
   newEvent.save(function(err, event){
     var eventId = newEvent._id;
     res.json(event);
@@ -234,20 +235,22 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
+// TODO: provide failure and success routes
 app.post('/api/login',
-  passport.authenticate('local', { failureFlash: 'Invalid Username or Password', successRedirect: '/index.html'})
+  passport.authenticate('local')
 );
 
-app.route('/api/register')
-  .get(function(req, res) {
-    res.redirect('register.html');
-  })
-  .post(function(req, res) {
-    User.create(req.body)
-      .then(function() {
-        res.redirect('login.html');
-      });
+app.post('/api/register', function(req, res) {
+  var newUser = new User ({
+    username: req.body.username,
+    password: req.body.password
   });
+  console.log(newUser);
+  newUser.save(function(err, event){
+    var userId = newUser._id;
+    res.json(event);
+  });
+});
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'),
