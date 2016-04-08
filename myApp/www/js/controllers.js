@@ -159,17 +159,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 }])
 
 
-// .value('Coordinate',
-//   {
-//     lat: 21.3069,
-//     lng: -157.8583,
-//     draggable: true
-//   }
-// )
 
 .controller('MapController', [
   '$scope',
-  // 'Coordinate',
   'EventFactory',
   'leafletData',
   function  ($scope, EventFactory, leafletData) {
@@ -180,7 +172,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       },
       markers: []
     });
-    // console.log(leafletData);
+  
     leafletData.getMap().then(function(map) {
       L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -226,28 +218,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         $scope.marker = new L.Marker($scope.location, {
           title: $scope.markerData.name
         }).addTo(map);
-      //   var popup =
-      //   L.popup({
-      //     maxWidth: 300,
-      //     minWidth: 200,
-      //     maxHeight: 400,
-      //     autoPan: true,
-      //     closeButton: true,
-      //     offset: L.point(1000, 500)
-      //   })
-      //   .setLatLng(e.latlng)
-      //   .setContent('<h2>Add Event</h2>' +
-      //               '<form>' +
-      //                 '<input type="text" name="title" placeholder="Title">' +
-      //                 '<input type="text" name="location" placeholder="Location">' +
-      //                 '<input type="text" name="date" placeholder="Date">' +
-      //                 '<input type="text" name="time" placeholder="Time">' +
-      //                 '<input type="file" name="img" multiple>' +
-      //                 '<textarea name="description" wrap="physical" width="200"></textarea>' +
-      //               '</form>' +
-      //               '<button action="">Delete</button>' +
-      //               '<button action="index" method="POST">ADD</button>');
-      // $scope.marker.bindPopup(popup);
+      //   h
       });
       L.control.locate({
         position: 'topright',  // set the location of the control 
