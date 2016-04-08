@@ -119,10 +119,11 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         zoom: 18
       }
     });
-
+    console.log(leafletData);
     leafletData.getMap().then(function(map) {
       L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        attributionControl: true, 
         maxZoom: 18,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
@@ -147,27 +148,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       // }
       // map.on('locationfound', onLocationFound);
       // map.on('locationerror', onLocationError);
-      // L.control.locate({
-//   position: 'topright',
-//   drawCircle: true,
-//   follow: true,
-//   icon: 'icon-location',
-//   iconLoading: 'icon-spinner  animate-spin',
-//   setView: true,
-//   remainActive: false
-//   // stopFollwingOnDrag: false //DEPRICATED?
-// }).addTo(map);
-
+      map.attributionControl.setPrefix('');
 
       L.control.locate({
-        position: 'bottomleft',  // set the location of the control 
+        position: 'topright',  // set the location of the control 
           layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
           drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
           follow: true,  // follow the user's location 
           setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
           keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
           stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
-          remainActive: false, // if true locate control remains active on click even if the user's location is in view. 
+          remainActive: true, // if true locate control remains active on click even if the user's location is in view. 
           markerClass: L.circleMarker, // L.circleMarker or L.marker 
           circleStyle: {},  // change the style of the circle around the user's location 
           markerStyle: {},
@@ -213,6 +204,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
+      console.log($scope.events);
     });
 
     $scope.newEvent = function(event){
@@ -273,6 +265,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         $scope.evntBriteEvents = res.data;
         console.log('evntbrite', res.data);
       });
+
   }
 ]);
 
@@ -324,48 +317,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 // }
 // });
 
-
-
-//   L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
-//     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//     maxZoom: 18,
-//     id: 'mapbox.streets',
-//     accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
-//     continuousWorld: false,
-//     noWrap: true,
-//     trackResize: true,
-//     setView: true,
-//     // closePopupOnClick: true
-//     }).addTo(map);
-//   newMarkerGroup = L.LayerGroup();
-// var map = L.map('mapid');
-     // home button
-// L.control.locate({
-//   position: 'topright',
-//   drawCircle: true,
-//   follow: true,
-//   icon: 'icon-location',
-//   iconLoading: 'icon-spinner  animate-spin',
-//   setView: true,
-//   remainActive: false
-//   // stopFollwingOnDrag: false //DEPRICATED?
-// }).addTo(map);
-
-//    function onLocationFound(e) {
-//     var radius = e.accuracy;
-//     console.log(e.latlng);
-//     L.marker(e.latlng).addTo(map)
-//     .bindPopup("You are within " + radius + " meters from this point").openPopup();
-//     L.circle(e.latlng, radius, {
-//       color: 'red'
-//       }).addTo(map)
-//         .bindPopup("Your Location").openPopup();
-// }
-//   function onLocationError(e) {
-//      alert(e.message);
-//   }
-//   map.on('locationfound', onLocationFound);
-//   map.on('locationerror', onLocationError);
 
 // .controller('PlaylistCtrl', function($scope, $stateParams) {
 // });
