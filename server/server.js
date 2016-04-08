@@ -50,7 +50,9 @@ app.use(passport.session());
 //CORS cross origin between server (localhost:3000 and 8100)
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
@@ -193,12 +195,25 @@ app.post('/api/events', function(req, res){
   });
 });
 
-app.get('/users', function(req, res) {
+app.get('/api/users', function(req, res) {
   User.find({}, function(err, users) {
     if(err){
       res.send("something broke");
     }
     res.json(users);
+  });
+});
+
+app.get('/api/users/:id', function(req, res) {
+  var userId = req.params.id;
+  User.findById(userId, function(err, user) {
+    if(err) {
+      console.log(userId + ' is not a valid ID');
+      throw err;
+    }
+  })
+  .then(function(user) {
+    res.json(user);
   });
 });
 

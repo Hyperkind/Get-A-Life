@@ -1,0 +1,15 @@
+<ion-view view-title="User">
+  <ion-content>
+    <h1>User</h1>
+      <ion-list>
+        <ion-item ng-repeat="user in user | filter: {_id: user._id}">
+          <p>Username: {{user.username}}</p>
+          <p>User ID: {{user._id}}</p>
+
+          <button type="submit" ng-click="remove(event)">Delete Event</button>
+          <a href="/#/{{event._id}}/edit">Edit Event</a>
+        </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>
+

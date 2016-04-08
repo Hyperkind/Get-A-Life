@@ -1,7 +1,14 @@
 angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpenFB'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
+.controller('AppCtrl', [
+  '$scope',
+  '$ionicModal',
+  '$timeout',
+  'ngFB',
+  '$http',
+  'ENDPOINT',
+  function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -142,21 +149,12 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     });
   };
 
-})
-
-.value('Coordinate',
-  {
-    lat: 21.3069,
-    lng: -157.8583,
-    draggable: true
-  }
-)
+}])
 
 .controller('MapController', [
   '$scope',
-  'Coordinate',
   'EventFactory',
-  function  ($scope, Coordinate, EventFactory) {
+  function  ($scope, EventFactory) {
   angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -174,8 +172,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       }
   });
 
-  $scope.coordinate = Coordinate;
-  $scope.markers = [Coordinate];
   // $scope.markers = new Array();
   $scope.$on("leafletDirectiveMap.dblclick", function(event, args) {
     var markerData = args.leafletEvent;
@@ -238,14 +234,13 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 .controller("EventController", [
   '$scope',
-  'Coordinate',
   'EventFactory',
-  function ($scope, Coordinate, EventFactory){
-    $scope.coordinate = Coordinate;
+  function ($scope, EventFactory){
     $scope.events = [];
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
+      console.log($scope.events);
     });
 
     $scope.newEvent = function(event){
@@ -276,6 +271,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         description: $scope.description,
         start_date: $scope.start_date,
       };
+      console.log(data);
       EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
         EventFactory.getEvents()
@@ -306,6 +302,19 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         $scope.evntBriteEvents = res.data;
         console.log('evntbrite', res.data);
       });
+  }
+])
+
+.controller('UserController', [
+  '$scope',
+  'UserFactory',
+  function($scope, UserFactory) {
+    $scope.user = [];
+    UserFactory.getUser()
+    .then(function(user) {
+      $scope.user = user.data;
+      console.log($scope.user);
+    });
   }
 ]);
 

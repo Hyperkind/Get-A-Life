@@ -63,16 +63,6 @@ ngFB.init({ appId: '915050535282900' });
     }
   })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'MapController'
-      }
-    }
-  })
-
   .state('app.user', {
     url: '/user',
     views: {
