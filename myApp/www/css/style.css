@@ -1,8 +1,8 @@
 /* Empty. Add your own CSS if you like */
 .float-button {
  
-background-color:#303f9f;
-opacity: 0.9;
+background-color:#ef473a;
+opacity: 0.4;
 color: white;
 border-radius: 50%;
 /*border-radius:15% 0 0 0;*/
@@ -29,4 +29,8 @@ z-index: 1000;
   text-align: center;
   margin-top: -20px;
   color: white;
+}
+
+.leaflet-control-attribution {
+  display: none;
 }
