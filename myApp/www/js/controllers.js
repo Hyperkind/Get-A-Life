@@ -193,18 +193,28 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {
         $scope.markerData = events.data;
-        console.log($scope.markerData.length);
+        // console.log($scope.markerData.length);
         for (var i = 0; i < $scope.markerData.length; i++) {
-          console.log(i);
-          $scope.location = new L.LatLng($scope.markerData[i].latitude, $scope.markerData[i].longitude);
-          $scope.name = $scope.markerData[i].name;
-          console.log(location);
-        $scope.markers.push($scope.location); 
+          // console.log(i);
+          var dataMarker = {
+            lat: $scope.markerData[i].latitude,
+            lng: $scope.markerData[i].longitude,
+            message: $scope.markerData[i].title
+          };
+
+        $scope.markers.push(dataMarker); 
         }
-        $scope.marker = new L.Marker($scope.location, {
-          title: $scope.markerData.name
-        }).addTo(map);
-      //   h
+      });
+
+      $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
+        var leafEvent = args.leafletEvent;
+        $scope.markers.push({
+            lat: leafEvent.latlng.lat,
+            lng: leafEvent.latlng.lng,
+            message: "My Added Marker" 
+        });
+          console.log($scope.markers);
+ 
       });
       L.control.locate({
         position: 'topright',  // set the location of the control 
@@ -241,20 +251,72 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       }).addTo(map);
      
     });
+     // var popup =
+     //    L.popup({
+     //      maxWidth: 300,
+     //      minWidth: 200,
+     //      maxHeight: 400,
+     //      autoPan: true,
+     //      closeButton: true,
+     //      offset: L.point(1000, 500)
+     //    })
+     //    .setLatLng($scope.location)
+     //    .setContent('<h2>Add Event</h2>' +
+     //                '<form>' +
+     //                  '<input type="text" name="title" placeholder="Title">' +
+     //                  '<input type="text" name="location" placeholder="Location">' +
+     //                  '<input type="text" name="date" placeholder="Date">' +
+     //                  '<input type="text" name="time" placeholder="Time">' +
+     //                  '<input type="file" name="img" multiple>' +
+     //                  '<textarea name="description" wrap="physical" width="200"></textarea>' +
+     //                '</form>' +
+     //                '<button action="">Delete</button>' +
+     //                '<button action="index" method="POST">ADD</button>');
+     // $scope.markers = [];
+     // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
+     //      var leafEvent = args.leafletEvent;
+     //      $scope.markers.push({
+     //          lat: leafEvent.latlng.lat,
+     //          lng: leafEvent.latlng.lng,
+     //          message: "My Added Marker" 
+     //      });
+     //  });
+    //   function addMarker(e){
+    //   var newMarker =
+    //   new L.marker(e.latlng,{
+    //     clickable: true,
+    //     draggable: true,
+    //     riseOnHover: true,
+    //     riseOffset: 100
+    //     }).addTo(map);
+    //   newMarker.on('dragend', function(event){
+    //     var changePos = event.target.getLatLng();
+    //     console.log(changePos);
+    //   });
+    //   var popup =
+    //     L.popup({
+    //       maxWidth: 300,
+    //       minWidth: 200,
+    //       maxHeight: 400,
+    //       autoPan: true,
+    //       closeButton: true,
+    //       offset: L.point(1000, 500)
+    //     })
+    //     .setLatLng(e.latlng)
+    //     .setContent('<h2>Add Event</h2>' +
+    //                 '<form>' +
+    //                   '<input type="text" name="title" placeholder="Title">' +
+    //                   '<input type="text" name="location" placeholder="Location">' +
+    //                   '<input type="text" name="date" placeholder="Date">' +
+    //                   '<input type="text" name="time" placeholder="Time">' +
+    //                   '<input type="file" name="img" multiple>' +
+    //                   '<textarea name="description" wrap="physical" width="200"></textarea>' +
+    //                 '</form>' +
+    //                 '<button action="">Delete</button>' +
+    //                 '<button action="index" method="POST">ADD</button>');
+    //   newMarker.bindPopup(popup);
+    // }
 
-
-  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-  //     console.log(leafEvent);
-  //     var leafEvent = args.leafletEvent;
-  //     $scope.markers.push({
-  //         lat: leafEvent.latlng.lat,
-  //         lng: leafEvent.latlng.lng,
-  //         draggable: true,
-  //         setContent: '<h1>Hello</h1>'
-  //     });
-  //     console.log($scope.markers);
-  // });
-  
 
 
 }])
@@ -337,53 +399,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   }
 ]);
 
-  // $scope.markers = [];
-  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-  //     var leafEvent = args.leafletEvent;
-  //     $scope.markers.push({
-  //         lat: leafEvent.latlng.lat,
-  //         lng: leafEvent.latlng.lng,
-  //         draggable: true,
-  //         setContent: '<h1>Hello</h1>'
-  //     });
-  // });
-  // creates markers
-// function addMarker(e){
-//   var newMarker =
-//   new L.marker(e.latlng,{
-//     clickable: true,
-//     draggable: true,
-//     riseOnHover: true,
-//     riseOffset: 100
-//     }).addTo(map);
-//   newMarker.on('dragend', function(event){
-//     var changePos = event.target.getLatLng();
-//     console.log(changePos);
-//   });
-//   var popup =
-//     L.popup({
-//       maxWidth: 300,
-//       minWidth: 200,
-//       maxHeight: 400,
-//       autoPan: true,
-//       closeButton: true,
-//       offset: L.point(1000, 500)
-//     })
-//     .setLatLng(e.latlng)
-//     .setContent('<h2>Add Event</h2>' +
-//                 '<form>' +
-//                   '<input type="text" name="title" placeholder="Title">' +
-//                   '<input type="text" name="location" placeholder="Location">' +
-//                   '<input type="text" name="date" placeholder="Date">' +
-//                   '<input type="text" name="time" placeholder="Time">' +
-//                   '<input type="file" name="img" multiple>' +
-//                   '<textarea name="description" wrap="physical" width="200"></textarea>' +
-//                 '</form>' +
-//                 '<button action="">Delete</button>' +
-//                 '<button action="index" method="POST">ADD</button>');
-//   newMarker.bindPopup(popup);
-// }
-// });
+ 
+
 
 
 // .controller('PlaylistCtrl', function($scope, $stateParams) {
