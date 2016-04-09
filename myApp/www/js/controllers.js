@@ -23,13 +23,18 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     $scope.loginModal.hide();
   };
 
+  $scope.isLoggedIn = {};
   $scope.doLogin = function() {
     console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
     $http.post(ENDPOINT + '/login', $scope.loginData)
       .success(function(data) {
         $scope.loginData = {};
         $scope.todos = $scope.loginData;
+        $scope.isLoggedIn = data;
+        StorageService.add(data);
+        console.log(data);
         console.log('login successful');
+        StorageService.getAll();
       })
       .error(function(data) {
         console.log('Error: ' + $scope.loginData);
@@ -38,6 +43,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.closeLogin();
     }, 1000);
   };
+
+  // $scope.things = StorageService.getAll();
 
   $scope.registerData = {};
   $ionicModal.fromTemplateUrl('templates/register.html', {

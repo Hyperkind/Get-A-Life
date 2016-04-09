@@ -77,36 +77,22 @@ angular.module('starter.factories', ['starter.config'])
   }
 ])
 
-.factory('AuthFactory', [
-  '$q',
-  '$timeout',
-  '$http',
-  function($q, $timeout, $http) {
-    // return{
-    //   isLoggedIn: function() {
-    //     if (user) {
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    //   },
+// .factory('StorageService', function($localStorage) {
+//   var _getAll = function() {
+//     return $localStorage.things;
+//   };
 
-    //   getUserStatus: function() {
-    //     return user;
-    //   }
-    // };
+//   var _add = function(thing) {
+//     $localStorage.things.push(thing);
+//   };
 
-    // create a user var
-    var user = null;
+//   var _remove = function(thing) {
+//     $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
+//   };
 
-    // return available functions for user in the controllers
-    return({
-      isLoggedIn: isLoggedIn,
-      getUserStatus: getUserStatus,
-      login: login,
-      logout: logout,
-      register: registser
-    });
-
-  }
-]);
+//   return {
+//     getAll: _getAll,
+//     add: _add,
+//     remove: _remove
+//   };
+// });

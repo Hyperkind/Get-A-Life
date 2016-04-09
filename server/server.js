@@ -20,10 +20,13 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
-  description: String,
+  start_date: Date,
   latitude: Number,
   longitude: Number,
-  start_date: Date,
+  location_name: String,
+  address: String,
+  city: String,
+  zip: Number,
   posts: Array
 });
 var Event = mongoose.model('Event', eventSchema);
@@ -219,7 +222,7 @@ app.get('/api/users/:id', function(req, res) {
 //TODO: ajax request POST for Ben's setContent
 
 //RESEARCH: edit date, how to retain original date
-app.put('/api/events/edit/:id', function(req, res){
+app.put('/api/events/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
   Event.findOne({ _id: eventId })
@@ -277,9 +280,7 @@ app.post('/login', function(req, res, next) {
         err: 'Could not log in user'
       });
     }
-    res.status(200).json({
-      status: 'Login successful!'
-    });
+    res.send({key: CONFIG.session.AUTH});
   });
   })(req, res, next);
 });
