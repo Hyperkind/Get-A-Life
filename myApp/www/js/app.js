@@ -4,10 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet', 'ngOpenFB'])
+angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
 
-.run(function($ionicPlatform, ngFB) {
-ngFB.init({ appId: '915050535282900' });
+.run(function($ionicPlatform) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
