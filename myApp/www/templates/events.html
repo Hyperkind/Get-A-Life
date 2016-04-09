@@ -11,11 +11,9 @@
           <p>Start Date: {{ event.start_date }}</p>
 
           <button type="submit" ng-click="remove(event)">Delete Event</button>
-          <a href="/#/{{event._id}}/edit">Edit Event</a>
+          <a href="/#/app/events/edit/{{event._id}}">Edit Event</a>
         </ion-item>
       </ion-list>
   </ion-content>
 </ion-view>
-
-
 

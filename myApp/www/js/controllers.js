@@ -308,11 +308,11 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 .controller('EditController', [
   '$scope',
-  '$routeParams',
+  '$stateParams',
   'EventFactory',
   '$location',
-  function($scope, $routeParams, EventFactory, $location){
-    EventFactory.getEventById($routeParams.id)
+  function($scope, $stateParams, EventFactory, $location){
+    EventFactory.getEventById($stateParams.id)
     .then(function(res){
       var event = res.data;
 
@@ -321,7 +321,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       $scope.description = event.description;
       $scope.start_time = event.start_time;
     });
-    console.log('$routeParams', $routeParams);
+    console.log('$stateParams', $stateParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
     $scope.editingEvent = function(event){
       var data = {
@@ -332,7 +332,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         };
       console.log('event', event);
       event.preventDefault();
-      EventFactory.updateEvent(data, $routeParams.id)
+      EventFactory.updateEvent(data, $stateParams.id)
       .then(function(editingEvent){
         $location.path('/');
       });

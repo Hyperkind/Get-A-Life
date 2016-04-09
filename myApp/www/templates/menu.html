@@ -10,7 +10,6 @@
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
-    <ion-nav-view name="editContent"></ion-nav-view>
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
@@ -30,6 +29,9 @@
         </ion-item>
         <ion-item menu-close href="#/app/events">
           Events
+        </ion-item>
+        <ion-item menu-close href="#/app/events/edit/:id">
+          Edit Events
         </ion-item>
         <ion-item menu-close href="#/app/user">
           User
