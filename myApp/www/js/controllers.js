@@ -162,6 +162,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 .controller('MapController', [
   '$scope',
+  // 'Coordinate',
   'EventFactory',
   'leafletData',
   function  ($scope, EventFactory, leafletData) {
@@ -186,49 +187,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         setView: true,
       // closePopupOnClick: true
       }).addTo(map);
-      // function onLocationFound(e) {
-      // var radius = e.accuracy;
-      //   console.log(e.latlng);
-      //   L.marker(e.latlng).addTo(map)
-      //   .bindPopup("You are within " + radius + " meters from this point").openPopup();
-      //   L.circle(e.latlng, radius, {
-      //     color: 'red'
-      //     }).addTo(map)
-      //       .bindPopup("Your Location").openPopup();
-      // }
-      // function onLocationError(e) {
-      //    alert(e.message);
-      // }
-      // map.on('locationfound', onLocationFound);
-      // map.on('locationerror', onLocationError);
-    $scope.dragEventMarker = function(events) {
-      // $scope.markerData = events.data;
-      // $scope.location = new L.LatLng($scope.markerData.lat, $scope.markerData.lng);
-        $scope.$on("leafletDirectiveMap.release", function(event, args){
-      console.log(leafEvent);
-      var leafEvent = args.leafletEvent;
-      $scope.markers.push({
-          lat: leafEvent.latlng.lat,
-          lng: leafEvent.latlng.lng,
-          draggable: true,
-          setContent: '<h1>Hello</h1>'
-      });
-      console.log($scope.markers);
-  });
-  
-    // var newMarker =
-    // new L.marker($scope.location,{
-    //   clickable: true,
-    //   draggable: true,
-    //   riseOnHover: true,
-    //   riseOffset: 100
-    //   }).addTo(map);
-    //   newMarker.on('dragend', function(event){
-    //     var changePos = event.target.getLatLng();
-    //     console.log(changePos);
-    //   });
-      // $scope.addEventModal.show();
-    };
+    
      $scope.markerData = [];
      $scope.markers = [];
       EventFactory.getEvents()
@@ -245,6 +204,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         $scope.marker = new L.Marker($scope.location, {
           title: $scope.markerData.name
         }).addTo(map);
+      //   h
       });
       L.control.locate({
         position: 'topright',  // set the location of the control 
@@ -283,17 +243,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     });
 
 
-  $scope.$on("leafletDirectiveMap.release", function(event, args){
-      console.log(leafEvent);
-      var leafEvent = args.leafletEvent;
-      $scope.markers.push({
-          lat: leafEvent.latlng.lat,
-          lng: leafEvent.latlng.lng,
-          draggable: true,
-          setContent: '<h1>Hello</h1>'
-      });
-      console.log($scope.markers);
-  });
+  // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
+  //     console.log(leafEvent);
+  //     var leafEvent = args.leafletEvent;
+  //     $scope.markers.push({
+  //         lat: leafEvent.latlng.lat,
+  //         lng: leafEvent.latlng.lng,
+  //         draggable: true,
+  //         setContent: '<h1>Hello</h1>'
+  //     });
+  //     console.log($scope.markers);
+  // });
   
 
 
@@ -387,8 +347,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   //         setContent: '<h1>Hello</h1>'
   //     });
   // });
-
-
   // creates markers
 // function addMarker(e){
 //   var newMarker =

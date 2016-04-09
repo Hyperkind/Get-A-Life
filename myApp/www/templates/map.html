@@ -1,6 +1,6 @@
 
 <ion-view view-title="Get-A-Life">
-  <ion-content>
+  <ion-content data-tap-disabled="true">
   <div id="mapid">
     <leaflet center="center"
                width="100%" height="650px"
@@ -17,7 +17,7 @@
 <div class="float-button">
   <span class="height-fix">
       <a class="content">
-        <i class="ion-plus-circled" ng-click="addEvent()" on-release="dragEventMarker()"> </i>
+        <i class="ion-plus-circled" ng-click="addEvent()" on-drag="addEvent()"> </i>
       </a>
     </span>
 </div>
