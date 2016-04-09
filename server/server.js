@@ -20,10 +20,13 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
-  description: String,
+  start_date: Date,
   latitude: Number,
   longitude: Number,
-  start_date: Date,
+  location_name: String,
+  address: String,
+  city: String,
+  zip: Number,
   posts: Array
 });
 var Event = mongoose.model('Event', eventSchema);
@@ -154,18 +157,34 @@ passport.deserializeUser(function (userId, done) {
     });
 });
 
-app.get('/api/events', function(req, res) {
-  Event.find({}, function(err, events){
-    if(err){
-      res.send("error error");
-    }
-    res.json(events);
-    console.log(req.query);
+app.route('/api/events')
+  .get(function(req, res) {
+    Event.find({}, function(err, events){
+      if(err){
+        res.send("error error");
+      }
+      res.json(events);
+      console.log(req.query);
+    });
+  })
+  .post(isAuthenticated, function(req, res){
+    var newEvent = new Event({
+      title: req.body.title,
+      created_by: req.body.created_by,
+      description: req.body.description,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+      start_date: moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate(),
+      posts: req.body.posts
+    });
+    console.log(newEvent);
+    newEvent.save(function(err, event){
+      var eventId = newEvent._id;
+      res.json(event);
+    });
   });
-});
 
 app.get('/api/events/:id', function(req, res){
-  console.log('hello');
   var eventId = req.params.id;
   Event.findById(eventId, function(err, event){
     if(err){
@@ -178,24 +197,7 @@ app.get('/api/events/:id', function(req, res){
   });
 });
 
-app.post('/api/events', function(req, res){
-  var newEvent = new Event({
-    title: req.body.title,
-    created_by: req.body.created_by,
-    description: req.body.description,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    start_date: moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate(),
-    posts: req.body.posts
-  });
-  console.log(newEvent);
-  newEvent.save(function(err, event){
-    var eventId = newEvent._id;
-    res.json(event);
-  });
-});
-
-app.get('/api/users', function(req, res) {
+app.get('/api/users', isAuthenticated, function(req, res) {
   User.find({}, function(err, users) {
     if(err){
       res.send("something broke");
@@ -220,7 +222,7 @@ app.get('/api/users/:id', function(req, res) {
 //TODO: ajax request POST for Ben's setContent
 
 //RESEARCH: edit date, how to retain original date
-app.put('/api/events/edit/:id', function(req, res){
+app.put('/api/events/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
   Event.findOne({ _id: eventId })
@@ -250,12 +252,7 @@ app.delete('/api/events/delete/:id', function(req, res){
   });
 });
 
-// TODO: provide failure and success routes
-app.post('/api/login',
-  passport.authenticate('local')
-);
-
-app.post('/api/register', function(req, res) {
+app.post('/register', function(req, res) {
   var newUser = new User ({
     username: req.body.username,
     password: req.body.password
@@ -264,6 +261,34 @@ app.post('/api/register', function(req, res) {
   newUser.save(function(err, event){
     var userId = newUser._id;
     res.json(event);
+  });
+});
+
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+  if (err) {
+    return next(err);
+  }
+  if (!user) {
+    return res.status(401).json({
+      err: info
+    });
+  }
+  req.logIn(user, function(err) {
+    if (err) {
+      return res.status(500).json({
+        err: 'Could not log in user'
+      });
+    }
+    res.send({key: CONFIG.session.AUTH});
+  });
+  })(req, res, next);
+});
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.status(200).json({
+    status: 'Bye!'
   });
 });
 
