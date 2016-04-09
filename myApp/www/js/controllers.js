@@ -199,7 +199,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
           var dataMarker = {
             lat: $scope.markerData[i].latitude,
             lng: $scope.markerData[i].longitude,
-            message: $scope.markerData[i].title
+            message: $scope.markerData[i].title + 
+                     $scope.markerData[i].address
+          
           };
 
         $scope.markers.push(dataMarker); 
