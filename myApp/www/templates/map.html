@@ -10,8 +10,19 @@
       <marker ng-repeat="marker in markers" position="{{marker.latitude}},{{marker.longitude}}" color="#39cccc" symbol="grocery">
         <h1>{{marker.name}}</h1>
       </marker>
-    
-    <button class="button button-icon ion-compose" ng-click="addEvent()"></button>
   </div>
   </ion-content>
+
+
+<div class="float-button">
+  <span class="height-fix">
+      <a class="content">
+        <i class="ion-plus-circled" ng-click="addEvent()" on-release="dragEventMarker()"> </i>
+      </a>
+    </span>
+</div>
+
+  <!--   <div class="float-button">
+      <button class="button button-icon ion-compose ion-plus-circled" on-drag="addEvent()" ng-click="addEvent()"></button>
+    </div> -->
 </ion-view>
