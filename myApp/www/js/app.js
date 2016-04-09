@@ -53,6 +53,16 @@ ngFB.init({ appId: '915050535282900' });
       }
     })
 
+  // .state('app.edit', {
+  //   url: '/events/edit/:id',
+  //     views: {
+  //       'editContent': {
+  //         templateUrl: 'templates/edit-event.html',
+  //         controller: 'EditController'
+  //       }
+  //     }
+  // })
+
   .state('app.map', {
     url: '/map',
     views: {

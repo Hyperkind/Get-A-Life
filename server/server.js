@@ -10,7 +10,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var isAuthenticated = require('../middleware/isAuthenticated');
-var CONFIG = require('./config');
+var CONFIG = require('../config');
 var moment = require('moment');
 
 var app = express();
