@@ -11,6 +11,7 @@ var eventSchema = mongoose.Schema({
   latitude: Number,
   longitude: Number,
   location_name: String,
+  venue_name: String,
   address: String,
   city: String,
   zip: Number,
