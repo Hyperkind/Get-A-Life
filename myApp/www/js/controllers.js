@@ -25,7 +25,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
   $scope.doLogin = function() {
     console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
-    $http.post(ENDPOINT + '/api/login', $scope.loginData)
+    $http.post(ENDPOINT + '/login', $scope.loginData)
       .success(function(data) {
         $scope.loginData = {};
         $scope.todos = $scope.loginData;
@@ -56,7 +56,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
   $scope.newUser = function() {
     console.log("REGISTER - user: " + $scope.registerData.username + " - PW: " + $scope.registerData.password);
-    $http.post(ENDPOINT + '/api/register', $scope.registerData)
+    $http.post(ENDPOINT + '/register', $scope.registerData)
       .success(function(data) {
         $scope.userData = {};
         $scope.todos = $scope.userData;

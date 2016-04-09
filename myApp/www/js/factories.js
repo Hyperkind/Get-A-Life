@@ -75,4 +75,38 @@ angular.module('starter.factories', ['starter.config'])
       }
     };
   }
+])
+
+.factory('AuthFactory', [
+  '$q',
+  '$timeout',
+  '$http',
+  function($q, $timeout, $http) {
+    // return{
+    //   isLoggedIn: function() {
+    //     if (user) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   },
+
+    //   getUserStatus: function() {
+    //     return user;
+    //   }
+    // };
+
+    // create a user var
+    var user = null;
+
+    // return available functions for user in the controllers
+    return({
+      isLoggedIn: isLoggedIn,
+      getUserStatus: getUserStatus,
+      login: login,
+      logout: logout,
+      register: registser
+    });
+
+  }
 ]);
