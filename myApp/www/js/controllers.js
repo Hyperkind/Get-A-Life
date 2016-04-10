@@ -10,13 +10,13 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   'ENDPOINT',
   'EventFactory',
   function($scope, $ionicModal, $timeout, ngFB, $http, ENDPOINT, EventFactory) {
-    $scope.markers = [];
-      EventFactory.getEvents()
-      .then(function(events){
-        $scope.markers = events.data;
-        console.log($scope.markers);
+    // $scope.markers = [];
+    //   EventFactory.getEvents()
+    //   .then(function(events){
+    //     $scope.markers = events.data;
+    //     console.log($scope.markers);
      
-    });
+    // });
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -162,16 +162,16 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
 .controller('MapController', [
   '$scope',
-  // 'Coordinate',
+  '$compile',
+  '$ionicModal',
   'EventFactory',
   'leafletData',
-  function  ($scope, EventFactory, leafletData) {
+  function  ($scope, $compile, $ionicModal, EventFactory, leafletData) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
         zoom: 18
-      },
-      markers: []
+      }
     });
   
     leafletData.getMap().then(function(map) {
@@ -185,7 +185,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
         noWrap: true,
         trackResize: true,
         setView: true,
-      // closePopupOnClick: true
       }).addTo(map);
     
      $scope.markerData = [];
@@ -206,16 +205,33 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
         $scope.markers.push(dataMarker); 
         }
+      $ionicModal.fromTemplateUrl('templates/add-popup.html', {
+        scope: $scope
+      }).then(function(eventModal) {
+        $scope.addEventModal = eventModal;
       });
 
+      $scope.addEvent = function() {
+        console.log('test');
+        $scope.addEventModal.show();
+      };
+
+      $scope.closeEvent = function() {
+        $scope.addEventModal.hide();
+      };
+
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
+        var html = '<span ng-click="addEvent()">Add Event Here</span>';
+        var newScope = $scope.$new(true);
+        newScope.addEvent = $scope.addEvent; 
+        console.log($compile(html)(newScope)[0]);
         var leafEvent = args.leafletEvent;
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
             lng: leafEvent.latlng.lng,
             message: "My Added Marker" 
         });
-          console.log($scope.markers);
+          $scope.addEvent();
  
       });
       L.control.locate({
@@ -253,36 +269,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       }).addTo(map);
      
     });
-     // var popup =
-     //    L.popup({
-     //      maxWidth: 300,
-     //      minWidth: 200,
-     //      maxHeight: 400,
-     //      autoPan: true,
-     //      closeButton: true,
-     //      offset: L.point(1000, 500)
-     //    })
-     //    .setLatLng($scope.location)
-     //    .setContent('<h2>Add Event</h2>' +
-     //                '<form>' +
-     //                  '<input type="text" name="title" placeholder="Title">' +
-     //                  '<input type="text" name="location" placeholder="Location">' +
-     //                  '<input type="text" name="date" placeholder="Date">' +
-     //                  '<input type="text" name="time" placeholder="Time">' +
-     //                  '<input type="file" name="img" multiple>' +
-     //                  '<textarea name="description" wrap="physical" width="200"></textarea>' +
-     //                '</form>' +
-     //                '<button action="">Delete</button>' +
-     //                '<button action="index" method="POST">ADD</button>');
-     // $scope.markers = [];
-     // $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-     //      var leafEvent = args.leafletEvent;
-     //      $scope.markers.push({
-     //          lat: leafEvent.latlng.lat,
-     //          lng: leafEvent.latlng.lng,
-     //          message: "My Added Marker" 
-     //      });
-     //  });
+    });
     //   function addMarker(e){
     //   var newMarker =
     //   new L.marker(e.latlng,{
