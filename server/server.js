@@ -228,7 +228,9 @@ app.put('/api/events/edit/:id', function(req, res){
     event.title = req.body.title;
     event.created_by = req.body.created_by;
     event.description = req.body.description;
-    event.start_date = moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate();
+    //TODO: on the client side update moment for start_time
+    event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
+    console.log(event.start_date);
     event.posts = req.body.posts;
 
     return event.save();

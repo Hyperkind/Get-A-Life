@@ -53,18 +53,18 @@ ngFB.init({ appId: '915050535282900' });
       }
     })
 
-  .state('app.event', {
-      url: '/event/:id',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/event.html',
-          controller: 'EventController'
-        }
-      }
-    })
+  // .state('app.event', {
+  //     url: '/events/:id',
+  //     views: {
+  //       'menuContent': {
+  //         templateUrl: 'templates/event.html',
+  //         controller: 'EventController'
+  //       }
+  //     }
+  //   })
 
-  .state('app.editEvent', {
-      url: '/event/:id/edit',
+  .state('app.editEvents', {
+      url: '/events/:id/edit',
       views: {
         'menuContent': {
           templateUrl: 'templates/edit-event.html',

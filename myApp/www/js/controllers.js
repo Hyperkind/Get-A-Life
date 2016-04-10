@@ -316,7 +316,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
     vm.title = null;
     vm.created_by = null;
     vm.description = null;
-    vm.start_time = null;
+    vm.start_date = null;
 
     EventFactory.getEventById($stateParams.id)
     .then(function(res){
@@ -325,17 +325,18 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       vm.title = event.title;
       vm.created_by = event.created_by;
       vm.description = event.description;
-      vm.start_time = event.start_time;
+      vm.start_date = event.start_date;
     });
     console.log('$stateParams', $stateParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
+
     vm.editingEvent = function(){
       console.log(vm.description);
       var data = {
         title: vm.title,
         created_by: vm.created_by,
         description: vm.description,
-        start_time: vm.start_time,
+        start_date: vm.start_date,
         };
       console.log('event', event);
       event.preventDefault();
@@ -344,7 +345,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       .then(function(editingEvent){
         console.log('returned edited event', editingEvent);
         console.log('stateParams.id', $stateParams.id);
-        $location.path('/event/' + $stateParams.id);
+        $location.path('/events');
       });
     };
   }
