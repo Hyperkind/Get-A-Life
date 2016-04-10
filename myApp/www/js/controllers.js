@@ -312,29 +312,38 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
   'EventFactory',
   '$location',
   function($scope, $stateParams, EventFactory, $location){
+    var vm = this;
+    vm.title = null;
+    vm.created_by = null;
+    vm.description = null;
+    vm.start_time = null;
+
     EventFactory.getEventById($stateParams.id)
     .then(function(res){
       var event = res.data;
 
-      $scope.title = event.title;
-      $scope.created_by = event.created_by;
-      $scope.description = event.description;
-      $scope.start_time = event.start_time;
+      vm.title = event.title;
+      vm.created_by = event.created_by;
+      vm.description = event.description;
+      vm.start_time = event.start_time;
     });
     console.log('$stateParams', $stateParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
-    $scope.editingEvent = function(event){
+    vm.editingEvent = function(){
+      console.log(vm.description);
       var data = {
-        title: $scope.title,
-        created_by: $scope.created_by,
-        description: $scope.description,
-        start_time: $scope.start_time,
+        title: vm.title,
+        created_by: vm.created_by,
+        description: vm.description,
+        start_time: vm.start_time,
         };
       console.log('event', event);
       event.preventDefault();
+      console.log('data', data);
       EventFactory.updateEvent(data, $stateParams.id)
       .then(function(editingEvent){
-        $location.path('/');
+        console.log('returned edited event', editingEvent);
+        $location.path('/event/' + $stateParams.id);
       });
     };
   }

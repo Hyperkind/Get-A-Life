@@ -221,6 +221,7 @@ app.get('/api/users/:id', function(req, res) {
 
 //RESEARCH: edit date, how to retain original date
 app.put('/api/events/edit/:id', function(req, res){
+  console.log('req.body', req.body);
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
   Event.findOne({ _id: eventId })
@@ -228,15 +229,14 @@ app.put('/api/events/edit/:id', function(req, res){
     event.title = req.body.title;
     event.created_by = req.body.created_by;
     event.description = req.body.description;
-    event.latitude = req.body.latitude;
-    event.longitude = req.body.longitude;
     event.start_date = req.body.start_date;
     event.posts = req.body.posts;
 
     return event.save();
   })
-  .then(function(){
-    res.send("This card " + eventId + " has been updated");
+  .then(function(event){
+    console.log('event', event);
+    res.json(event);
   });
 });
 
