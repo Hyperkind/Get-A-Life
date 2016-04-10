@@ -44,7 +44,7 @@ angular.module('starter.factories', ['starter.config'])
 
       updateEvent: function(data, id){
         return $http.put(
-          ENDPOINT + "/api/events/edit/" + id,
+          ENDPOINT + "/api/events/" + id,
           data
           ).then(function(res){
             return res.data;

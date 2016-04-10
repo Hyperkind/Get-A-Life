@@ -53,6 +53,16 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
       }
     })
 
+  .state('app.editEvents', {
+      url: '/events/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/edit-event.html',
+          controller: 'EditController as EditController'
+        }
+      }
+    })
+
   .state('app.map', {
     url: '/map',
     views: {
