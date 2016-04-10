@@ -221,8 +221,6 @@ app.get('/api/users/:id', function(req, res) {
 });
 
 //TODO: ajax request POST for Ben's setContent
-
-//RESEARCH: edit date, how to retain original date
 app.put('/api/events/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
@@ -232,6 +230,7 @@ app.put('/api/events/:id', function(req, res){
     event.created_by = req.body.created_by;
     event.description = req.body.description;
     //TODO: on the client side update moment for start_time
+    //NOTE: it's in UTC time, so one day ahead, to re-look at
     event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
     console.log(event.start_date);
     event.posts = req.body.posts;
