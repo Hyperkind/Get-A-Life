@@ -6,7 +6,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$timeout',
   '$http',
   'ENDPOINT',
-  function($scope, $ionicModal, $timeout, $http, ENDPOINT) {
+  'AuthService',
+  '$location',
+  function($scope, $ionicModal, $timeout, $http, ENDPOINT, AuthService, $location) {
 
   $scope.loginData = {};
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -23,25 +25,50 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     $scope.loginModal.hide();
   };
 
-  $scope.isLoggedIn = {};
+  // $scope.isLoggedIn = {};
+  // $scope.doLogin = function() {
+  //   console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+  //   $http.post(ENDPOINT + '/login', $scope.loginData)
+  //     .success(function(data) {
+  //       $scope.loginData = {};
+  //       $scope.todos = $scope.loginData;
+  //       $scope.isLoggedIn = data;
+  //       // StorageService.add(data);
+  //       console.log(data);
+  //       console.log('login successful');
+  //       // StorageService.getAll();
+  //     })
+  //     .error(function(data) {
+  //       console.log('Error: ' + $scope.loginData);
+  //     });
+  //   $timeout(function() {
+  //     $scope.closeLogin();
+  //   }, 1000);
+  // };
+
   $scope.doLogin = function() {
-    console.log("LOGIN - user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
-    $http.post(ENDPOINT + '/login', $scope.loginData)
-      .success(function(data) {
+    $scope.error = false;
+    $scope.disabled = true;
+
+    AuthService.login($scope.loginData.username, $scope.loginData.password)
+      .then(function() {
+        $location.path('/');
+        $scope.disabled = false;
         $scope.loginData = {};
-        $scope.todos = $scope.loginData;
-        $scope.isLoggedIn = data;
-        StorageService.add(data);
-        console.log(data);
-        console.log('login successful');
-        StorageService.getAll();
       })
-      .error(function(data) {
-        console.log('Error: ' + $scope.loginData);
+      .catch(function() {
+        $scope.error = true;
+        $scope.errorMessage = 'Invalid username and/or password';
+        $scope.disabled = false;
+        $scope.loginData = {};
       });
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  };
+
+  $scope.logout = function() {
+    AuthService.logout()
+      .then(function() {
+        $location.path('/login');
+      });
   };
 
   // $scope.things = StorageService.getAll();
@@ -61,20 +88,39 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     $scope.registerModal.hide();
   };
 
+  // $scope.newUser = function() {
+  //   console.log("REGISTER - user: " + $scope.registerData.username + " - PW: " + $scope.registerData.password);
+  //   $http.post(ENDPOINT + '/register', $scope.registerData)
+  //     .success(function(data) {
+  //       $scope.userData = {};
+  //       $scope.todos = $scope.userData;
+  //       console.log('new user created');
+  //     })
+  //     .error(function(data) {
+  //       console.log('Error: ' + $scope.userData);
+  //     });
+  //   $timeout(function() {
+  //     $scope.closeRegister();
+  //   }, 1000);
+  // };
+
   $scope.newUser = function() {
-    console.log("REGISTER - user: " + $scope.registerData.username + " - PW: " + $scope.registerData.password);
-    $http.post(ENDPOINT + '/register', $scope.registerData)
-      .success(function(data) {
-        $scope.userData = {};
-        $scope.todos = $scope.userData;
-        console.log('new user created');
+
+    $scope.error = false;
+    $scope.disabled = true;
+
+    AuthService.register($scope.registerData.username, $scope.registerData.password)
+      .then(function() {
+        $location.path('/login');
+        $scope.disabled = false;
+        $scope.registerData = {};
       })
-      .error(function(data) {
-        console.log('Error: ' + $scope.userData);
+      .catch(function() {
+        $scope.error = true;
+        $scope.errorMessage = "Something went wrong!";
+        $scope.disabled = false;
+        $scope.registerForm = {};
       });
-    $timeout(function() {
-      $scope.closeRegister();
-    }, 1000);
   };
 
   $ionicModal.fromTemplateUrl('templates/add-popup.html', {

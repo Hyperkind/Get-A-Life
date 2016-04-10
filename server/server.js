@@ -280,7 +280,9 @@ app.post('/login', function(req, res, next) {
         err: 'Could not log in user'
       });
     }
-    res.send({key: CONFIG.session.AUTH});
+    res.status(200).json({
+      status: 'Login successful!'
+    });
   });
   })(req, res, next);
 });

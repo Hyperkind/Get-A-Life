@@ -6,7 +6,15 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, AuthService, $rootScope) {
+
+  $rootScope.$on('$routeChangeStart',
+    function(event, next, current) {
+      if (AuthService.isLoggedIn() === false) {
+        $location.path('/login');
+
+      }
+    });
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -30,7 +38,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'AppCtrl',
+    access: {restricted: false}
   })
 
   .state('app.search', {
@@ -39,7 +48,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
       'menuContent': {
         templateUrl: 'templates/search.html'
       }
-    }
+    },
+    access: {restricted: false}
   })
 
   .state('app.events', {
@@ -49,7 +59,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
           templateUrl: 'templates/events.html',
           controller: 'EventController'
         }
-      }
+      },
+      access: {restricted: false}
     })
 
   .state('app.map', {
@@ -59,7 +70,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
         templateUrl: 'templates/map.html',
         controller: 'MapController'
       }
-    }
+    },
+    access: {restricted: false}
   })
 
   .state('app.user', {
@@ -69,7 +81,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
         templateUrl: 'templates/user.html',
         controller: 'UserController'
       }
-    }
+    },
+    access: {restricted: true}
   });
 
   // if none of the above states are matched, use this as the fallback

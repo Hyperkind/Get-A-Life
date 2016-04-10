@@ -77,22 +77,120 @@ angular.module('starter.factories', ['starter.config'])
   }
 ])
 
-// .factory('StorageService', function($localStorage) {
-//   var _getAll = function() {
-//     return $localStorage.things;
-//   };
+// .factory('localStorage', [
+//   '$window',
+//   '$localStorage',
+//   '$q',
+//   function($window, $localStorage, $q) {
+//     return {
+//       set: function(key, value) {
+//         var deferred = $q.defer();
+//         $window.localStorage[key] = value;
+//         deferred.resolve(1);
+//         return deferred.promise;
+//       },
+//       get: function(key, defaultValue) {
+//         return $window.localStorage[key] || defaultValue;
+//       },
+//       setObject: function(key, value) {
+//         $window.localStorage[key] = JSON.stringify(value);
+//       },
+//       getObject: function(key) {
+//         return JSON.parse($window.localStorage[key] || '{}');
+//       }
+//     };
+//   }
+// ]);
 
-//   var _add = function(thing) {
-//     $localStorage.things.push(thing);
-//   };
+.factory('AuthService', [
+  '$q',
+  '$timeout',
+  '$http',
+  'ENDPOINT',
+  function ($q, $timeout, $http, ENDPOINT) {
 
-//   var _remove = function(thing) {
-//     $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
-//   };
+  // create user variable
+  var user = null;
 
-//   return {
-//     getAll: _getAll,
-//     add: _add,
-//     remove: _remove
-//   };
-// });
+  // return available functions for use in the controllers
+  return ({
+    isLoggedIn: isLoggedIn,
+    getUserStatus: getUserStatus,
+    login: login,
+    logout: logout,
+    register: register
+  });
+
+  function isLoggedIn() {
+    if(user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function getUserStatus() {
+    return user;
+  }
+
+  function login(username, password) {
+
+  var deferred = $q.defer();
+
+  $http.post(ENDPOINT + '/login',
+    {username: username, password: password})
+    .success(function (data, status) {
+      console.log('login successful');
+      if(status === 200 && data.status){
+        user = true;
+        deferred.resolve();
+      } else {
+        user = false;
+        deferred.reject();
+      }
+    })
+    .error(function (data) {
+      user = false;
+      deferred.reject();
+    });
+    return deferred.promise;
+
+  }
+
+  function logout() {
+
+  var deferred = $q.defer();
+
+  $http.get(ENDPOINT + '/logout')
+    .success(function (data) {
+      console.log('logged out');
+      user = false;
+      deferred.resolve();
+    })
+    .error(function (data) {
+      user = false;
+      deferred.reject();
+    });
+  return deferred.promise;
+  }
+
+  function register(username, password) {
+
+  var deferred = $q.defer();
+
+  $http.post(ENDPOINT + '/register',
+    {username: username, password: password})
+    .success(function (data, status) {
+      if(status === 200 && data.status){
+        deferred.resolve();
+      } else {
+        deferred.reject();
+      }
+    })
+    .error(function (data) {
+      deferred.reject();
+    });
+  return deferred.promise;
+}
+
+}]);
