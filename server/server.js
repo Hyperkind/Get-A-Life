@@ -160,7 +160,6 @@ app.get('/api/events', function(req, res) {
       res.send("error error");
     }
     res.json(events);
-    console.log(req.query);
   });
 });
 
@@ -229,7 +228,7 @@ app.put('/api/events/edit/:id', function(req, res){
     event.title = req.body.title;
     event.created_by = req.body.created_by;
     event.description = req.body.description;
-    event.start_date = req.body.start_date;
+    event.start_date = moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate();
     event.posts = req.body.posts;
 
     return event.save();

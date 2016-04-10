@@ -1,8 +1,9 @@
 <ion-view view-title="Events">
   <ion-content>
     <h1>Events</h1>
+    <p>(Click in an event to edit)</p>
       <ion-list>
-        <ion-item href="/#/app/events/{{event._id}}/edit" ng-repeat="event in events | filter: {created_by: '' } | orderBy: '+start_time'">
+        <ion-item href="/#/app/event/{{event._id}}/edit" ng-repeat="event in events | filter: {created_by: '' } | orderBy: '+start_time'">
           <p>Event Title: {{ event.title }}</p>
           <p>Created By: {{ event.created_by }}</p>
           <p>Description: {{ event.description }}</p>
@@ -11,7 +12,6 @@
           <p>Start Date: {{ event.start_date }}</p>
 
           <button type="submit" ng-click="remove(event)">Delete Event</button>
-          <a href="/#/app/events/{{event._id}}/edit">Edit Event</a>
         </ion-item>
       </ion-list>
   </ion-content>

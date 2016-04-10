@@ -343,6 +343,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
       EventFactory.updateEvent(data, $stateParams.id)
       .then(function(editingEvent){
         console.log('returned edited event', editingEvent);
+        console.log('stateParams.id', $stateParams.id);
         $location.path('/event/' + $stateParams.id);
       });
     };
