@@ -69,16 +69,16 @@ passport.use(new localStrategy (
     return User.findOne({
       username: username
     })
-    .then(function (user) {
-      console.log("user test", user);
-      if (user.password !== password) {
-        return done(null, false);
-      }
-      return done(null, user);
-    })
-    .catch(function (err) {
-      return done(null, false);
-    });
+      .then(function (user) {
+        console.log("user test", user);
+        if (user.password !== password) {
+          return done(null, false);
+        }
+        return done(null, user);
+      })
+        .catch(function (err) {
+          return done(null, false);
+        });
   })
 );
 
@@ -144,11 +144,11 @@ passport.use(new localStrategy (
 //   }
 // ));
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function(user, done) {
   return done(null, user.id);
 });
 
-passport.deserializeUser(function (userId, done) {
+passport.deserializeUser(function(userId, done) {
   User.findById(userId)
     .then(function(userId) {
       if (!userId) {
@@ -185,18 +185,79 @@ app.route('/api/events')
     });
   });
 
-app.get('/api/events/:id', function(req, res){
-  var eventId = req.params.id;
-  Event.findById(eventId, function(err, event){
-    if(err){
-      console.log(eventId + ' is not a valid ID');
-      throw err;
-    }
+// app.get('/api/events/:id', function(req, res){
+//   var eventId = req.params.id;
+//   Event.findById(eventId, function(err, event){
+//     if(err){
+//       console.log(eventId + ' is not a valid ID');
+//       throw err;
+//     }
+//   })
+//   .then(function(event){
+//     res.json(event);
+//   });
+// });
+
+//TODO: ajax request POST for Ben's setContent
+// app.put('/api/events/:id', function(req, res){
+//   var eventId = req.params.id;
+//   console.log('eventId in PUT', eventId);
+//   Event.findOne({ _id: eventId })
+//   .then(function(event){
+//     event.title = req.body.title;
+//     event.created_by = req.body.created_by;
+//     event.description = req.body.description;
+//     event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
+//     console.log(event.start_date);
+//     event.posts = req.body.posts;
+
+//     return event.save();
+//   })
+//     .then(function(event){
+//       console.log('event', event);
+//       res.json(event);
+//     });
+// });
+
+app.route('/api/events/:id')
+  .get(function(req, res) {
+    var eventId = req.params.id;
+    Event.findById(eventId, function(err, event) {
+      if (err) {
+        console.log(eventId + ' is not a valid ID');
+        throw err;
+      }
+    })
+      .then(function(event) {
+        res.json(event);
+      });
   })
-  .then(function(event){
-    res.json(event);
+  .put(isAuthenticated, function(req, res) {
+    var eventId = req.params.id;
+    console.log('eventId in PUT', eventId);
+    Event.findOne({ _id: eventId })
+      .then(function(event) {
+        event.title = req.body.title;
+        event.created_by = req.body.created_by;
+        event.category = req.body.category;
+        event.description = req.body.description;
+        event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
+      })
+        .then(function(event) {
+          console.log('event', event);
+          res.json(event);
+        });
+  })
+  .delete(function(req, res) {
+    var eventId = req.params.id;
+    console.log('eventId', eventId);
+    Event.findByIdAndRemove({
+      _id: eventId
+    }).then(function(event){
+      res.send("This event " + eventId + " has been deleted");
+    });
   });
-});
+
 
 app.get('/api/users', isAuthenticated, function(req, res) {
   User.find({}, function(err, users) {
@@ -220,38 +281,16 @@ app.get('/api/users/:id', function(req, res) {
   });
 });
 
-//TODO: ajax request POST for Ben's setContent
-app.put('/api/events/:id', function(req, res){
-  var eventId = req.params.id;
-  console.log('eventId in PUT', eventId);
-  Event.findOne({ _id: eventId })
-  .then(function(event){
-    event.title = req.body.title;
-    event.created_by = req.body.created_by;
-    event.description = req.body.description;
-    //TODO: on the client side update moment for start_time
-    //NOTE: it's in UTC time, so one day ahead, to re-look at
-    event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
-    console.log(event.start_date);
-    event.posts = req.body.posts;
 
-    return event.save();
-  })
-  .then(function(event){
-    console.log('event', event);
-    res.json(event);
-  });
-});
-
-app.delete('/api/events/delete/:id', function(req, res){
-  var eventId = req.params.id;
-  console.log('eventId', eventId);
-  Event.findByIdAndRemove({
-    _id: eventId
-  }).then(function(event){
-    res.send("This event " + eventId + " has been deleted");
-  });
-});
+// app.delete('/api/events/delete/:id', function(req, res){
+//   var eventId = req.params.id;
+//   console.log('eventId', eventId);
+//   Event.findByIdAndRemove({
+//     _id: eventId
+//   }).then(function(event){
+//     res.send("This event " + eventId + " has been deleted");
+//   });
+// });
 
 app.post('/register', function(req, res) {
   var newUser = new User ({

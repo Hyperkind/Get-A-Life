@@ -54,11 +54,10 @@ angular.module('starter.factories', ['starter.config'])
       deleteEvent: function(data, id){
         console.log('Deleted event id ' + id);
         return $http.delete(
-          ENDPOINT + "/api/events/delete/" + id,
+          ENDPOINT + "/api/events/" + id,
           data
         );
       },
-
     };
   }
 ])
@@ -90,23 +89,3 @@ angular.module('starter.factories', ['starter.config'])
     };
   }
 ]);
-
-// .factory('StorageService', function($localStorage) {
-//   var _getAll = function() {
-//     return $localStorage.things;
-//   };
-
-//   var _add = function(thing) {
-//     $localStorage.things.push(thing);
-//   };
-
-//   var _remove = function(thing) {
-//     $localStorage.things.splice($localStorage.things.indexOf(thing), 1);
-//   };
-
-//   return {
-//     getAll: _getAll,
-//     add: _add,
-//     remove: _remove
-//   };
-// });
