@@ -2,18 +2,20 @@
   <ion-content>
     <h1>Events</h1>
       <ion-list>
-        <ion-item ng-repeat="event in events | filter: {created_by: '' } | orderBy: '+start_time'">
+        <ion-item ng-repeat="event in events | orderBy: '+start_time'">
           <p>Event Title: {{ event.title }}</p>
+          <p>Category: {{ event.category }}</p>
           <p>Created By: {{ event.created_by }}</p>
           <p>Description: {{ event.description }}</p>
           <p>Latitude: {{ event.latitude }}</p>
           <p>Longitude: {{ event.longitude }}</p>
           <p>Start Date: {{ event.start_date }}</p>
-
+          <p>Address: {{ event.address }}</p>
+          <p>City: {{ event.city }}</p>
+          <p>Zip: {{ event.zip }}</p>
           <button type="submit" ng-click="remove(event)">Delete Event</button>
           <a href="/#/{{event._id}}/edit">Edit Event</a>
         </ion-item>
       </ion-list>
   </ion-content>
 </ion-view>
-
