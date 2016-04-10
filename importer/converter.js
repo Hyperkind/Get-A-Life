@@ -1,6 +1,6 @@
 var tktMstr = require('../tktMstrData');
 var mongoose = require('mongoose');
-var CONFIG = require('../public/config');
+var CONFIG = require('../server/config');
 var moment = require('moment');
 
 var geocoderProvider = 'google';
@@ -25,6 +25,10 @@ var start_date;
 var latitude;
 var longitude;
 var address;
+var city;
+var zip;
+var category;
+var venue_name;
 var eventObjArr = [];
 
 // var date = moment(start_date + ' ' + start_time).toDate();
@@ -36,14 +40,18 @@ for (var i = 0; i < tktMstr.length; i++) {
   var venue = tktMstr[i]._embedded.venue;
   title = tktMstr[i].name;
   created_by = 'TicketMaster';
+  category = tktMstr[i]._embedded.categories[0].name;
   date = tktMstr[i].dates.start.localDate;
   time = tktMstr[i].dates.start.localTime;
   start_date = moment(date + ' ' + time).toDate();
   latitude = venue[0].location.latitude;
   longitude = venue[0].location.longitude;
+  venue_name = venue[0].name;
   address = venue[0].address.line1;
+  city = venue[0].city.name;
+  zip = venue[0].postalCode;
 
-  eventObjArr.push(fetchGeoCodeLocation(title, created_by, start_date, latitude, longitude, address, i));
+  eventObjArr.push(fetchGeoCodeLocation(title, created_by, category, start_date, latitude, longitude, venue_name, address, city, zip, i));
 
 }
 console.log(eventObjArr);
@@ -72,7 +80,7 @@ Promise.all(eventObjArr)
 //         console.log(err);
 //     });
 
-function fetchGeoCodeLocation (title, created_by, start_date, latitude, longitude, address, i) {
+function fetchGeoCodeLocation (title, created_by, category, start_date, latitude, longitude, venue_name, address, city, zip, i) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
       geocoder.geocode(address + ' Hawaii',
@@ -88,8 +96,12 @@ function fetchGeoCodeLocation (title, created_by, start_date, latitude, longitud
             eventObj = {
               title: title,
               created_by: created_by,
+              category: category,
               start_date: start_date,
+              venue_name: venue_name,
               address: address,
+              city: city,
+              zip: zip,
               latitude: null,
               longitude: null
             };
@@ -97,13 +109,17 @@ function fetchGeoCodeLocation (title, created_by, start_date, latitude, longitud
             eventObj = {
               title: title,
               created_by: created_by,
+              category: category,
               start_date: start_date,
+              venue_name: venue_name,
               address: address,
+              city: city,
+              zip: zip,
               latitude: res[0].latitude,
               longitude: res[0].longitude
             };
           }
-          console.log('test', title);
+          // console.log('test', title);
           return resolve(eventObj);
         });
     }, 200 * i);
