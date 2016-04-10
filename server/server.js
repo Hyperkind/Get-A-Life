@@ -20,6 +20,7 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
+  description: String,
   start_date: Date,
   latitude: Number,
   longitude: Number,
@@ -220,8 +221,6 @@ app.get('/api/users/:id', function(req, res) {
 });
 
 //TODO: ajax request POST for Ben's setContent
-
-//RESEARCH: edit date, how to retain original date
 app.put('/api/events/:id', function(req, res){
   var eventId = req.params.id;
   console.log('eventId in PUT', eventId);
@@ -230,15 +229,17 @@ app.put('/api/events/:id', function(req, res){
     event.title = req.body.title;
     event.created_by = req.body.created_by;
     event.description = req.body.description;
-    event.latitude = req.body.latitude;
-    event.longitude = req.body.longitude;
-    event.start_date = req.body.start_date;
+    //TODO: on the client side update moment for start_time
+    //NOTE: it's in UTC time, so one day ahead, to re-look at
+    event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
+    console.log(event.start_date);
     event.posts = req.body.posts;
 
     return event.save();
   })
-  .then(function(){
-    res.send("This card " + eventId + " has been updated");
+  .then(function(event){
+    console.log('event', event);
+    res.json(event);
   });
 });
 
