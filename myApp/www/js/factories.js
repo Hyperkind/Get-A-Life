@@ -77,6 +77,20 @@ angular.module('starter.factories', ['starter.config'])
   }
 ])
 
+.factory('FilterFactory', [
+  function() {
+    var filter = 0;
+    return {
+      getFilter: function() {
+        return filter;
+      },
+      setFilter: function(value) {
+        filter = value;
+      }
+    };
+  }
+]);
+
 // .factory('StorageService', function($localStorage) {
 //   var _getAll = function() {
 //     return $localStorage.things;

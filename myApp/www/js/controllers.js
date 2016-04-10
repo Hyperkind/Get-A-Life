@@ -302,6 +302,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       console.log($scope.user);
     });
   }
+])
+
+.controller('ListCtrl', [
+  '$scope',
+  '$http',
+  function($scope, $http) {
+    EventFactory.getEvents()
+      .success(function(data) {
+        $scope.events = data;
+      });
+  }
 ]);
 
   // $scope.markers = new Array();

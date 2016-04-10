@@ -37,7 +37,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     url: '/search',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/search.html',
+        controller: 'EventController'
       }
     }
   })
