@@ -199,7 +199,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
             lat: $scope.markerData[i].latitude,
             lng: $scope.markerData[i].longitude,
             message: $scope.markerData[i].title + 
-                     $scope.markerData[i].address
+                     $scope.markerData[i].address +
+                     $scope.markerData[i].description
           
           };
 
@@ -218,6 +219,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories', 'ngOpe
 
       $scope.closeEvent = function() {
         $scope.addEventModal.hide();
+
       };
 
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
