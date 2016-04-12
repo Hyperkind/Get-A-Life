@@ -269,10 +269,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$location',
   function($scope, $stateParams, EventFactory, $location){
     var vm = this;
-    vm.title = null;
-    vm.created_by = null;
-    vm.description = null;
-    vm.start_date = null;
 
     EventFactory.getEventById($stateParams.id)
     .then(function(res){
@@ -301,7 +297,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       .then(function(editingEvent){
         console.log('returned edited event', editingEvent);
         console.log('stateParams.id', $stateParams.id);
-        $location.path('/events');
+        console.log('location', $location);
+        $location.path('/app/events');
       });
     };
   }

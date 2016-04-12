@@ -75,7 +75,7 @@ angular.module('starter.factories', ['starter.config'])
       }
     };
   }
-])
+]);
 
 // .factory('StorageService', function($localStorage) {
 //   var _getAll = function() {
