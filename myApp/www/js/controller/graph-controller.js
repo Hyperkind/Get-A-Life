@@ -3,19 +3,22 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
 .controller('GraphController', [
   '$scope',
   'EventFactory',
-  '$http',
-  'ENDPOINT',
-  function($scope, EventFactory, $http, ENDPOINT){
+  function($scope, EventFactory){
     $scope.events = [];
+    console.log('category', $scope.category);
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
-      console.log('$scope.events', $scope.events);
+      //accessing array of objects
+      console.log('$scope.events', $scope.events[0].category);
+      function filterByCategory(obj){
+        if('category' in obj === 'Music' || 'Miscellaneous' || 'Arts & Theatre'){
+          return true;
+        }
+      }
+      var categoryArr = $scope.events.filter(filterByCategory);
+      console.log('categoryArr', categoryArr);
     });
-
-    var data = {
-      category: $scope.category
-    };
 
   $scope.options = {
             chart: {
