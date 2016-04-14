@@ -171,14 +171,20 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         zoom: 18
       }
     });
+    $scope.layers = {
+         baselayers: {
+            stamen_toner: {
+                name: 'Main',
+                url: 'http://tile.stamen.com/toner/{z}/{x}/{y}.png',
+                type: 'xyz'
+            }
+
+        } 
+    };
     // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png
   //'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png'
     leafletData.getMap().then(function(map) {
-      // L.control.layers({
-      //   'toner': L.tileLayer('http:c.tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}')
-
-      // }).addToMap;
-     L.tileLayer('http://c.tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
+       $scope.baseLayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         attributionControl: true, 
         maxZoom: 18,
@@ -189,6 +195,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         trackResize: true,
         setView: true,
       }).addTo(map);
+
      $scope.markerData = [];
      $scope.markers = [];
    
@@ -223,14 +230,23 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         
         // console.log(bluenote);
 
-        //  overlayMaps = {
-        //   "All": allM ,
-        //   "Blue Note": bluenote
-        // };
+         overlayMaps = {
+          "All": allM ,
+          "Blue Note": bluenote
+        };
         
       // L.control.layers(null, overlayMaps).addTo(map);
     
       //   console.log(allM);
+      var layer = L.TileLayer.maskCanvas({
+       radius: 5,  // radius in pixels or in meters (see useAbsoluteRadius)
+       useAbsoluteRadius: true,  // true: r in meters, false: r in pixels
+       color: '#000',  // the color of the layer
+       opacity: 0.5,  // opacity of the not covered area
+       noMask: false,  // true results in normal (filled) circled, instead masked circles
+       lineColor: '#A00'   // color of the circle outline if noMask is true
+
+});
     });
     
 
