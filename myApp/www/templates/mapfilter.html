@@ -1,0 +1,39 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Filter Events</h1>
+    <button class="button button-clear button-primary" ng-click="closeFilter()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <form ng-submit="closeFilter()">
+      <div class="list">
+
+        <label class="item item-input">
+          <span class="input-label">Date</span>
+          <input ng-model="newEvent.date" type="date">
+        </label>
+        <div class="list">
+        <nav class='menu-ui'>
+          <a href='#' class='active' data-filter='all'>Show all</a>
+          <a href='#' data-filter='venue_name'>Venue</a>
+          
+        </nav>
+
+<!--           <label class="item item-input item-select">
+            <div class="input-label">
+              Location
+            </div>
+            <select>
+              <option>Blue</option>
+              <option selected>Green</option>
+              <option>Red</option>
+            </select>
+          </label>
+        </div> -->
+      
+      
+
+        <button class="button button-block button-positive" type="done">DONE</button>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

@@ -2,12 +2,14 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 .controller('AppCtrl', [
   '$scope',
+  '$filter',
   '$ionicModal',
   '$timeout',
   '$http',
   'ENDPOINT',
-  function($scope, $ionicModal, $timeout, $http, ENDPOINT) {
+  function($scope, $filter,$ionicModal, $timeout, $http, ENDPOINT) {
   $scope.loginData = {};
+   // console.log($scope.markerData);
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
   }).then(function(loginModal) {
@@ -76,6 +78,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     }, 1000);
   };
 
+    //add event modal on marker click
   $ionicModal.fromTemplateUrl('templates/add-popup.html', {
     scope: $scope
   }).then(function(eventModal) {
@@ -89,6 +92,20 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   $scope.closeEvent = function() {
     $scope.addEventModal.hide();
   };
+    //toggle filter modal
+  // $ionicModal.fromTemplateUrl('templates/mapfilter.html', {
+  //   scope: $scope
+  // }).then(function(filterModal) {
+  //   $scope.openFilterModal = filterModal;
+  // });
+
+  // $scope.openFilter = function() {
+  //   $scope.openFilterModal.show();
+  // };
+
+  // $scope.closeFilter = function() {
+  //   $scope.openFilterModal.hide();
+  // };
 
   $scope.newEvent = {};
   $scope.doEvent = function() {
@@ -139,36 +156,42 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 }])
 
 
-
+//main map controller
 .controller('MapController', [
   '$scope',
+  'filterFilter',
   '$compile',
   '$ionicModal',
   'EventFactory',
   'leafletData',
-  function  ($scope, $compile, $ionicModal, EventFactory, leafletData) {
+  function  ($scope, filterFilter,$compile, $ionicModal, EventFactory, leafletData) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
         zoom: 18
       }
     });
-  
+    // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png
+  //'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png'
     leafletData.getMap().then(function(map) {
-      L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
+      // L.control.layers({
+      //   'toner': L.tileLayer('http:c.tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}')
+
+      // }).addToMap;
+     L.tileLayer('http://c.tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         attributionControl: true, 
         maxZoom: 18,
-        id: 'mapbox.streets',
+        // id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
         continuousWorld: false,
         noWrap: true,
         trackResize: true,
         setView: true,
       }).addTo(map);
-    
      $scope.markerData = [];
      $scope.markers = [];
+   
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {
         $scope.markerData = events.data;
@@ -191,22 +214,27 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
         $scope.markers.push(dataMarker); 
         }
-      $ionicModal.fromTemplateUrl('templates/add-popup.html', {
-        scope: $scope
-      }).then(function(eventModal) {
-        $scope.addEventModal = eventModal;
-      });
+        console.log($scope.markerData);
+        $scope.allMarkers = $scope.markers;
+        $scope.blueNote = filterFilter($scope.allMarkers, {venue_name:"Blue Note Hawaii"});
 
-      $scope.addEvent = function() {
-        console.log('test');
-        $scope.addEventModal.show();
-      };
+        var allM = L.layerGroup($scope.allMarkers);
+        var bluenote = L.layerGroup($scope.blueNote);
+        
+        // console.log(bluenote);
 
-      $scope.closeEvent = function() {
-        $scope.addEventModal.hide();
+        //  overlayMaps = {
+        //   "All": allM ,
+        //   "Blue Note": bluenote
+        // };
+        
+      // L.control.layers(null, overlayMaps).addTo(map);
+    
+      //   console.log(allM);
+    });
+    
 
-      };
-
+        //adds markers
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
         var html = '<span ng-click="addEvent()">Add Event Here</span>';
         var newScope = $scope.$new(true);
@@ -216,8 +244,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
             lng: leafEvent.latlng.lng,
-            message: "My Added Marker" 
+            message: "My Added Marker"
         });
+
           $scope.addEvent();
  
       });
@@ -254,49 +283,13 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           },
           locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
       }).addTo(map);
+  
      
     });
-    });
-    //   function addMarker(e){
-    //   var newMarker =
-    //   new L.marker(e.latlng,{
-    //     clickable: true,
-    //     draggable: true,
-    //     riseOnHover: true,
-    //     riseOffset: 100
-    //     }).addTo(map);
-    //   newMarker.on('dragend', function(event){
-    //     var changePos = event.target.getLatLng();
-    //     console.log(changePos);
-    //   });
-    //   var popup =
-    //     L.popup({
-    //       maxWidth: 300,
-    //       minWidth: 200,
-    //       maxHeight: 400,
-    //       autoPan: true,
-    //       closeButton: true,
-    //       offset: L.point(1000, 500)
-    //     })
-    //     .setLatLng(e.latlng)
-    //     .setContent('<h2>Add Event</h2>' +
-    //                 '<form>' +
-    //                   '<input type="text" name="title" placeholder="Title">' +
-    //                   '<input type="text" name="location" placeholder="Location">' +
-    //                   '<input type="text" name="date" placeholder="Date">' +
-    //                   '<input type="text" name="time" placeholder="Time">' +
-    //                   '<input type="file" name="img" multiple>' +
-    //                   '<textarea name="description" wrap="physical" width="200"></textarea>' +
-    //                 '</form>' +
-    //                 '<button action="">Delete</button>' +
-    //                 '<button action="index" method="POST">ADD</button>');
-    //   newMarker.bindPopup(popup);
-    // }
-
-
-
+  
 }])
 
+    
 
   //event controller accesing tcktmaster and eventbrite
 
@@ -306,6 +299,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   'EventFactory',
   function ($scope, EventFactory){
     $scope.events = [];
+    console.log($scope.events);
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
@@ -329,6 +323,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           $scope.created_by = '';
           $scope.description = '';
           $scope.start_date = '';
+          $scope.latitude = '';
+          $scope.longitude = '';
         });
       }
     };
