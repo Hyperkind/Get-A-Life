@@ -5,6 +5,7 @@
         <ion-item ng-repeat="event in events | filter: {created_by: '' } | orderBy: '+start_time'">
           <p>Event Title: {{ event.title }}</p>
           <p>Created By: {{ event.created_by }}</p>
+          <p>Category: {{ event.category }}</p>
           <p>Description: {{ event.description }}</p>
           <p>Latitude: {{ event.latitude }}</p>
           <p>Longitude: {{ event.longitude }}</p>

@@ -25,7 +25,7 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
         $scope.data = [
             {
                 key: "One",
-                y: 5
+                y: 20
             },
             {
                 key: "Two",
@@ -49,7 +49,7 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
             },
             {
                 key: "Seven",
-                y: .5
+                y: 5
             }
         ];
     });

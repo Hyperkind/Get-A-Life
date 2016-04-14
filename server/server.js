@@ -20,6 +20,7 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
+  categroy: String,
   description: String,
   start_date: Date,
   latitude: Number,
@@ -172,6 +173,7 @@ app.route('/api/events')
     var newEvent = new Event({
       title: req.body.title,
       created_by: req.body.created_by,
+      category: req.body.category,
       description: req.body.description,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
@@ -227,6 +229,7 @@ app.put('/api/events/:id', function(req, res){
   .then(function(event){
     event.title = req.body.title;
     event.created_by = req.body.created_by;
+    event.category = req.body.category;
     event.description = req.body.description;
     //TODO: on the client side update moment for start_time
     //NOTE: it's in UTC time, so one day ahead, to re-look at

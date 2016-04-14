@@ -160,6 +160,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 // }).addTo(map);
 
       $scope.markerData = [];
+      console.log('markerData', markerData);
       $scope.markers = [];
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {
@@ -228,6 +229,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         var data = {
           title: $scope.title,
           created_by: $scope.created_by,
+          category: $scope.category,
           description: $scope.description,
           start_date: $scope.start_date,
         };
@@ -237,6 +239,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           $scope.events = $scope.events.concat(newEvent.data);
           $scope.title = '';
           $scope.created_by = '';
+          $scope.category = '';
           $scope.description = '';
           $scope.start_date = '';
         });
@@ -276,6 +279,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
       vm.title = event.title;
       vm.created_by = event.created_by;
+      vm.category = event.category;
       vm.description = event.description;
       vm.start_date = event.start_date;
     });
@@ -287,6 +291,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       var data = {
         title: vm.title,
         created_by: vm.created_by,
+        category: vm.category,
         description: vm.description,
         start_date: vm.start_date,
         };
