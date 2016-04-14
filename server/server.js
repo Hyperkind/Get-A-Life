@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
-  categroy: String,
+  category: String,
   description: String,
   start_date: Date,
   latitude: Number,

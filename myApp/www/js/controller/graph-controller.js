@@ -24,32 +24,16 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
 
         $scope.data = [
             {
-                key: "One",
-                y: 20
+                key: "Music",
+                y: 60
             },
             {
-                key: "Two",
-                y: 2
+                key: "Arts & Theatre",
+                y: 30
             },
             {
-                key: "Three",
-                y: 9
-            },
-            {
-                key: "Four",
-                y: 7
-            },
-            {
-                key: "Five",
-                y: 4
-            },
-            {
-                key: "Six",
-                y: 3
-            },
-            {
-                key: "Seven",
-                y: 5
+                key: "Miscellaneous",
+                y: 10
             }
         ];
     });
