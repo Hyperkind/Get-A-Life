@@ -1,6 +1,22 @@
 angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
 
-.controller('GraphController', function($scope){
+.controller('GraphController', [
+  '$scope',
+  'EventFactory',
+  '$http',
+  'ENDPOINT',
+  function($scope, EventFactory, $http, ENDPOINT){
+    $scope.events = [];
+    EventFactory.getEvents()
+    .then(function(events){
+      $scope.events = events.data;
+      console.log('$scope.events', $scope.events);
+    });
+
+    var data = {
+      category: $scope.category
+    };
+
   $scope.options = {
             chart: {
                 type: 'pieChart',
@@ -25,7 +41,7 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
         $scope.data = [
             {
                 key: "Music",
-                y: 60
+                y: 60,
             },
             {
                 key: "Arts & Theatre",
@@ -36,4 +52,5 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
                 y: 10
             }
         ];
-    });
+    }
+    ]);
