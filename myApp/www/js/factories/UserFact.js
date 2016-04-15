@@ -1,6 +1,6 @@
-angular.module('starter.factories', ['starter.config'])
+angular.module('user.factories', ['starter.config'])
 
-.factory('UserFactory', [
+.factory('UserFact', [
   '$http',
   'ENDPOINT',
   function($http, ENDPOINT) {

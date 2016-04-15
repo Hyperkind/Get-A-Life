@@ -34,7 +34,7 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
       views: {
         'menuContent': {
           templateUrl: 'templates/events.html',
-          controller: 'EventController'
+          controller: 'EventCtrl'
         }
       }
     })
@@ -75,7 +75,7 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
     views: {
       'menuContent': {
         templateUrl: 'templates/user.html',
-        controller: 'UserController'
+        controller: 'UserCtrl'
       }
     }
   });

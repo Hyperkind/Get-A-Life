@@ -2,7 +2,7 @@ angular.module('user.controller', ['ui-leaflet', 'starter.factories'])
 
 .controller('UserCtrl', [
   '$scope',
-  'UserFactory',
+  'UserFact',
   function($scope, UserFactory) {
     $scope.user = [];
     UserFactory.getUser()
