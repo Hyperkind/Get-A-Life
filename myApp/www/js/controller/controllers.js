@@ -188,9 +188,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               name: 'Toner',
               url: 'http://tile.stamen.com/toner/{z}/{x}/{y}.png',
               type: 'xyz'
-              
+
           }
-                 
+
         }
     };
     $scope.markerData = [];
@@ -201,7 +201,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     leafletData.getMap().then(function(map) {
        $scope.baseLayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-        attributionControl: true, 
+        attributionControl: true,
         maxZoom: 18,
         // id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
@@ -213,37 +213,37 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 
        L.control.locate({
-          position: 'topright',  // set the location of the control 
-          layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
-          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
-          follow: true,  // follow the user's location 
-          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
-          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
-          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
-          remainActive: true, // if true locate control remains active on click even if the user's location is in view. 
-          markerClass: L.circleMarker, // L.circleMarker or L.marker 
-          circleStyle: {},  // change the style of the circle around the user's location 
+          position: 'topright',  // set the location of the control
+          layer: undefined,  // use your own layer for the location marker, creates a new layer by default
+          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
+          follow: true,  // follow the user's location
+          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true
+          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom)
+          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below)
+          remainActive: true, // if true locate control remains active on click even if the user's location is in view.
+          markerClass: L.circleMarker, // L.circleMarker or L.marker
+          circleStyle: {},  // change the style of the circle around the user's location
           markerStyle: {},
-          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following 
+          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
           followMarkerStyle: {},
-          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker 
-          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon 
-          iconElementTag: 'span',  // tag for the icon element, span or i 
-          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
-          metric: true,  // use metric or imperial units 
-          // onLocationError: function(err) {alert(err.message)},  // define an error callback function 
-          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
+          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
+          iconElementTag: 'span',  // tag for the icon element, span or i
+          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
+          metric: true,  // use metric or imperial units
+          // onLocationError: function(err) {alert(err.message)},  // define an error callback function
+          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries
           //         alert(context.options.strings.outsideMapBoundsMsg);
           // },
-          showPopup: true, // display a popup when the user click on the inner marker 
+          showPopup: true, // display a popup when the user click on the inner marker
           strings: {
-              title: "Show me where I am",  // title of the locate control 
-              metersUnit: "meters", // string for metric units 
-              feetUnit: "feet", // string for imperial units 
-              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle 
-              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds 
+              title: "Show me where I am",  // title of the locate control
+              metersUnit: "meters", // string for metric units
+              feetUnit: "feet", // string for imperial units
+              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
           },
-          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
+          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
         }).addTo(map);
 
       var heatArray = [];
@@ -257,17 +257,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           var dataMarker = {
             lat: $scope.markerData[i].latitude,
             lng: $scope.markerData[i].longitude,
-            message: $scope.markerData[i].title + 
+            message: $scope.markerData[i].title +
                      // $scope.markerData[i].location_name +
                      $scope.markerData[i].venue_name +
                      $scope.markerData[i].address +
                      $scope.markerData[i].city+
                      $scope.markerData[i].zip+
-                     $scope.markerData[i].category 
+                     $scope.markerData[i].category
                      // $scope.markerData[i].post
           };
           //points are the data fed into the heat map [lat, lng, intensity]
-        $scope.markers.push(dataMarker); 
+        $scope.markers.push(dataMarker);
         var points = [$scope.markerData[i].latitude, $scope.markerData[i].longitude];
           if(points.every(Number)) {
             heatArray.push(points);
@@ -275,7 +275,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           }
         }
         console.log(heatArray);
-        
+
         $scope.layers.overlays =  {
             heat: {
               name:'Heat Map',
@@ -288,7 +288,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
 
         };
-    
+
       });
     //data needs and array of arrays [[lat, lng]]
 
@@ -297,7 +297,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
         var html = '<span ng-click="addEvent()">Add Event Here</span>';
         var newScope = $scope.$new(true);
-        newScope.addEvent = $scope.addEvent; 
+        newScope.addEvent = $scope.addEvent;
         console.log($compile(html)(newScope)[0]);
         var leafEvent = args.leafletEvent;
         $scope.markers.push({
@@ -309,7 +309,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
       $scope.addEvent();
       });
-  
+
   });
 }])
 //event controller accesing tcktmaster and eventbrite
@@ -324,6 +324,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     $scope.register = {};
     $scope.register.defaultValue = "Select All";
     EventFactory.getEvents()
+
       .then(function(events){
         $scope.events = events.data;
         $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
@@ -344,7 +345,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           }
         };
 
-
         console.log('res', $scope.eventLists.categories);
       });
 
@@ -363,6 +363,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           $scope.events = $scope.events.concat(newEvent.data);
           $scope.title = '';
           $scope.created_by = '';
+          $scope.category = '';
           $scope.description = '';
           $scope.start_date = '';
           $scope.latitude = '';
@@ -409,10 +410,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$location',
   function($scope, $stateParams, EventFactory, $location){
     var vm = this;
-    vm.title = null;
-    vm.created_by = null;
-    vm.description = null;
-    vm.start_date = null;
 
     EventFactory.getEventById($stateParams.id)
       .then(function(res){
@@ -431,6 +428,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       var data = {
         title: vm.title,
         created_by: vm.created_by,
+        category: vm.category,
         description: vm.description,
         start_date: vm.start_date,
         };
@@ -441,7 +439,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       .then(function(editingEvent){
         console.log('returned edited event', editingEvent);
         console.log('stateParams.id', $stateParams.id);
-        $location.path('/events');
+        console.log('location', $location);
+        $location.path('/app/events');
       });
     };
   }
@@ -516,7 +515,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   }
 ]);
 
- 
+
 
 
 

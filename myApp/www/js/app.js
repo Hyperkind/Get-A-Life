@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
+angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'ui-leaflet'])
 
 .run(function($ionicPlatform) {
 
@@ -30,11 +30,21 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
   })
 
   .state('app.events', {
-    url: '/events',
+      url: '/events',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/events.html',
+          controller: 'EventController'
+        }
+      }
+    })
+
+  .state('app.graph', {
+    url: '/graph',
     views: {
       'menuContent': {
-        templateUrl: 'templates/events.html',
-        controller: 'EventController'
+        templateUrl: 'templates/graph.html',
+        controller: 'GraphController'
       }
     }
   })
