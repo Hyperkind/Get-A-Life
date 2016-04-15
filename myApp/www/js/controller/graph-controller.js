@@ -5,20 +5,20 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
   'EventFactory',
   function($scope, EventFactory){
     $scope.events = [];
-    console.log('category', $scope.category);
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
+      console.log('events.data', events.data);
       //accessing array of objects
-      console.log('$scope.events', $scope.events[0].category);
-      function filterByCategory(obj){
-        if('category' in obj === 'Music' || 'Miscellaneous' || 'Arts & Theatre'){
-          return true;
-        }
+      var categories = [];
+      console.log($scope.events.length);
+      for (var i = 0; i < $scope.events.length; i++){
+        categories.push($scope.events[i].category);
       }
-      var categoryArr = $scope.events.filter(filterByCategory);
-      console.log('categoryArr', categoryArr);
+      console.log(categories);
+      return categories;
     });
+
 
   $scope.options = {
             chart: {
