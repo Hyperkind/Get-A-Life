@@ -9,6 +9,7 @@
     "gulp-minify-css": "^0.3.0",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.0.4",
+    "leaflet.heat": "^0.2.0",
     "leaflet.locatecontrol": "^0.48.0",
     "ui-leaflet": "^1.0.0"
   },

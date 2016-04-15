@@ -9,15 +9,11 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'u
 .run(function($ionicPlatform) {
 
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
   });
@@ -33,11 +29,12 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'u
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.events', {
+    url: '/events',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/events.html',
+        controller: 'EventController'
       }
     }
   })
@@ -63,14 +60,14 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'u
   })
 
   .state('app.editEvents', {
-      url: '/events/:id',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/edit-event.html',
-          controller: 'EditController as EditController'
-        }
+    url: '/events/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit-event.html',
+        controller: 'EditController as EditController'
       }
-    })
+    }
+  })
 
   .state('app.map', {
     url: '/map',
@@ -92,6 +89,5 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'u
     }
   });
 
-  // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/map');
 });
