@@ -109,7 +109,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'EventFactory',
   'leafletData',
-  function  ($scope, EventFactory, leafletData) {
+  'ngModel',
+  function  ($scope, EventFactory, leafletData, ngModel) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -212,11 +213,33 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'EventFactory',
   function ($scope, EventFactory){
+    $scope.eventLists = {categories: null};
     $scope.events = [];
+    $scope.register = {};
+    $scope.register.defaultValue = "Select All";
     EventFactory.getEvents()
       .then(function(events){
         $scope.events = events.data;
-        console.log($scope.events);
+        $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
+          if (list.indexOf(event.category) === -1) {
+            list.push(event.category);
+          }
+          return list;
+        }, ["Show All"]);
+        // TODO: fix show all filter
+        // $scope.filterList = $scope.eventLists.categories[0];
+        $scope.filterList = function(data) {
+          if (data.category === $scope.eventLists.categories) {
+            return true;
+          } else if ($scope.eventLists.categories[0]) {
+            return true;
+          } else {
+            return false;
+          }
+        };
+
+
+        console.log('res', $scope.eventLists.categories);
       });
 
   $scope.newEvent = function(event){
@@ -256,6 +279,19 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           console.log(event._id);
       });
   };
+
+  $scope.selectedAsset = {};
+  $scope.groupid = 0;
+  $scope.selectedGroup = {};
+  $scope.selectGroup = function() {
+    var grp = [];
+    angular.forEach($scope.groups, function(v, i) {
+      if ($scope.groupid == v.ID) {
+        $scope.selectedGroup = v;
+      }
+    });
+  };
+
 }])
 
 .controller('EditController', [

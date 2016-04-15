@@ -1,8 +1,9 @@
 <ion-view view-title="Search">
   <ion-content>
     <h1>Search</h1>
+      <select ng-options="category in eventLists.categories"></select>
       <ion-list>
-        <ion-item ng-repeat="event in events | filter:filterService.getFilter()">
+        <ion-item collection-repeat="event in events">
           <p>Event Title: {{ event.title }}</p>
           <p>Category: {{ event.category }}</p>
           <p>Created By: {{ event.created_by }}</p>

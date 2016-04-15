@@ -29,15 +29,16 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html',
-        controller: 'EventController'
-      }
-    }
-  })
+  // .state('app.search', {
+  //   url: '/search',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/search.html',
+  //       controller: 'EventController'
+
+  //     }
+  //   }
+  // })
 
   .state('app.events', {
     url: '/events',
