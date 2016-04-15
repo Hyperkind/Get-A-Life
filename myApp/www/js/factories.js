@@ -74,7 +74,7 @@ angular.module('starter.factories', ['starter.config'])
       }
     };
   }
-]);
+])
 
 .factory('FilterFactory', [
   function() {

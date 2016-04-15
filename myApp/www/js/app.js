@@ -30,16 +30,6 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'graph.controllers', 'u
   })
 
   .state('app.events', {
-    url: '/events',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/events.html',
-        controller: 'EventController'
-      }
-    }
-  })
-
-  .state('app.events', {
       url: '/events',
       views: {
         'menuContent': {
