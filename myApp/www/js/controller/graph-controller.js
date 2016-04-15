@@ -19,6 +19,20 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
       return categories;
     });
 
+    var Miscellaneous = 0;
+    var Music = 0;
+    var ArtsAndMusic = 0;
+
+    function distrCategories(category) {
+      if(categories.indexOf(category) === 'Miscellaneous'){
+        Miscellaneous++;
+      }
+      console.log('Miscellaneous', Miscellaneous);
+      return Miscellaneous;
+    }
+
+    // categories.filter(distrCategories);
+    // console.log(distrCategories);
 
   $scope.options = {
             chart: {

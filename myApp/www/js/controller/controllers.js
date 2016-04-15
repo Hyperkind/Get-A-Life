@@ -160,7 +160,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 // }).addTo(map);
 
       $scope.markerData = [];
-      console.log('markerData', markerData);
       $scope.markers = [];
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {

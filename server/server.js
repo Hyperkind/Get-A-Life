@@ -169,7 +169,7 @@ app.route('/api/events')
       console.log(req.query);
     });
   })
-  .post(isAuthenticated, function(req, res){
+  .post(function(req, res){
     var newEvent = new Event({
       title: req.body.title,
       created_by: req.body.created_by,
