@@ -45,8 +45,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     }, 1000);
   };
 
-  // $scope.things = StorageService.getAll();
-
   $scope.registerData = {};
   $ionicModal.fromTemplateUrl('templates/register.html', {
     scope: $scope
@@ -92,7 +90,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   $scope.closeEvent = function() {
     $scope.addEventModal.hide();
   };
-    //toggle filter modal
+    // toggle filter modal
   // $ionicModal.fromTemplateUrl('templates/mapfilter.html', {
   //   scope: $scope
   // }).then(function(filterModal) {
@@ -121,6 +119,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.closeEvent();
     }, 1000);
   };
+
 
   $scope.fbLogin = function() {
     ngFB.login({scope: 'email, publish_actions'})
@@ -172,6 +171,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       }
     });
 
+
     // var mapdata = MQ.mapLayer(), mapid;
     var heat = {};
     var points = [];
@@ -216,6 +216,41 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         setView: true,
       }).addTo(map);
 
+
+       L.control.locate({
+          position: 'topright',  // set the location of the control 
+          layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
+          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
+          follow: true,  // follow the user's location 
+          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
+          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
+          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
+          remainActive: true, // if true locate control remains active on click even if the user's location is in view. 
+          markerClass: L.circleMarker, // L.circleMarker or L.marker 
+          circleStyle: {},  // change the style of the circle around the user's location 
+          markerStyle: {},
+          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following 
+          followMarkerStyle: {},
+          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker 
+          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon 
+          iconElementTag: 'span',  // tag for the icon element, span or i 
+          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
+          metric: true,  // use metric or imperial units 
+          // onLocationError: function(err) {alert(err.message)},  // define an error callback function 
+          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
+          //         alert(context.options.strings.outsideMapBoundsMsg);
+          // },
+          showPopup: true, // display a popup when the user click on the inner marker 
+          strings: {
+              title: "Show me where I am",  // title of the locate control 
+              metersUnit: "meters", // string for metric units 
+              feetUnit: "feet", // string for imperial units 
+              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle 
+              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds 
+          },
+          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
+        }).addTo(map);
+
       var heatArray = [];
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {
@@ -254,20 +289,9 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               layerOptions: {radius: 15, blur: 15},
               visible: true
             }
-          // yandexTraffic: {
-          //   name: 'Yandex Traffic',
-          //   type: 'yandex',
-          //   layerOptions: {
-          //     layerType: 'map',
-          //     traffic: true,
-          //   }
-            
-          // }   
-            
-
         };
     
-    });
+      });
     //data needs and array of arrays [[lat, lng]]
 
 
@@ -285,46 +309,10 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
         });
 
-          $scope.addEvent();
- 
+      $scope.addEvent();
       });
-      L.control.locate({
-        position: 'topright',  // set the location of the control 
-          layer: undefined,  // use your own layer for the location marker, creates a new layer by default 
-          drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location 
-          follow: true,  // follow the user's location 
-          setView: true, // automatically sets the map view to the user's location, enabled if `follow` is true 
-          keepCurrentZoomLevel: false, // keep the current map zoom level when displaying the user's location. (if `false`, use maxZoom) 
-          stopFollowingOnDrag: false, // stop following when the map is dragged if `follow` is true (deprecated, see below) 
-          remainActive: true, // if true locate control remains active on click even if the user's location is in view. 
-          markerClass: L.circleMarker, // L.circleMarker or L.marker 
-          circleStyle: {},  // change the style of the circle around the user's location 
-          markerStyle: {},
-          followCircleStyle: {},  // set difference for the style of the circle around the user's location while following 
-          followMarkerStyle: {},
-          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker 
-          iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon 
-          iconElementTag: 'span',  // tag for the icon element, span or i 
-          circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds 
-          metric: true,  // use metric or imperial units 
-          // onLocationError: function(err) {alert(err.message)},  // define an error callback function 
-          // onLocationOutsideMapBounds:  function(context) { // called when outside map boundaries 
-          //         alert(context.options.strings.outsideMapBoundsMsg);
-          // },
-          showPopup: true, // display a popup when the user click on the inner marker 
-          strings: {
-              title: "Show me where I am",  // title of the locate control 
-              metersUnit: "meters", // string for metric units 
-              feetUnit: "feet", // string for imperial units 
-              popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle 
-              outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds 
-          },
-          locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10 
-      }).addTo(map);
   
-     
-    });
-
+  });
 }])
 //event controller accesing tcktmaster and eventbrite
 
@@ -333,24 +321,45 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   'EventFactory',
   'EventFactory',
   function ($scope, EventFactory){
+    $scope.eventLists = {categories: null};
     $scope.events = [];
-    console.log($scope.events);
+    $scope.register = {};
+    $scope.register.defaultValue = "Select All";
     EventFactory.getEvents()
-    .then(function(events){
-      $scope.events = events.data;
-      console.log($scope.events);
-    });
-
-    $scope.newEvent = function(event){
-      event.preventDefault();
-      if ($scope.title){
-        var data = {
-          title: $scope.title,
-          created_by: $scope.created_by,
-          description: $scope.description,
-          start_date: $scope.start_date,
+      .then(function(events){
+        $scope.events = events.data;
+        $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
+          if (list.indexOf(event.category) === -1) {
+            list.push(event.category);
+          }
+          return list;
+        }, ["Show All"]);
+        // TODO: fix show all filter
+        // $scope.filterList = $scope.eventLists.categories[0];
+        $scope.filterList = function(data) {
+          if (data.category === $scope.eventLists.categories) {
+            return true;
+          } else if ($scope.eventLists.categories[0]) {
+            return true;
+          } else {
+            return false;
+          }
         };
-        EventFactory.postEvent(data)
+
+
+        console.log('res', $scope.eventLists.categories);
+      });
+
+  $scope.newEvent = function(event){
+    event.preventDefault();
+    if ($scope.title){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_date: $scope.start_date,
+      };
+      EventFactory.postEvent(data)
         .then(function(newEvent){
           console.log('NEW event created!');
           $scope.events = $scope.events.concat(newEvent.data);
@@ -361,27 +370,39 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           $scope.latitude = '';
           $scope.longitude = '';
         });
-      }
-    };
+    }
+  };
 
-    $scope.remove = function(event){
-      var data = {
-        title: $scope.title,
-        created_by: $scope.created_by,
-        description: $scope.description,
-        start_date: $scope.start_date,
-      };
-      EventFactory.deleteEvent(data, event._id)
+  $scope.remove = function(event){
+    var data = {
+      title: $scope.title,
+      created_by: $scope.created_by,
+      description: $scope.description,
+      start_date: $scope.start_date,
+    };
+    EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
         EventFactory.getEvents()
-        .then(function(events){
-          $scope.events = events.data;
-        });
-      console.log(event._id);
+          .then(function(events){
+            $scope.events = events.data;
+          });
+          console.log(event._id);
       });
-    };
-  }
-])
+  };
+
+  $scope.selectedAsset = {};
+  $scope.groupid = 0;
+  $scope.selectedGroup = {};
+  $scope.selectGroup = function() {
+    var grp = [];
+    angular.forEach($scope.groups, function(v, i) {
+      if ($scope.groupid == v.ID) {
+        $scope.selectedGroup = v;
+      }
+    });
+  };
+
+}])
 
 .controller('EditController', [
   '$scope',
@@ -396,14 +417,14 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     vm.start_date = null;
 
     EventFactory.getEventById($stateParams.id)
-    .then(function(res){
-      var event = res.data;
+      .then(function(res){
+        var event = res.data;
 
-      vm.title = event.title;
-      vm.created_by = event.created_by;
-      vm.description = event.description;
-      vm.start_date = event.start_date;
-    });
+        vm.title = event.title;
+        vm.created_by = event.created_by;
+        vm.description = event.description;
+        vm.start_date = event.start_date;
+      });
     console.log('$stateParams', $stateParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
 
@@ -428,6 +449,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   }
 ])
 
+
 .controller('TktMstrController', [
   "$scope",
   'EventFactory',
@@ -450,6 +472,28 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   }
 ])
 
+// .controller('TktMstrController', [
+//   "$scope",
+//   'EventFactory',
+//   function($scope, EventFactory) {
+//     $scope.tktMstrEvents = [];
+//     $scope.evntBriteEvents = [];
+
+//     EventFactory.getTktMstr()
+//       .then(function(res) {
+//         $scope.tktMstrEvents = res.data;
+//         console.log('tktmstr', res.data);
+//       });
+
+//     EventFactory.getEvntBrite()
+//       .then(function(res) {
+//         $scope.evntBriteEvents = res.data;
+//         console.log('evntbrite', res.data);
+//       });
+//   }
+// ])
+
+
 .controller('UserController', [
   '$scope',
   'UserFactory',
@@ -460,6 +504,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.user = user.data;
       console.log($scope.user);
     });
+  }
+])
+
+.controller('ListCtrl', [
+  '$scope',
+  '$http',
+  function($scope, $http) {
+    EventFactory.getEvents()
+      .success(function(data) {
+        $scope.events = data;
+      });
   }
 ]);
 
