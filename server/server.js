@@ -20,6 +20,7 @@ mongoose.connect('mongodb://localhost/Get_A_Life');
 var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
+  category: String,
   description: String,
   start_date: Date,
   latitude: Number,
@@ -168,10 +169,11 @@ app.route('/api/events')
       console.log(req.query);
     });
   })
-  .post(isAuthenticated, function(req, res){
+  .post(function(req, res){
     var newEvent = new Event({
       title: req.body.title,
       created_by: req.body.created_by,
+      category: req.body.category,
       description: req.body.description,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
@@ -278,6 +280,39 @@ app.get('/api/users/:id', function(req, res) {
   })
   .then(function(user) {
     res.json(user);
+  });
+});
+
+app.put('/api/events/:id', function(req, res){
+  var eventId = req.params.id;
+  console.log('eventId in PUT', eventId);
+  Event.findOne({ _id: eventId })
+  .then(function(event){
+    event.title = req.body.title;
+    event.created_by = req.body.created_by;
+    event.category = req.body.category;
+    event.description = req.body.description;
+    //TODO: on the client side update moment for start_time
+    //NOTE: it's in UTC time, so one day ahead, to re-look at
+    event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
+    console.log(event.start_date);
+    event.posts = req.body.posts;
+
+    return event.save();
+  })
+  .then(function(event){
+    console.log('event', event);
+    res.json(event);
+  });
+});
+
+app.delete('/api/events/delete/:id', function(req, res){
+  var eventId = req.params.id;
+  console.log('eventId', eventId);
+  Event.findByIdAndRemove({
+    _id: eventId
+  }).then(function(event){
+    res.send("This event " + eventId + " has been deleted");
   });
 });
 
