@@ -44,8 +44,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     }, 1000);
   };
 
-  // $scope.things = StorageService.getAll();
-
   $scope.registerData = {};
   $ionicModal.fromTemplateUrl('templates/register.html', {
     scope: $scope
@@ -105,7 +103,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.closeEvent();
     }, 1000);
   };
-
 }])
 
 .controller('MapController', [
@@ -121,18 +118,18 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       markers: []
   });
 
-    leafletData.getMap().then(function(map) {
-      L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
-        continuousWorld: false,
-        noWrap: true,
-        trackResize: true,
-        setView: true,
-      // closePopupOnClick: true
-      }).addTo(map);
+  leafletData.getMap().then(function(map) {
+    L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
+      continuousWorld: false,
+      noWrap: true,
+      trackResize: true,
+      setView: true,
+    // closePopupOnClick: true
+    }).addTo(map);
       // function onLocationFound(e) {
       // var radius = e.accuracy;
       //   console.log(e.latlng);
@@ -159,20 +156,20 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 //   // stopFollwingOnDrag: false //DEPRICATED?
 // }).addTo(map);
 
-      $scope.markerData = [];
-      $scope.markers = [];
-      EventFactory.getEvents()
-      .then(function loadEventMarkers(events) {
-        $scope.markerData = events.data;
-        for (var i = 0; i < $scope.markerData.length; i++) {
-          $scope.location = new L.LatLng($scope.markerData[i].latitude, $scope.markerData[i].longitude);
-          $scope.name = $scope.markerData[i].name;
-          $scope.markers.push($scope.location);
-        }
-        $scope.marker = new L.Marker($scope.location, {
-          title: $scope.markerData.name
-        }).addTo(map);
-      });
+  $scope.markerData = [];
+  $scope.markers = [];
+  EventFactory.getEvents()
+    .then(function loadEventMarkers(events) {
+      $scope.markerData = events.data;
+      for (var i = 0; i < $scope.markerData.length; i++) {
+        $scope.location = new L.LatLng($scope.markerData[i].latitude, $scope.markerData[i].longitude);
+        $scope.name = $scope.markerData[i].name;
+        $scope.markers.push($scope.location);
+      }
+      $scope.marker = new L.Marker($scope.location, {
+        title: $scope.markerData.name
+      }).addTo(map);
+    });
 
       L.control.locate({
         position: 'bottomleft',  // set the location of the control
@@ -215,23 +212,45 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'EventFactory',
   function ($scope, EventFactory){
+    $scope.eventLists = {categories: null};
     $scope.events = [];
+    $scope.register = {};
+    $scope.register.defaultValue = "Select All";
     EventFactory.getEvents()
-    .then(function(events){
-      $scope.events = events.data;
-      console.log($scope.events);
-    });
-
-    $scope.newEvent = function(event){
-      event.preventDefault();
-      if ($scope.title){
-        var data = {
-          title: $scope.title,
-          created_by: $scope.created_by,
-          description: $scope.description,
-          start_date: $scope.start_date,
+      .then(function(events){
+        $scope.events = events.data;
+        $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
+          if (list.indexOf(event.category) === -1) {
+            list.push(event.category);
+          }
+          return list;
+        }, ["Show All"]);
+        // TODO: fix show all filter
+        // $scope.filterList = $scope.eventLists.categories[0];
+        $scope.filterList = function(data) {
+          if (data.category === $scope.eventLists.categories) {
+            return true;
+          } else if ($scope.eventLists.categories[0]) {
+            return true;
+          } else {
+            return false;
+          }
         };
-        EventFactory.postEvent(data)
+
+
+        console.log('res', $scope.eventLists.categories);
+      });
+
+  $scope.newEvent = function(event){
+    event.preventDefault();
+    if ($scope.title){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_date: $scope.start_date,
+      };
+      EventFactory.postEvent(data)
         .then(function(newEvent){
           console.log('NEW event created!');
           $scope.events = $scope.events.concat(newEvent.data);
@@ -240,27 +259,39 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           $scope.description = '';
           $scope.start_date = '';
         });
-      }
-    };
+    }
+  };
 
-    $scope.remove = function(event){
-      var data = {
-        title: $scope.title,
-        created_by: $scope.created_by,
-        description: $scope.description,
-        start_date: $scope.start_date,
-      };
-      EventFactory.deleteEvent(data, event._id)
+  $scope.remove = function(event){
+    var data = {
+      title: $scope.title,
+      created_by: $scope.created_by,
+      description: $scope.description,
+      start_date: $scope.start_date,
+    };
+    EventFactory.deleteEvent(data, event._id)
       .then(function(remove){
         EventFactory.getEvents()
-        .then(function(events){
-          $scope.events = events.data;
-        });
-      console.log(event._id);
+          .then(function(events){
+            $scope.events = events.data;
+          });
+          console.log(event._id);
       });
-    };
-  }
-])
+  };
+
+  $scope.selectedAsset = {};
+  $scope.groupid = 0;
+  $scope.selectedGroup = {};
+  $scope.selectGroup = function() {
+    var grp = [];
+    angular.forEach($scope.groups, function(v, i) {
+      if ($scope.groupid == v.ID) {
+        $scope.selectedGroup = v;
+      }
+    });
+  };
+
+}])
 
 .controller('EditController', [
   '$scope',
@@ -275,14 +306,14 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     vm.start_date = null;
 
     EventFactory.getEventById($stateParams.id)
-    .then(function(res){
-      var event = res.data;
+      .then(function(res){
+        var event = res.data;
 
-      vm.title = event.title;
-      vm.created_by = event.created_by;
-      vm.description = event.description;
-      vm.start_date = event.start_date;
-    });
+        vm.title = event.title;
+        vm.created_by = event.created_by;
+        vm.description = event.description;
+        vm.start_date = event.start_date;
+      });
     console.log('$stateParams', $stateParams);
     // make sure on markup (html) differentiate DOM event from your $event, add '$'
 
@@ -307,26 +338,26 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   }
 ])
 
-.controller('TktMstrController', [
-  "$scope",
-  'EventFactory',
-  function($scope, EventFactory) {
-    $scope.tktMstrEvents = [];
-    $scope.evntBriteEvents = [];
+// .controller('TktMstrController', [
+//   "$scope",
+//   'EventFactory',
+//   function($scope, EventFactory) {
+//     $scope.tktMstrEvents = [];
+//     $scope.evntBriteEvents = [];
 
-    EventFactory.getTktMstr()
-      .then(function(res) {
-        $scope.tktMstrEvents = res.data;
-        console.log('tktmstr', res.data);
-      });
+//     EventFactory.getTktMstr()
+//       .then(function(res) {
+//         $scope.tktMstrEvents = res.data;
+//         console.log('tktmstr', res.data);
+//       });
 
-    EventFactory.getEvntBrite()
-      .then(function(res) {
-        $scope.evntBriteEvents = res.data;
-        console.log('evntbrite', res.data);
-      });
-  }
-])
+//     EventFactory.getEvntBrite()
+//       .then(function(res) {
+//         $scope.evntBriteEvents = res.data;
+//         console.log('evntbrite', res.data);
+//       });
+//   }
+// ])
 
 .controller('UserController', [
   '$scope',
@@ -338,6 +369,17 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       $scope.user = user.data;
       console.log($scope.user);
     });
+  }
+])
+
+.controller('ListCtrl', [
+  '$scope',
+  '$http',
+  function($scope, $http) {
+    EventFactory.getEvents()
+      .success(function(data) {
+        $scope.events = data;
+      });
   }
 ]);
 

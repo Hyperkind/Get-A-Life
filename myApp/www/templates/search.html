@@ -1,5 +1,21 @@
 <ion-view view-title="Search">
   <ion-content>
     <h1>Search</h1>
+      <select ng-options="category in eventLists.categories"></select>
+      <ion-list>
+        <ion-item collection-repeat="event in events">
+          <p>Event Title: {{ event.title }}</p>
+          <p>Category: {{ event.category }}</p>
+          <p>Created By: {{ event.created_by }}</p>
+          <p>Description: {{ event.description }}</p>
+          <p>Latitude: {{ event.latitude }}</p>
+          <p>Longitude: {{ event.longitude }}</p>
+          <p>Start Date: {{ event.start_date }}</p>
+          <p>Address: {{ event.address }}</p>
+          <p>City: {{ event.city }}</p>
+          <p>Zip: {{ event.zip }}</p>
+          <div class="city"></div>
+        </ion-item>
+      </ion-list>
   </ion-content>
 </ion-view>
