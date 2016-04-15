@@ -6,14 +6,16 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
   function($scope, EventFactory){
     $scope.eventLists = {};
     $scope.events = [];
-    // var categories = [];
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
       console.log($scope.events);
+      //if no category setting it to N/A
       $scope.data = $scope.events.map(function(event){
         return event.category || "N/A";
       })
+      //after map array of objects, reduce categories
+      //creating new category if not existing and incrementing if does
       .reduce(function(data, category){
         var targetSlice = data.find(function(slice){
           return slice.label === category;
@@ -49,7 +51,5 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
                 }
             }
         };
-        //TODO get reduce showing up here
-
     }
     ]);
