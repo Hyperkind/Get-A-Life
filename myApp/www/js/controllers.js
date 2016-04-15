@@ -175,27 +175,22 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
     // var mapdata = MQ.mapLayer(), mapid;
     var heat = {};
     var points = [];
-    // var heatmap = {
-    //     name: 'Heat Map',
-    //     type: 'heat',
-    //     data: points,
-    //     visible: true
-    // };
+    var heatmap = {
+        name: 'Heat Map',
+        type: 'heat',
+        data: points,
+        visible: true
+    };
 
     $scope.layers = {
       baselayers: {
           stamen_toner: {
-              name: 'Main',
+              name: 'Toner',
               url: 'http://tile.stamen.com/toner/{z}/{x}/{y}.png',
               type: 'xyz'
-          },
-           yandex: {
-             name: 'Yandex',
-             type: 'yandex',
-             layerOptions: {
-                layerType: 'map',
-              }
+              
           }
+                 
         }
     };
     $scope.markerData = [];
@@ -288,7 +283,10 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               data: heatArray,
               layerOptions: {radius: 15, blur: 15},
               visible: true
-            }
+            },
+
+
+
         };
     
       });
