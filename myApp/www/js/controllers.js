@@ -109,8 +109,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'EventFactory',
   'leafletData',
-  'ngModel',
-  function  ($scope, EventFactory, leafletData, ngModel) {
+  function  ($scope, EventFactory, leafletData) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
