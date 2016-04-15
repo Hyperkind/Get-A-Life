@@ -171,27 +171,36 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         zoom: 18
       }
     });
+
+    // var mapdata = MQ.mapLayer(), mapid;
     var heat = {};
     var points = [];
-    var heatmap = {
-        name: 'Heat Map',
-        type: 'heat',
-        data: points,
-        visible: true
-    };
+    // var heatmap = {
+    //     name: 'Heat Map',
+    //     type: 'heat',
+    //     data: points,
+    //     visible: true
+    // };
+
     $scope.layers = {
       baselayers: {
           stamen_toner: {
               name: 'Main',
               url: 'http://tile.stamen.com/toner/{z}/{x}/{y}.png',
               type: 'xyz'
+          },
+           yandex: {
+             name: 'Yandex',
+             type: 'yandex',
+             layerOptions: {
+                layerType: 'map',
+              }
           }
-      },
-         
+        }
     };
     $scope.markerData = [];
     $scope.markers = [];
-   console.log($scope.markers);
+    // console.log($scope.markers);
     // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png
   //'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png'
     leafletData.getMap().then(function(map) {
@@ -207,15 +216,6 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
         setView: true,
       }).addTo(map);
 
-    //   heat = L.heatLayer([
-    //   [50.5, 30.5, 0.2], // lat, lng, intensity
-    //   [50.6, 30.4, 0.5],
-  
-    // ], {radius: 25, type:"heat"}).addTo(map);
-
-    
-     // $scope.markerData = [];
-     // $scope.markers = [];
       var heatArray = [];
       EventFactory.getEvents()
       .then(function loadEventMarkers(events) {
@@ -236,7 +236,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
                      $scope.markerData[i].category 
                      // $scope.markerData[i].post
           };
-
+          //points are the data fed into the heat map [lat, lng, intensity]
         $scope.markers.push(dataMarker); 
         var points = [$scope.markerData[i].latitude, $scope.markerData[i].longitude];
           if(points.every(Number)) {
@@ -251,12 +251,20 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               name:'Heat Map',
               type: 'heat',
               data: heatArray,
-              layerOptions: {
-                radius: 20,
-                blur: 10
-              },
+              layerOptions: {radius: 15, blur: 15},
               visible: true
-            }     
+            }
+          // yandexTraffic: {
+          //   name: 'Yandex Traffic',
+          //   type: 'yandex',
+          //   layerOptions: {
+          //     layerType: 'map',
+          //     traffic: true,
+          //   }
+            
+          // }   
+            
+
         };
     
     });
