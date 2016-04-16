@@ -3,7 +3,22 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
 .controller("EventCtrl", [
   '$scope',
   'EventFactory',
-  function ($scope, EventFactory){
+  '$ionicModal',
+  function ($scope, EventFactory, $ionicModal){
+    $ionicModal.fromTemplateUrl('templates/edit-event.html', {
+      scope: $scope
+    }).then(function(editEventModal) {
+      $scope.editEventModal = editEventModal;
+    });
+
+    $scope.editEvent = function() {
+      $scope.editEventModal.show();
+    };
+
+    $scope.closeEdit = function() {
+      $scope.editEventModal.hide();
+    };
+
     $scope.eventLists = {categories: null};
     $scope.events = [];
     $scope.register = {};
@@ -28,61 +43,59 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
             return false;
           }
         };
-
-
         console.log('res', $scope.eventLists.categories);
       });
 
-  $scope.newEvent = function(event){
-    event.preventDefault();
-    if ($scope.title){
+    $scope.newEvent = function(event){
+      event.preventDefault();
+      if ($scope.title){
+        var data = {
+          title: $scope.title,
+          created_by: $scope.created_by,
+          description: $scope.description,
+          start_date: $scope.start_date,
+        };
+        EventFactory.postEvent(data)
+          .then(function(newEvent){
+            console.log('NEW event created!');
+            $scope.events = $scope.events.concat(newEvent.data);
+            $scope.title = '';
+            $scope.created_by = '';
+            $scope.description = '';
+            $scope.start_date = '';
+            $scope.latitude = '';
+            $scope.longitude = '';
+          });
+      }
+    };
+
+    $scope.remove = function(event){
       var data = {
         title: $scope.title,
         created_by: $scope.created_by,
         description: $scope.description,
         start_date: $scope.start_date,
       };
-      EventFactory.postEvent(data)
-        .then(function(newEvent){
-          console.log('NEW event created!');
-          $scope.events = $scope.events.concat(newEvent.data);
-          $scope.title = '';
-          $scope.created_by = '';
-          $scope.description = '';
-          $scope.start_date = '';
-          $scope.latitude = '';
-          $scope.longitude = '';
+      EventFactory.deleteEvent(data, event._id)
+        .then(function(remove){
+          EventFactory.getEvents()
+            .then(function(events){
+              $scope.events = events.data;
+            });
+            console.log(event._id);
         });
-    }
-  };
-
-  $scope.remove = function(event){
-    var data = {
-      title: $scope.title,
-      created_by: $scope.created_by,
-      description: $scope.description,
-      start_date: $scope.start_date,
     };
-    EventFactory.deleteEvent(data, event._id)
-      .then(function(remove){
-        EventFactory.getEvents()
-          .then(function(events){
-            $scope.events = events.data;
-          });
-          console.log(event._id);
+
+    $scope.selectedAsset = {};
+    $scope.groupid = 0;
+    $scope.selectedGroup = {};
+    $scope.selectGroup = function() {
+      var grp = [];
+      angular.forEach($scope.groups, function(v, i) {
+        if ($scope.groupid == v.ID) {
+          $scope.selectedGroup = v;
+        }
       });
-  };
-
-  $scope.selectedAsset = {};
-  $scope.groupid = 0;
-  $scope.selectedGroup = {};
-  $scope.selectGroup = function() {
-    var grp = [];
-    angular.forEach($scope.groups, function(v, i) {
-      if ($scope.groupid == v.ID) {
-        $scope.selectedGroup = v;
-      }
-    });
-  };
-
-}]);
+    };
+  }
+]);

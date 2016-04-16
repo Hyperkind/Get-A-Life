@@ -7,7 +7,7 @@ angular.module('main.controller', ['ui-leaflet', 'starter.factories'])
   '$timeout',
   '$http',
   'ENDPOINT',
-  function($scope, $filter,$ionicModal, $timeout, $http, ENDPOINT) {
+  function($scope, $filter, $ionicModal, $timeout, $http, ENDPOINT) {
   $scope.loginData = {};
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope

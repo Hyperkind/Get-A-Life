@@ -83,68 +83,6 @@ passport.use(new localStrategy (
   })
 );
 
-// passport.use(new FacebookStrategy({
-//   clientID: CONFIG.FACEBOOK.APP_ID,
-//   clientSecret: CONFIG.FACEBOOK.SECRET,
-//   callbackURL: CONFIG.FACEBOOK.CALLBACK
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOne({ oauthID: profile.id }, function(err, user) {
-//       if(err) {
-//         console.log(err);
-//       }
-//       if(!err && user !== null) {
-//         done(null, user);
-//       } else {
-//         user = new User({
-//           oauthID: profile.id,
-//           name: profile.displayName,
-//           created: Date.now()
-//         });
-//         user.save(function(err) {
-//           if(err) {
-//             console.log(err);
-//           } else {
-//             console.log('saving user ...');
-//             done(null, user);
-//           }
-//         });
-//       }
-//     });
-//   }
-// ));
-
-// passport.use(new TwitterStrategy({
-//   consumerKey: CONFIG.TWITTER.CONSUMER_KEY,
-//   consumerSecret: CONFIG.TWITTER.CONSUMER_SECRET,
-//   callbackURL: CONFIG.TWITTER.CALLBACK
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOne({ oauthID: profile.id }, function(err, user) {
-//       if(err) {
-//         console.log(err);
-//       }
-//       if(!err && user !== null) {
-//         done(null, user);
-//       } else {
-//         user = new User({
-//           oauthID: profile.id,
-//           name: profile.displayName,
-//           created: Date.now()
-//         });
-//         user.save(function(err) {
-//           if(err) {
-//             console.log(err);
-//           } else {
-//             console.log('saving user...');
-//             done(null, user);
-//           }
-//         });
-//       }
-//     });
-//   }
-// ));
-
 passport.serializeUser(function(user, done) {
   return done(null, user.id);
 });
@@ -187,40 +125,6 @@ app.route('/api/events')
     });
   });
 
-// app.get('/api/events/:id', function(req, res){
-//   var eventId = req.params.id;
-//   Event.findById(eventId, function(err, event){
-//     if(err){
-//       console.log(eventId + ' is not a valid ID');
-//       throw err;
-//     }
-//   })
-//   .then(function(event){
-//     res.json(event);
-//   });
-// });
-
-//TODO: ajax request POST for Ben's setContent
-// app.put('/api/events/:id', function(req, res){
-//   var eventId = req.params.id;
-//   console.log('eventId in PUT', eventId);
-//   Event.findOne({ _id: eventId })
-//   .then(function(event){
-//     event.title = req.body.title;
-//     event.created_by = req.body.created_by;
-//     event.description = req.body.description;
-//     event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
-//     console.log(event.start_date);
-//     event.posts = req.body.posts;
-
-//     return event.save();
-//   })
-//     .then(function(event){
-//       console.log('event', event);
-//       res.json(event);
-//     });
-// });
-
 app.route('/api/events/:id')
   .get(function(req, res) {
     var eventId = req.params.id;
@@ -260,7 +164,6 @@ app.route('/api/events/:id')
     });
   });
 
-
 app.get('/api/users', isAuthenticated, function(req, res) {
   User.find({}, function(err, users) {
     if(err){
@@ -280,39 +183,6 @@ app.get('/api/users/:id', function(req, res) {
   })
   .then(function(user) {
     res.json(user);
-  });
-});
-
-app.put('/api/events/:id', function(req, res){
-  var eventId = req.params.id;
-  console.log('eventId in PUT', eventId);
-  Event.findOne({ _id: eventId })
-  .then(function(event){
-    event.title = req.body.title;
-    event.created_by = req.body.created_by;
-    event.category = req.body.category;
-    event.description = req.body.description;
-    //TODO: on the client side update moment for start_time
-    //NOTE: it's in UTC time, so one day ahead, to re-look at
-    event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
-    console.log(event.start_date);
-    event.posts = req.body.posts;
-
-    return event.save();
-  })
-  .then(function(event){
-    console.log('event', event);
-    res.json(event);
-  });
-});
-
-app.delete('/api/events/delete/:id', function(req, res){
-  var eventId = req.params.id;
-  console.log('eventId', eventId);
-  Event.findByIdAndRemove({
-    _id: eventId
-  }).then(function(event){
-    res.send("This event " + eventId + " has been deleted");
   });
 });
 
@@ -356,25 +226,25 @@ app.get('/logout', function(req, res) {
   });
 });
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'),
-  function(req, res) {});
+// app.get('/auth/facebook',
+//   passport.authenticate('facebook'),
+//   function(req, res) {});
 
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+// app.get('/auth/facebook/callback',
+//   passport.authenticate('facebook', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
 
-app.get('/auth/twitter',
-  passport.authenticate('twitter'),
-  function(req, res) {});
+// app.get('/auth/twitter',
+//   passport.authenticate('twitter'),
+//   function(req, res) {});
 
-app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+// app.get('/auth/twitter/callback',
+//   passport.authenticate('twitter', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
 
 app.listen(3000, function() {
   console.log('server is connected');

@@ -7,8 +7,11 @@
       <div>Category<input type="text" ng-model="EditController.category" name="category" /></div>
       <div>Description<input type="text" ng-model="EditController.description" name="description"/></div>
       <div>Start Date<input type="date" ng-model="EditController.start_date" name="start_date"/></div>
-      <div><input type="submit" id="submit" value="Save"/>
-      <input type="button" name="cancel" value="Cancel" onclick="window.location='http://localhost:8100/#/app/events'" /> <button type="reset" value="reset">Reset</button></div>
+      <div>
+        <input type="submit" id="submit" value="Save"/>
+        <button ng-click="closeEdit()">Edit Event</button>
+        <button type="reset" value="reset">Reset</button>
+      </div>
     </form>
   </ion-content>
 </ion-view>

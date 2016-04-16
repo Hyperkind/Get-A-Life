@@ -31,25 +31,26 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
         return data;
       }, []);
     });
-  $scope.options = {
-            chart: {
-                type: 'pieChart',
-                height: 500,
-                x: function(d){return d.label;},
-                y: function(d){return d.value;},
-                showLabels: true,
-                duration: 500,
-                labelThreshold: 0.01,
-                labelSunbeamLayout: true,
-                legend: {
-                    margin: {
-                        top: 5,
-                        right: 35,
-                        bottom: 5,
-                        left: 0
-                    }
-                }
-            }
-        };
-    }
-    ]);
+
+    $scope.options = {
+      chart: {
+        type: 'pieChart',
+        height: 500,
+        x: function(d){return d.label;},
+        y: function(d){return d.value;},
+        showLabels: true,
+        duration: 500,
+        labelThreshold: 0.01,
+        labelSunbeamLayout: true,
+        legend: {
+          margin: {
+            top: 5,
+            right: 35,
+            bottom: 5,
+            left: 0
+          }
+        }
+      }
+    };
+  }
+]);

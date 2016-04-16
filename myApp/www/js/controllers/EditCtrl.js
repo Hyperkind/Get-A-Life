@@ -15,14 +15,12 @@ angular.module('edit.controller', ['ui-leaflet', 'starter.factories'])
     EventFactory.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
-
         vm.title = event.title;
         vm.created_by = event.created_by;
         vm.description = event.description;
         vm.start_date = event.start_date;
       });
     console.log('$stateParams', $stateParams);
-    // make sure on markup (html) differentiate DOM event from your $event, add '$'
 
     vm.editingEvent = function(){
       console.log(vm.description);
