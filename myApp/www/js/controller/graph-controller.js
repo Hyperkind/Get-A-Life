@@ -1,4 +1,4 @@
-angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
+angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
 
 .controller('GraphController', [
   '$scope',
@@ -9,13 +9,16 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
     EventFactory.getEvents()
     .then(function(events){
       $scope.events = events.data;
-      console.log($scope.events);
+      console.log('data', $scope.events[0].category);
       //if no category setting it to N/A
       $scope.data = $scope.events.map(function(event){
+        console.log(event.category);
         return event.category || "N/A";
       })
-      //after map array of objects, reduce categories
+      //after map array of objects, reduce category properties
       //creating new category if not existing and incrementing if does
+      //TODO: improve optimization doing just a reduce, faster
+      //label and value is nvd3' setup of data
       .reduce(function(data, category){
         var targetSlice = data.find(function(slice){
           return slice.label === category;
@@ -43,9 +46,9 @@ angular.module('graph.controllers', ['ui-leaflet', 'starter.factories','nvd3'])
                 labelSunbeamLayout: true,
                 legend: {
                     margin: {
-                        top: 5,
-                        right: 35,
-                        bottom: 5,
+                        top: 40,
+                        right: 0,
+                        bottom: 0,
                         left: 0
                     }
                 }
