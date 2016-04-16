@@ -417,6 +417,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
 
         vm.title = event.title;
         vm.created_by = event.created_by;
+        vm.category = event.category;
         vm.description = event.description;
         vm.start_date = event.start_date;
       });

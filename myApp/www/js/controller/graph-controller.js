@@ -41,12 +41,13 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
                 x: function(d){return d.label;},
                 y: function(d){return d.value;},
                 showLabels: true,
+                labelsOutside: true,
                 duration: 500,
                 labelThreshold: 0.01,
                 labelSunbeamLayout: true,
                 legend: {
                     margin: {
-                        top: 40,
+                        top: 35,
                         right: 0,
                         bottom: 0,
                         left: 0
