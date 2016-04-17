@@ -1,6 +1,6 @@
 angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
 
-.controller('GraphController', [
+.controller('GraphCtrl', [
   '$scope',
   'EventFactory',
   function($scope, EventFactory){
@@ -142,3 +142,4 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
         ];
     }
     ]);
+
