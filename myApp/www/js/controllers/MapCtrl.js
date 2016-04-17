@@ -11,10 +11,18 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
     angular.extend($scope, {
       center: {
         autoDiscover: true,
-        zoom: 18
+        zoom: 18,
+        continuousWorld: false
       }
     });
-
+     $ionicPlatform.ready(function() {
+        if(window.navigator && window.navigator.splashscreen) {
+          window.plugins.orientationLock.unlock();
+      }
+    });
+    $scope.$on('$ionicView.beforeEnter', function(){
+      screen.lockOrientation('portrait');
+    });
     // var mapdata = MQ.mapLayer(), mapid;
     var heat = {};
     var points = [];
@@ -45,7 +53,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
         maxZoom: 18,
         // id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
-        continuousWorld: false,
+        // continuousWorld: false,
         noWrap: true,
         trackResize: true,
         setView: true,
