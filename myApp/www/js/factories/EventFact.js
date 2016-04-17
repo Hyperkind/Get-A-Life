@@ -60,32 +60,4 @@ angular.module('starter.factories', ['starter.config'])
       },
     };
   }
-])
-
-.factory('UserFactory', [
-  '$http',
-  'ENDPOINT',
-  function($http, ENDPOINT) {
-    return {
-      getUser: function(data, id) {
-        return $http.get(
-          ENDPOINT + "/api/users/"
-        );
-      }
-    };
-  }
-])
-
-.factory('FilterFactory', [
-  function() {
-    var filter = 0;
-    return {
-      getFilter: function() {
-        return filter;
-      },
-      setFilter: function(value) {
-        filter = value;
-      }
-    };
-  }
 ]);

@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
+angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.controller', 'edit.controller', 'tktmstr.controller', 'user.controller', 'graph.controller', 'ui-leaflet'])
 
 .run(function($ionicPlatform) {
 
@@ -30,11 +30,21 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
   })
 
   .state('app.events', {
-    url: '/events',
+      url: '/events',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/events.html',
+          controller: 'EventCtrl'
+        }
+      }
+    })
+
+  .state('app.graph', {
+    url: '/graph',
     views: {
       'menuContent': {
-        templateUrl: 'templates/events.html',
-        controller: 'EventController'
+        templateUrl: 'templates/graph.html',
+        controller: 'GraphCtrl'
       }
     }
   })
@@ -44,7 +54,8 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     views: {
       'menuContent': {
         templateUrl: 'templates/edit-event.html',
-        controller: 'EditController as EditController'
+        controller: 'EditCtrl'
+        // EditController as EditController
       }
     }
   })
@@ -54,7 +65,7 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     views: {
       'menuContent': {
         templateUrl: 'templates/map.html',
-        controller: 'MapController'
+        controller: 'MapCtrl'
       }
     }
   })
@@ -64,7 +75,7 @@ angular.module('myApp', ['ionic', 'starter.controllers', 'ui-leaflet'])
     views: {
       'menuContent': {
         templateUrl: 'templates/user.html',
-        controller: 'UserController'
+        controller: 'UserCtrl'
       }
     }
   });
