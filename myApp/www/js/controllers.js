@@ -171,8 +171,8 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
       }
     });
 
-
-    // var mapdata = MQ.mapLayer(), mapid;
+    var trafficData = MQ.mapLayer();
+    console.log(trafficData);
     var heat = {};
     var points = [];
     var heatmap = {
@@ -190,11 +190,11 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               type: 'xyz'
               
           }
-                 
-        }
+      }
     };
     $scope.markerData = [];
     $scope.markers = [];
+    console.log($scope.markerData);
     // console.log($scope.markers);
     // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png
   //'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png'
@@ -275,7 +275,7 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
           }
         }
         console.log(heatArray);
-        
+        console.log($scope.markers);
         $scope.layers.overlays =  {
             heat: {
               name:'Heat Map',
@@ -284,6 +284,14 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
               layerOptions: {radius: 15, blur: 15},
               visible: true
             },
+            trafficData:{
+              name: 'Traffic',
+              type: 'xyz',
+              url: "http://www.mapquestapi.com/sdk/leaflet/v2.s/mq-traffic.js?key=GLeNVQtBkf7U1VCgA1YjF48CpXatfP6n",
+              layerOptions: {
+                'trafficFlow': MQ.trafficLayer({layers: ['flow']})
+              }
+            }
 
 
 
@@ -306,11 +314,10 @@ angular.module('starter.controllers', ['ui-leaflet', 'starter.factories'])
             message: "My Added Marker"
 
         });
-
+      console.log($scope.markers);
       $scope.addEvent();
       });
-  
-  });
+  }); 
 }])
 //event controller accesing tcktmaster and eventbrite
 
