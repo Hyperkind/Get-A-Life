@@ -221,26 +221,6 @@ app.get('/logout', function(req, res) {
   });
 });
 
-// app.get('/auth/facebook',
-//   passport.authenticate('facebook'),
-//   function(req, res) {});
-
-// app.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     res.redirect('/');
-//   });
-
-// app.get('/auth/twitter',
-//   passport.authenticate('twitter'),
-//   function(req, res) {});
-
-// app.get('/auth/twitter/callback',
-//   passport.authenticate('twitter', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     res.redirect('/');
-//   });
-
 app.listen(3000, function() {
   console.log('server is connected');
 });
