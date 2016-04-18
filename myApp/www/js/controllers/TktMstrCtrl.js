@@ -1,19 +1,19 @@
-angular.module('tktmstr.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('tktmstr.controller', ['ui-leaflet', 'event.factories'])
 
 .controller('TktMstrCtrl', [
   "$scope",
-  'EventFactory',
-  function($scope, EventFactory) {
+  'EventFact',
+  function($scope, EventFact) {
     $scope.tktMstrEvents = [];
     $scope.evntBriteEvents = [];
 
-    EventFactory.getTktMstr()
+    EventFact.getTktMstr()
       .then(function(res) {
         $scope.tktMstrEvents = res.data;
         console.log('tktmstr', res.data);
       });
 
-    EventFactory.getEvntBrite()
+    EventFact.getEvntBrite()
       .then(function(res) {
         $scope.evntBriteEvents = res.data;
         console.log('evntbrite', res.data);

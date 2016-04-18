@@ -1,12 +1,12 @@
-angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
+angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
 
 .controller('GraphCtrl', [
   '$scope',
-  'EventFactory',
-  function($scope, EventFactory){
+  'EventFact',
+  function($scope, EventFact){
     $scope.eventLists = {};
     $scope.events = [];
-    EventFactory.getEvents()
+    EventFact.getEvents()
     .then(function(events){
       // $scope.events = events.data;
       // console.log('data', $scope.events[0].category);

@@ -138,21 +138,16 @@ app.route('/api/events/:id')
         res.json(event);
       });
   })
-  .put(isAuthenticated, function(req, res) {
-    var eventId = req.params.id;
-    console.log('eventId in PUT', eventId);
-    Event.findOne({ _id: eventId })
-      .then(function(event) {
-        event.title = req.body.title;
-        event.created_by = req.body.created_by;
-        event.category = req.body.category;
-        event.description = req.body.description;
-        event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
-      })
-        .then(function(event) {
-          console.log('event', event);
-          res.json(event);
-        });
+  .put(function(req, res) {
+    var eventUpdates = req.body;
+    var eventId = req.params._id;
+    Event.update({id: eventId}, eventUpdates, function(err, eventUpdates) {
+      if (!err) {
+        res.json("okay");
+      } else {
+        res.write("fail");
+      }
+    });
   })
   .delete(function(req, res) {
     var eventId = req.params.id;
@@ -225,26 +220,6 @@ app.get('/logout', function(req, res) {
     status: 'Bye!'
   });
 });
-
-// app.get('/auth/facebook',
-//   passport.authenticate('facebook'),
-//   function(req, res) {});
-
-// app.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     res.redirect('/');
-//   });
-
-// app.get('/auth/twitter',
-//   passport.authenticate('twitter'),
-//   function(req, res) {});
-
-// app.get('/auth/twitter/callback',
-//   passport.authenticate('twitter', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     res.redirect('/');
-//   });
 
 app.listen(3000, function() {
   console.log('server is connected');
