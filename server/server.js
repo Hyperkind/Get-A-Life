@@ -139,20 +139,15 @@ app.route('/api/events/:id')
       });
   })
   .put(function(req, res) {
-    var eventId = req.params.id;
-    console.log('eventId in PUT', eventId);
-    Event.findOne({ _id: eventId })
-      .then(function(event) {
-        event.title = req.body.title;
-        event.created_by = req.body.created_by;
-        event.category = req.body.category;
-        event.description = req.body.description;
-        event.start_date = moment(moment(req.body.start_date).format('YYYY-MM-DD') + ' ' + moment(req.body.start_time).format('HH:mm:ss')).toDate();
-      })
-        .then(function(event) {
-          console.log('event', event);
-          res.json(event);
-        });
+    var eventUpdates = req.body;
+    var eventId = req.params._id;
+    Event.update({id: eventId}, eventUpdates, function(err, eventUpdates) {
+      if (!err) {
+        res.json("okay");
+      } else {
+        res.write("fail");
+      }
+    });
   })
   .delete(function(req, res) {
     var eventId = req.params.id;
