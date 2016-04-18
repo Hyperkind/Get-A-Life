@@ -1,16 +1,26 @@
 <ion-view view-title="Events">
   <ion-content>
     <h3>Editing Event .. </h3>
-     <form ng-submit="EditController.editingEvent()">
-      <div>Title<input type="text" ng-model="EditController.title" name="title"/></div>
-      <div>Created By<input type="text" ng-model="EditController.created_by" name="createdBy"/></div>
-      <div>Category<input type="text" ng-model="EditController.category" name="category" /></div>
-      <div>Description<input type="text" ng-model="EditController.description" name="description"/></div>
-      <div>Start Date<input type="date" ng-model="EditController.start_date" name="start_date"/></div>
+     <form ng-submit="editEvent()">
+      <label class="item item-input">Title:
+        <input type="text" placeholder="{{title}}">
+      </label>
+      <label class="item item-input">Created By:
+        <input type="text" placeholder="{{created_by}}">
+      </label>
+      <label class="item item-input">Category:
+        <input type="text" placeholder="{{category}}">
+      </label>
+      <label class="item item-input">Start Date & Time:
+        <input type="text" placeholder="{{start_date}}">
+      </label>
+      <label class="item item-input">Description:
+        <input type="text" placeholder="{{description}}">
+      </label>
       <div>
         <input type="submit" id="submit" value="Save"/>
-        <button ng-click="closeEdit()">Edit Event</button>
-        <button type="reset" value="reset">Reset</button>
+        <button ng-click="closeEdit()">Cancel</button>
+        <!-- <button type="reset" value="reset">Reset</button> -->
       </div>
     </form>
   </ion-content>

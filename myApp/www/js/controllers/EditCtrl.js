@@ -1,34 +1,35 @@
 angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
 
-.controller('EditController', [
+.controller('EditCtrl', [
   '$scope',
   '$stateParams',
   'EventFact',
   '$location',
   function($scope, $stateParams, EventFact, $location){
-    var vm = this;
-    vm.title = null;
-    vm.created_by = null;
-    vm.description = null;
-    vm.start_date = null;
+    // var vm = this;
+    // vm.title = null;
+    // vm.created_by = null;
+    // vm.description = null;
+    // vm.start_date = null;
 
     EventFact.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
-        vm.title = event.title;
-        vm.created_by = event.created_by;
-        vm.description = event.description;
-        vm.start_date = event.start_date;
+        $scope.title = event.title;
+        $scope.created_by = event.created_by;
+        $scope.description = event.description;
+        $scope.start_date = event.start_date;
+        $scope.category = event.category;
       });
     console.log('$stateParams', $stateParams);
 
-    vm.editingEvent = function(){
-      console.log(vm.description);
+    $scope.editEvent = function(){
       var data = {
-        title: vm.title,
-        created_by: vm.created_by,
-        description: vm.description,
-        start_date: vm.start_date,
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_date: $scope.start_date,
+        category: $scope.category
         };
       console.log('event', event);
       event.preventDefault();
