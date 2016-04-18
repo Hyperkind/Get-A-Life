@@ -138,7 +138,7 @@ app.route('/api/events/:id')
         res.json(event);
       });
   })
-  .put(isAuthenticated, function(req, res) {
+  .put(function(req, res) {
     var eventId = req.params.id;
     console.log('eventId in PUT', eventId);
     Event.findOne({ _id: eventId })

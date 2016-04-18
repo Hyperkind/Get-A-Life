@@ -23,20 +23,25 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
       });
     console.log('$stateParams', $stateParams);
 
-    $scope.editEvent = function(){
-      var data = {
-        title: $scope.title,
-        created_by: $scope.created_by,
-        description: $scope.description,
-        start_date: $scope.start_date,
-        category: $scope.category
+    $scope.closeEdit = function(){
+      $ionicHistory.goBack();
+    };
+
+    $scope.editEvent = function(event){
+      event.preventDefault();
+      var editData = {
+        title: event.target.title.value,
+        // created_by: event.target,
+        category: event.target.category.value,
+        start_date: event.target.start_date.value,
+        description: event.target.description.value
         };
       console.log('event', event);
       event.preventDefault();
-      console.log('data', data);
-      EventFact.updateEvent(data, $stateParams.id)
-      .then(function(editingEvent){
-        console.log('returned edited event', editingEvent);
+      console.log('data', editData);
+      EventFact.updateEvent(editData, $stateParams.id)
+      .then(function(data){
+        console.log('returned edited event', data);
         console.log('stateParams.id', $stateParams.id);
         $location.path('/events');
       });
