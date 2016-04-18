@@ -1,10 +1,10 @@
-angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('event.controller', ['ui-leaflet', 'event.factories'])
 
 .controller("EventCtrl", [
   '$scope',
-  'EventFactory',
+  'EventFact',
   '$ionicModal',
-  function ($scope, EventFactory, $ionicModal){
+  function ($scope, EventFact, $ionicModal){
     $ionicModal.fromTemplateUrl('templates/edit-event.html', {
       scope: $scope
     }).then(function(editEventModal) {
@@ -23,7 +23,7 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
     $scope.events = [];
     $scope.register = {};
     $scope.register.defaultValue = "Select All";
-    EventFactory.getEvents()
+    EventFact.getEvents()
       .then(function(events){
         $scope.events = events.data;
         $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
@@ -55,7 +55,7 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
           description: $scope.description,
           start_date: $scope.start_date,
         };
-        EventFactory.postEvent(data)
+        EventFact.postEvent(data)
           .then(function(newEvent){
             console.log('NEW event created!');
             $scope.events = $scope.events.concat(newEvent.data);
@@ -76,9 +76,9 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
         description: $scope.description,
         start_date: $scope.start_date,
       };
-      EventFactory.deleteEvent(data, event._id)
+      EventFact.deleteEvent(data, event._id)
         .then(function(remove){
-          EventFactory.getEvents()
+          EventFact.getEvents()
             .then(function(events){
               $scope.events = events.data;
             });

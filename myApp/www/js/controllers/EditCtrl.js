@@ -1,18 +1,18 @@
-angular.module('edit.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
 
 .controller('EditController', [
   '$scope',
   '$stateParams',
-  'EventFactory',
+  'EventFact',
   '$location',
-  function($scope, $stateParams, EventFactory, $location){
+  function($scope, $stateParams, EventFact, $location){
     var vm = this;
     vm.title = null;
     vm.created_by = null;
     vm.description = null;
     vm.start_date = null;
 
-    EventFactory.getEventById($stateParams.id)
+    EventFact.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
         vm.title = event.title;
@@ -33,7 +33,7 @@ angular.module('edit.controller', ['ui-leaflet', 'starter.factories'])
       console.log('event', event);
       event.preventDefault();
       console.log('data', data);
-      EventFactory.updateEvent(data, $stateParams.id)
+      EventFact.updateEvent(data, $stateParams.id)
       .then(function(editingEvent){
         console.log('returned edited event', editingEvent);
         console.log('stateParams.id', $stateParams.id);
