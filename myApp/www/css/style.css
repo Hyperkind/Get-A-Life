@@ -35,7 +35,7 @@ z-index: 1000;
   display: none;
 }
 
-img {
+.graphs {
   margin: 5px;
   border: 1px solid #ccc;
   float: left;

@@ -49,6 +49,16 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
     }
   })
 
+  .state('app.graphPie', {
+    url: '/graph/pie',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pie-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
   .state('app.editEvents', {
     url: '/events/:id',
     views: {
