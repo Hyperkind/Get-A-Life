@@ -38,17 +38,13 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
     };
     $scope.markerData = [];
     $scope.markers = [];
-    // console.log($scope.markers);
-    // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png
-  //'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png'
+ 
     leafletData.getMap().then(function(map) {
        $scope.baseLayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         attributionControl: true,
         maxZoom: 18,
-        // id: 'mapbox.streets',
         accessToken: 'pk.eyJ1IjoiaHlwZXJraW5kIiwiYSI6ImNpbTV4cTNkeDAxd3h1Mm00cmVlM242dzgifQ.z3qbberA-XEQkuZQdbDMVA',
-        // continuousWorld: false,
         noWrap: true,
         trackResize: true,
         setView: true,
@@ -132,17 +128,23 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
     //data needs and array of arrays [[lat, lng]]
         //adds markers
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-        var html = '<span ng-click="addEvent()">Add Event Here</span>';
+        var html = '<button ng-click="addEvent()">Add Event Here</button>';
         var newScope = $scope.$new(true);
         newScope.addEvent = $scope.addEvent;
-        console.log($compile(html)(newScope)[0]);
+        // console.log($compile(html)(newScope)[0]);
         var leafEvent = args.leafletEvent;
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
             lng: leafEvent.latlng.lng,
-            message: "My Added Marker"
+            message: html,
+            getMessageScope: function() { return $scope; }
         });
-      $scope.addEvent();
       });
+
+       
+      // $scope.addEvent();
+    // map.on('click', '.add', function () {
+    //   $scope.addEvent();
+    // });
   });
 }]);
