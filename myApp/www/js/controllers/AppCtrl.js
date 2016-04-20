@@ -103,4 +103,5 @@ angular.module('main.controller', ['ui-leaflet', 'starter.factories'])
       $scope.closeEvent();
     }, 1000);
   };
+      console.log($scope.todos);
 }]);

@@ -11,19 +11,14 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
     angular.extend($scope, {
       center: {
         autoDiscover: true,
-        zoom: 18,
-        continuousWorld: false
+        zoom: 18
       }
     });
-     $ionicPlatform.ready(function() {
-        if(window.navigator && window.navigator.splashscreen) {
-          window.plugins.orientationLock.unlock();
-      }
-    });
-    $scope.$on('$ionicView.beforeEnter', function(){
-      screen.lockOrientation('portrait');
-    });
-    // var mapdata = MQ.mapLayer(), mapid;
+
+    var trafficData = MQ.mapLayer(), mapid;
+
+
+
     var heat = {};
     var points = [];
     var heatmap = {
@@ -92,6 +87,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
           },
           locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
         }).addTo(map);
+      MQ.trafficLayer().addTo(map);
 
       var heatArray = [];
       EventFactory.getEvents()
