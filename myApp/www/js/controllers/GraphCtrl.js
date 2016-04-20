@@ -72,14 +72,6 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
                 duration: 500,
                 labelThreshold: 0.01,
                 labelSunbeamLayout: true,
-                legend: {
-                    margin: {
-                        top: 35,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
-                    }
-                }
             }
         };
 
@@ -93,11 +85,6 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
                 showControls: true,
                 showValues: true,
                 duration: 500,
-                legend: {
-                    margin: {
-                        top: 20,
-                    }
-                },
                 xAxis: {
                     showMaxMin: false
                 },

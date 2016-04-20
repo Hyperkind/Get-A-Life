@@ -59,6 +59,16 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
     }
   })
 
+  .state('app.graphHoriz', {
+    url: '/graph/horizontal',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/horizontal-line-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
   .state('app.editEvents', {
     url: '/events/:id',
     views: {

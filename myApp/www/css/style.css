@@ -38,8 +38,6 @@ z-index: 1000;
 .graphs {
   margin: 5px;
   border: 1px solid #ccc;
-  float: left;
   width: 180px;
-  border-radius: 30px;
-
+  border-radius: 20%;
 }
