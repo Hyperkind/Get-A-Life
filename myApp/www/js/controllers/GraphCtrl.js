@@ -51,6 +51,7 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
           }]
         });
       } else{
+          //reflect data structure of nvd3's $scope.data
           targetBar.values[0].value++;
         }
       console.log('data', data);
@@ -94,7 +95,7 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
                 duration: 500,
                 legend: {
                     margin: {
-                        top: 35,
+                        top: 20,
                     }
                 },
                 xAxis: {
