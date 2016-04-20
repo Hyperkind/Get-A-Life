@@ -69,6 +69,16 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
     }
   })
 
+  .state('app.graphDonut', {
+    url: '/graph/donut',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/donut-chart.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
   .state('app.editEvents', {
     url: '/events/:id',
     views: {

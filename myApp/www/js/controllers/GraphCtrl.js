@@ -59,6 +59,29 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
       }, []);
     console.log($scope.horizontalChartData);
 
+    $scope.donutData = $scope.events.map(function(event){
+        return event.category || "N/A";
+      })
+      //after map array of objects, reduce category properties
+      //creating new category if not existing and incrementing if does
+      //TODO: improve optimization doing just a reduce, faster
+      //label and value is nvd3' setup of data
+      .reduce(function(data, category){
+        console.log (category);
+        var targetSlice = data.find(function(slice){
+          return slice.label === category;
+        });
+        if (!targetSlice){
+          data.push({
+            label: category,
+            value: 1
+          });
+        } else{
+          targetSlice.value++;
+        }
+        return data;
+      }, []);
+
   });
 
   $scope.pieChart = {
@@ -92,6 +115,31 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
                     axisLabel: 'Values',
                     tickFormat: function(d){
                         return d3.format(',.2f')(d);
+                    }
+                }
+            }
+        };
+
+  $scope.donutChart = {
+            chart: {
+                type: 'pieChart',
+                height: 450,
+                donut: true,
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showLabels: true,
+
+                pie: {
+                    startAngle: function(d) { return d.startAngle/2 -Math.PI/2; },
+                    endAngle: function(d) { return d.endAngle/2 -Math.PI/2; }
+                },
+                duration: 500,
+                legend: {
+                    margin: {
+                        top: 5,
+                        right: 70,
+                        bottom: 5,
+                        left: 0
                     }
                 }
             }
