@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 .float-button {
- 
+
 background-color:#ef473a;
 opacity: 0.4;
 color: white;
@@ -14,12 +14,12 @@ bottom: 5%; /* Adjust height */
 right: 5%; /* Adjust position */
 z-index: 1000;
 }
- 
+
 .float-button .height_fix {
   margin-top: 100%;
   border: 1px solid red;
 }
- 
+
 .float-button .content {
   position: absolute;
   left: 0;
@@ -33,4 +33,13 @@ z-index: 1000;
 
 .leaflet-control-attribution {
   display: none;
+}
+
+img {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
+  border-radius: 30px;
+
 }
