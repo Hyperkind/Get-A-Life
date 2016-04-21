@@ -60,6 +60,36 @@ angular.module('myApp', [
     }
   })
 
+  .state('app.graphPie', {
+    url: '/graph/pie',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pie-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
+  .state('app.graphHoriz', {
+    url: '/graph/horizontal',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/horizontal-line-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
+  .state('app.graphDonut', {
+    url: '/graph/donut',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/donut-chart.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
   .state('app.editEvents', {
     url: '/events/:id',
     views: {
