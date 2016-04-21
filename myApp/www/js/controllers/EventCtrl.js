@@ -64,8 +64,8 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
             $scope.created_by = '';
             $scope.description = '';
             $scope.start_date = '';
-            $scope.latitude = $scope.marker.getLatLng();
-            $scope.longitude = $scope.marker.getLatLng();
+            $scope.latitude = '';
+            $scope.longitude = '';
           });
       }
     };
