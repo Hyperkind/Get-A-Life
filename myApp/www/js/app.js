@@ -4,7 +4,18 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.controller', 'edit.controller', 'tktmstr.controller', 'user.controller', 'graph.controller', 'ui-leaflet'])
+angular.module('myApp', [
+  'ionic',
+  'main.controller',
+  'map.controller',
+  'event.controller',
+  'edit.controller',
+  'tktmstr.controller',
+  'user.controller',
+  'graph.controller',
+  'ui-leaflet',
+  'angularMoment'
+  ])
 
 .run(function($ionicPlatform) {
 
@@ -44,6 +55,36 @@ angular.module('myApp', ['ionic', 'main.controller', 'map.controller', 'event.co
     views: {
       'menuContent': {
         templateUrl: 'templates/graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
+  .state('app.graphPie', {
+    url: '/graph/pie',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pie-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
+  .state('app.graphHoriz', {
+    url: '/graph/horizontal',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/horizontal-line-graph.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
+  .state('app.graphDonut', {
+    url: '/graph/donut',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/donut-chart.html',
         controller: 'GraphCtrl'
       }
     }

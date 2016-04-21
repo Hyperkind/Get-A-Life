@@ -1,13 +1,13 @@
-angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('map.controller', ['ui-leaflet', 'event.factories'])
 
 .controller('MapCtrl', [
   '$scope',
   'filterFilter',
   '$compile',
   '$ionicModal',
-  'EventFactory',
+  'EventFact',
   'leafletData',
-  function  ($scope, filterFilter, $compile, $ionicModal, EventFactory, leafletData) {
+  function  ($scope, filterFilter, $compile, $ionicModal, EventFact, leafletData) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -86,7 +86,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
       MQ.trafficLayer().addTo(map);
 
       var heatArray = [];
-      EventFactory.getEvents()
+      EventFact.getEvents()
       .then(function loadEventMarkers(events) {
         $scope.markerData = events.data;
         // console.log($scope.markerData.length);

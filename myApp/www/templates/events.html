@@ -9,7 +9,6 @@
           <p>Event Title: {{ event.title }}</p>
           <p>Category: {{ event.category }}</p>
           <p>Created By: {{ event.created_by }}</p>
-          <p>Category: {{ event.category }}</p>
           <p>Description: {{ event.description }}</p>
           <p>Latitude: {{ event.latitude }}</p>
           <p>Longitude: {{ event.longitude }}</p>
@@ -18,7 +17,8 @@
           <p>City: {{ event.city }}</p>
           <p>Zip: {{ event.zip }}</p>
           <button type="submit" ng-click="remove(event)">Delete Event</button>
-          <button ng-click="editEvent()">Edit Event</button>
+          <a href="/#/app/events/{{event._id}}"><button>Edit</button></a>
+          <!-- <button ng-click="editEvent()">Edit Event</button> -->
         </ion-item>
       </ion-list>
   </ion-content>

@@ -1,43 +1,41 @@
-angular.module('edit.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('edit.controller', ['ui-leaflet', 'event.factories', 'angularMoment'])
 
-.controller('EditController', [
+.controller('EditCtrl', [
   '$scope',
   '$stateParams',
-  'EventFactory',
+  'EventFact',
   '$location',
-  function($scope, $stateParams, EventFactory, $location){
-    var vm = this;
-    vm.title = null;
-    vm.created_by = null;
-    vm.description = null;
-    vm.start_date = null;
-
-    EventFactory.getEventById($stateParams.id)
+  '$window',
+  '$state',
+  '$filter',
+  function($scope, $stateParams, EventFact, $location, $window, $state, $filter){
+    EventFact.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
-        vm.title = event.title;
-        vm.created_by = event.created_by;
-        vm.description = event.description;
-        vm.start_date = event.start_date;
+        $scope.title = event.title;
+        $scope.created_by = event.created_by;
+        $scope.description = event.description;
+        $scope.category = event.category;
+        $scope.date = $filter('date')(event.start_date, 'yyyy-MM-dd');
+        $scope.time = $filter('date')(event.start_date, 'hh:mm:ss');
+        console.log($scope.date);
+        console.log($scope.time);
       });
-    console.log('$stateParams', $stateParams);
 
-    vm.editingEvent = function(){
-      console.log(vm.description);
-      var data = {
-        title: vm.title,
-        created_by: vm.created_by,
-        description: vm.description,
-        start_date: vm.start_date,
-        };
-      console.log('event', event);
+    $scope.editEvent = function(event){
       event.preventDefault();
-      console.log('data', data);
-      EventFactory.updateEvent(data, $stateParams.id)
-      .then(function(editingEvent){
-        console.log('returned edited event', editingEvent);
-        console.log('stateParams.id', $stateParams.id);
-        $location.path('/events');
+      var date = event.target.edit_date.value;
+      var time = event.target.edit_time.value;
+      var editData = {
+        title: event.target.title.value,
+        category: event.target.category.value,
+        start_date: moment(date + ' ' + time).toDate(),
+        description: event.target.description.value
+        };
+      event.preventDefault();
+      EventFact.updateEvent(editData, $stateParams.id)
+      .then(function(data){
+        $window.history.back();
       });
     };
   }
