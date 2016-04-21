@@ -12,6 +12,7 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories'])
     EventFact.getEvents()
       .then(function(events){
         $scope.events = events.data;
+        $scope.start_date = events.start_date;
         $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
           if (list.indexOf(event.category) === -1) {
             list.push(event.category);
