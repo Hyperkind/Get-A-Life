@@ -38,7 +38,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
     };
     $scope.markerData = [];
     $scope.markers = [];
- 
+    
     leafletData.getMap().then(function(map) {
        $scope.baseLayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -51,7 +51,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
       }).addTo(map);
 
        L.control.locate({
-          position: 'topright',  // set the location of the control
+          position: 'bottomright',  // set the location of the control
           layer: undefined,  // use your own layer for the location marker, creates a new layer by default
           drawCircle: true,  // controls whether a circle is drawn that shows the uncertainty about the location
           follow: true,  // follow the user's location
@@ -114,7 +114,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
           }
         }
         console.log(heatArray);
-
+        console.log($scope.markers);
         $scope.layers.overlays =  {
             heat: {
               name:'Heat Map',
@@ -131,7 +131,7 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
         var html = '<button ng-click="addEvent()">Add Event Here</button>';
         var newScope = $scope.$new(true);
         newScope.addEvent = $scope.addEvent;
-        // console.log($compile(html)(newScope)[0]);
+        console.log($compile(html)(newScope)[0]);
         var leafEvent = args.leafletEvent;
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
@@ -141,10 +141,5 @@ angular.module('map.controller', ['ui-leaflet', 'starter.factories'])
         });
       });
 
-       
-      // $scope.addEvent();
-    // map.on('click', '.add', function () {
-    //   $scope.addEvent();
-    // });
   });
 }]);

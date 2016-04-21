@@ -4,7 +4,8 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
   '$scope',
   'EventFactory',
   '$ionicModal',
-  function ($scope, EventFactory, $ionicModal){
+  'leafletData',
+  function ($scope, EventFactory, $ionicModal, leafletData){
     $ionicModal.fromTemplateUrl('templates/edit-event.html', {
       scope: $scope
     }).then(function(editEventModal) {
@@ -63,11 +64,12 @@ angular.module('event.controller', ['ui-leaflet', 'starter.factories'])
             $scope.created_by = '';
             $scope.description = '';
             $scope.start_date = '';
-            $scope.latitude = '';
-            $scope.longitude = '';
+            $scope.latitude = $scope.marker.getLatLng();
+            $scope.longitude = $scope.marker.getLatLng();
           });
       }
     };
+
 
     $scope.remove = function(event){
       var data = {
