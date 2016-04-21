@@ -1,4 +1,4 @@
-angular.module('main.controller', ['ui-leaflet', 'starter.factories'])
+angular.module('main.controller', ['ui-leaflet'])
 
 .controller('AppCtrl', [
   '$scope',

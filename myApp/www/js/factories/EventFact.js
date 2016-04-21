@@ -1,6 +1,6 @@
-angular.module('starter.factories', ['starter.config'])
+angular.module('event.factories', ['starter.config'])
 
-.factory('EventFactory', [
+.factory('EventFact', [
   '$http',
   'myConfig',
   'ENDPOINT',
