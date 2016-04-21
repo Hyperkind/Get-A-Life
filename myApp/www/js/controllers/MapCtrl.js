@@ -34,7 +34,13 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
               name: 'Toner',
               url: 'http://tile.stamen.com/toner/{z}/{x}/{y}.png',
               type: 'xyz'
+          },
+          Aerial: {
+            name:'Open Aerial',
+            url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            type: 'xyz'
           }
+
         }
     };
     $scope.markerData = [];
