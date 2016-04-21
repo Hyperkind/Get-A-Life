@@ -128,11 +128,11 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
     //data needs and array of arrays [[lat, lng]]
         //adds markers
       $scope.$on("leafletDirectiveMap.dblclick", function(event, args){
-        var html = '<button ng-click="addEvent()">Add Event Here</button>';
+        var leafEvent = args.leafletEvent;
+        var html = '<button ng-click="addEvent(' + leafEvent.latlng.lat + ',' + leafEvent.latlng.lng + ')">Add Event Here</button>';
         var newScope = $scope.$new(true);
         newScope.addEvent = $scope.addEvent;
         console.log($compile(html)(newScope)[0]);
-        var leafEvent = args.leafletEvent;
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
             lng: leafEvent.latlng.lng,

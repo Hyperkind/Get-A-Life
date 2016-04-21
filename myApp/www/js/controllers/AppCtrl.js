@@ -7,7 +7,8 @@ angular.module('main.controller', ['ui-leaflet'])
   '$timeout',
   '$http',
   'ENDPOINT',
-  function($scope, $filter, $ionicModal, $timeout, $http, ENDPOINT) {
+  'leafletData',
+  function($scope, $filter, $ionicModal, $timeout, $http, ENDPOINT, leafletData) {
   $scope.loginData = {};
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -81,8 +82,8 @@ angular.module('main.controller', ['ui-leaflet'])
     $scope.addEventModal = eventModal;
   });
 
-  $scope.addEvent = function() {
-    $scope.addEventModal.show();
+  $scope.addEvent = function(lat, lng) {
+    $scope.addEventModal.show(lat, lng);
   };
 
   $scope.closeEvent = function() {
@@ -91,10 +92,20 @@ angular.module('main.controller', ['ui-leaflet'])
 
   $scope.newEvent = {};
   $scope.doEvent = function() {
+    var date = event.target.start_date.value;
+    var time = event.target.start_time.value;
+    $scope.newEvent = {
+         title: event.target.title.value,
+         created_by: 'me',
+         category: event.target.category.value,
+         description: event.target.description.value,
+         lat: $scope.lat,
+         lng: $scope.lng,
+         start_date: moment(date + ' ' + time).toDate()
+        };
     $http.post(ENDPOINT + '/api/events', $scope.newEvent)
     .success(function(data) {
       $scope.newEvent = {};
-      $scope.todos  = $scope.newEvent;
     })
     .error(function(data) {
       console.log('Error: ' + $scope.newEvent);
