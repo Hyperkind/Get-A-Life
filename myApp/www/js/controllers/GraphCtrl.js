@@ -16,7 +16,7 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
       //after map array of objects, reduce category properties
       //creating new category if not existing and incrementing if does
       //TODO: improve optimization doing just a reduce, faster
-      //label and value is nvd3' setup of data
+      //label and value is nvd3's setup of data
       .reduce(function(data, category){
         console.log (category);
         var targetSlice = data.find(function(slice){
@@ -46,7 +46,7 @@ angular.module('graph.controller', ['ui-leaflet', 'starter.factories','nvd3'])
           key: category,
           color: "#0000FF",
           values:[{
-            "key": category,
+            "category": category,
             "value": 1
           }]
         });
