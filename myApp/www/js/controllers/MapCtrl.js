@@ -2,12 +2,13 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
 
 .controller('MapCtrl', [
   '$scope',
+  '$filter',
   'filterFilter',
   '$compile',
   '$ionicModal',
   'EventFact',
   'leafletData',
-  function  ($scope, filterFilter, $compile, $ionicModal, EventFact, leafletData) {
+  function  ($scope, $filter, filterFilter, $compile, $ionicModal, EventFact, leafletData) {
     angular.extend($scope, {
       center: {
         autoDiscover: true,
@@ -93,16 +94,19 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
 
         for (var i = 0; i < $scope.markerData.length; i++) {
           // console.log(i);
-          var dataMarker = {
+          $scope.date = $filter('date')($scope.markerData[i].start_date, 'MM-dd-yyyy');
+          $scope.time = $filter('date')($scope.markerData[i].start_date, 'hh:mm:a');          var dataMarker = {
             lat: $scope.markerData[i].latitude,
             lng: $scope.markerData[i].longitude,
-            message: $scope.markerData[i].title +
-                     // $scope.markerData[i].location_name +
-                     $scope.markerData[i].venue_name +
-                     $scope.markerData[i].address +
-                     $scope.markerData[i].city+
-                     $scope.markerData[i].zip+
-                     $scope.markerData[i].category
+            message: '<h4>' + $scope.markerData[i].title + '</h4>' +  
+                     '<div>' + "<b>CREATED BY</b>: " + $scope.markerData[i].created_by + '</div>' +
+                     '<div>'+ "<b>VENUE</b>: " + $scope.markerData[i].venue_name +'</div>' +
+                     '<div>'+ "<b>DATE</b>: " + $scope.date +'</div>' +
+                     '<div>' + "<b>TIME</b>: " + $scope.time + '</div>' +
+                     '<div>' + "<b>ADDRESS</b>: " + $scope.markerData[i].address + '</div>' +
+                     '<div>' + "<b>CITY</b>: " + $scope.markerData[i].city+ '</div>'+
+                     '<div>' + "<b>ZIP</b>: " + $scope.markerData[i].zip+ '</div>'+
+                     '<div>' + "<b>CATEGORY</b>: " + $scope.markerData[i].category + '</div>'
                      // $scope.markerData[i].post
           };
           //points are the data fed into the heat map [lat, lng, intensity]
