@@ -1,20 +1,21 @@
 <ion-modal-view>
   <ion-header-bar>
     <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    <div class="bar bar-header">
+      <div class="h1 title">Login</div>
+      <button class="button button-clear button-positive" ng-click="closeLogin()">Close</button>
     </div>
   </ion-header-bar>
   <ion-content>
     <form ng-submit="doLogin()">
       <div class="list">
-        <label class="item item-input">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
+          <input type="text" ng-model="loginData.username" placeholder="Username">
         </label>
-        <label class="item item-input">
+        <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
+          <input type="password" ng-model="loginData.password" placeholder="Password">
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Log in</button>
@@ -22,7 +23,7 @@
       </div>
     </form>
     <label class="item">
-      <button class="button button-block button-positive" ng-click="register()">Sign Up</button>
+      <button class="button button-block button-balanced" ng-click="register()">Sign Up</button>
     </label>
   </ion-content>
 </ion-modal-view>

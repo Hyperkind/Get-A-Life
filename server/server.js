@@ -25,7 +25,7 @@ var eventSchema = mongoose.Schema({
   start_date: Date,
   latitude: Number,
   longitude: Number,
-  location_name: String,
+  venue_name: String,
   address: String,
   city: String,
   zip: Number,
@@ -116,6 +116,10 @@ app.route('/api/events')
       latitude: req.body.latitude,
       longitude: req.body.longitude,
       start_date: moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate(),
+      venue_name: req.body.venue_name,
+      address: req.body.address,
+      city: req.body.city,
+      zip: req.body.zip,
       posts: req.body.posts
     });
     console.log(newEvent);
