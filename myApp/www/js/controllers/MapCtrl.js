@@ -39,6 +39,22 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
             name:'Open Aerial',
             url: 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
             type: 'xyz'
+          },
+          // Night: {
+          //   name:'Night',
+          //   url: 'http://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}',
+          //   attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
+          //   format: 'jpg',
+          //   time: '',
+          //   type:'xyz',
+          //   tilematrixset: 'GoogleMapsCompatible_Level'
+          // },
+          Thunder_Forest: {
+            name: 'Flames',
+            url: 'http://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png',
+            attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            type: 'xyz',
+            maxZoom: 11
           }
 
         }
@@ -71,7 +87,7 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
           markerStyle: {},
           followCircleStyle: {},  // set difference for the style of the circle around the user's location while following
           followMarkerStyle: {},
-          icon: 'fa fa-map-marker',  // class for icon, fa-location-arrow or fa-map-marker
+          icon: 'ion-android-navigate',  // class for icon, fa-location-arrow or fa-map-marker
           iconLoading: 'fa fa-spinner fa-spin',  // class for loading icon
           iconElementTag: 'span',  // tag for the icon element, span or i
           circlePadding: [0, 0], // padding around accuracy circle, value is passed to setBounds
