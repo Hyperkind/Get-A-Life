@@ -33,57 +33,57 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
         return data;
       }, []);
 
-    // $scope.horizontalChartData = $scope.events.map(function(event){
-    //   return event.category || "N/A";
-    // })
-    // .reduce(function(data, category){
-    //   // console.log(category);
-    //   var targetBar = data.find(function(bar){
-    //   return bar.key === category;
-    //   });
-    //   if (!targetBar){
-    //     data.push({
-    //       key: category,
-    //       color: "#0000FF",
-    //       //look to make into an object? and then update
-    //       values:[{
-    //         "category": category,
-    //         "value": 1
-    //       }]
-    //     });
-    //   } else{
-    //       //reflect data structure of nvd3's $scope.data
-    //       targetBar.values[0].value++;
-    //     }
-    //   // console.log('data', data);
-    //   return data;
-    //   }, []);
-    // // console.log($scope.horizontalChartData);
+    $scope.horizontalChartData = $scope.events.map(function(event){
+      return event.category || "N/A";
+    })
+    .reduce(function(data, category){
+      // console.log(category);
+      var targetBar = data.find(function(bar){
+      return bar.key === category;
+      });
+      if (!targetBar){
+        data.push({
+          key: category,
+          color: "#0000FF",
+          //look to make into an object? and then update
+          values:[{
+            "category": category,
+            "value": 1
+          }]
+        });
+      } else{
+          //reflect data structure of nvd3's $scope.data
+          targetBar.values[0].value++;
+        }
+      return data;
+      }, []);
+    // console.log($scope.horizontalChartData);
 
-    // $scope.donutData = $scope.events.map(function(event){
-    //     return event.category || "N/A";
-    //   })
-    //   //after map array of objects, reduce category properties
-    //   //creating new category if not existing and incrementing if does
-    //   //TODO: improve optimization doing just a reduce, faster
-    //   //label and value is nvd3' setup of data
-    //   .reduce(function(data, category){
-    //     // console.log (category);
-    //     var targetSlice = data.find(function(slice){
-    //       return slice.label === category;
-    //     });
-    //     if (!targetSlice){
-    //       data.push({
-    //         label: category,
-    //         value: 1
-    //       });
-    //     } else{
-    //       targetSlice.value++;
-    //     }
-    //     return data;
-    //   }, []);
+    $scope.donutData = $scope.events.map(function(event){
+        return event.category || "N/A";
+      })
+      //after map array of objects, reduce category properties
+      //creating new category if not existing and incrementing if does
+      //TODO: improve optimization doing just a reduce, faster
+      //label and value is nvd3' setup of data
+      .reduce(function(data, category){
+        // console.log (category);
+        var targetSlice = data.find(function(slice){
+          return slice.label === category;
+        });
+        if (!targetSlice){
+          data.push({
+            label: category,
+            value: 1
+          });
+        } else{
+          targetSlice.value++;
+        }
+        return data;
+      }, []);
 
     $scope.stckedEventData = $scope.events.map(function(event){
+
       return {
         category: event.category || "N/A",
         //changing from a string to time value
@@ -98,18 +98,16 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
       var targetLine = data.find(function(line){
         return line.key === event.category;
       });
-
+      //reformating our data to nvd3's StackedChart format
       var defaultDay = [event.date, 1];
-
       if (!targetLine){
         data.push({
-          //matching to key had categories appear
+          //matching to key got categories to appear
           key: event.category,
           values: [defaultDay]
         });
       } else{
         var targetDay = targetLine.values.find(function(day){
-        //TODO: group days (currently an array) better, mindful of times on ea
         //day[0] = since first thing in defaultDay is a date
           return day[0] === event.date;
         });
@@ -120,8 +118,35 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
         }
       }
       return data;
-    }, [])
-    .slice(0, 2);
+    }, []);
+    //timeSpan combines all the lines with different dates into one array
+    var timeSpan = $scope.stckedEventData.reduce(function(timeSpan, line){
+      line.values.forEach(function(day){
+        if(timeSpan.indexOf(day[0]) === -1){
+          timeSpan.push(day[0]);
+        }
+      });
+      return timeSpan;
+    }, []);
+    // console.log(timeSpan);
+    $scope.stckedEventData.forEach(function(line){
+      timeSpan.forEach(function(timeStamp){
+        var targetDay = line.values.find(function(day){
+          return day[0] === timeStamp;
+        });
+        if(!targetDay){
+          line.values.push([
+            timeStamp, 0
+          ]);
+        }
+      });
+      line.values = line.values.sort(function(a, b){
+        return a[0] - b[0];
+      })
+      .slice(0, 30);
+    });
+    console.log(timeStamp);
+    console.log($scope.stckedEventData);
     var test = $scope.stckedEventData.every(function(line){
       return line.values.every(function(day){
         return day[0];
@@ -144,52 +169,52 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
             }
         };
 
-  // $scope.multiBarHorizontalChart = {
-  //           chart: {
-  //               type: 'multiBarHorizontalChart',
-  //               height: 450,
-  //               x: function(d){return d.key;},
-  //               y: function(d){return d.value;},
-  //               // yErr: function(d){ return [-Math.abs(d.value * Math.random() * 0.3), Math.abs(d.value * Math.random() * 0.3)] },
-  //               showControls: true,
-  //               showValues: true,
-  //               duration: 500,
-  //               xAxis: {
-  //                   showMaxMin: false
-  //               },
-  //               yAxis: {
-  //                   axisLabel: 'Values',
-  //                   tickFormat: function(d){
-  //                       return d3.format(',.2f')(d);
-  //                   }
-  //               }
-  //           }
-  //       };
+  $scope.multiBarHorizontalChart = {
+            chart: {
+                type: 'multiBarHorizontalChart',
+                height: 450,
+                x: function(d){return d.key;},
+                y: function(d){return d.value;},
+                // yErr: function(d){ return [-Math.abs(d.value * Math.random() * 0.3), Math.abs(d.value * Math.random() * 0.3)] },
+                showControls: true,
+                showValues: true,
+                duration: 500,
+                xAxis: {
+                    showMaxMin: false
+                },
+                yAxis: {
+                    axisLabel: 'Values',
+                    tickFormat: function(d){
+                        return d3.format(',.2f')(d);
+                    }
+                }
+            }
+        };
 
-  // $scope.donutChart = {
-  //           chart: {
-  //               type: 'pieChart',
-  //               height: 450,
-  //               donut: true,
-  //               x: function(d){return d.label;},
-  //               y: function(d){return d.value;},
-  //               showLabels: true,
+  $scope.donutChart = {
+            chart: {
+                type: 'pieChart',
+                height: 450,
+                donut: true,
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showLabels: true,
 
-  //               pie: {
-  //                   startAngle: function(d) { return d.startAngle/2 -Math.PI/2; },
-  //                   endAngle: function(d) { return d.endAngle/2 -Math.PI/2; }
-  //               },
-  //               duration: 500,
-  //               legend: {
-  //                   margin: {
-  //                       top: 5,
-  //                       right: 70,
-  //                       bottom: 5,
-  //                       left: 0
-  //                   }
-  //               }
-  //           }
-  //       };
+                pie: {
+                    startAngle: function(d) { return d.startAngle/2 -Math.PI/2; },
+                    endAngle: function(d) { return d.endAngle/2 -Math.PI/2; }
+                },
+                duration: 500,
+                legend: {
+                    margin: {
+                        top: 5,
+                        right: 70,
+                        bottom: 5,
+                        left: 0
+                    }
+                }
+            }
+        };
 
   $scope.stckedEventChart = {
             chart: {
@@ -202,12 +227,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
                     left: 40
                 },
                 x: function(d){return d[0];},
-                y: function(d){
-                  if(!d[1]){
-                    console.log(d);
-                  }
-                  return d[1];
-                },
+                y: function(d){return d[1];},
                 useVoronoi: false,
                 clipEdge: true,
                 duration: 100,
