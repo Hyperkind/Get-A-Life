@@ -55,6 +55,7 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories', 'angularMom
       if ($scope.title){
         var data = {
           title: $scope.title,
+          category: $scope.category,
           created_by: $scope.created_by,
           description: $scope.description,
           start_date: $scope.start_date,
@@ -67,10 +68,11 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories', 'angularMom
             $scope.created_by = '';
             $scope.description = '';
             $scope.start_date = '';
-            $scope.latitude = '';
-            $scope.longitude = '';
+            $scope.lat = '';
+            $scope.lng = '';
           });
       }
+        console.log(newEvent.data);
     };
 
     $scope.selectedAsset = {};
