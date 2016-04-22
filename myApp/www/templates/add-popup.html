@@ -8,44 +8,44 @@
             <div class="list">
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Event Title</b></span>
-                <input type="text" ng-model="newEvent.title" placeholder="Title">
+                <input name="title" type="text" ng-model="newEvent.title" placeholder="Title">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Category</b></span>
-                <input type="text" ng-model="newEvent.category" placeholder="Category">
+                <input name="category" type="text" ng-model="category" placeholder="Category">
               </label>
               <label class="item item-input">
                 <span class="input-label"><b>Date</b></span>
-                <input ng-model="newEvent.start_date" type="date">
+                <input name="start_date" ng-model="start_date" type="date">
               </label>
               <label class="item item-input">
                 <span class="input-label"><b>Time</b></span>
-                <input ng-model="newEvent.start_time" type="time">
+                <input name="start_time" ng-model="start_time" type="time">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Venue Name</b></span>
-                <input type="text" ng-model="newEvent.venue_name" placeholder="Venue Name">
+                <input name="venue_name" type="text" ng-model="venue_name" placeholder="Venue Name">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Address</b></span>
-                <input type="text" ng-model="newEvent.address" placeholder="Address">
+                <input name="address" type="text" ng-model="address" placeholder="Address">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>City</b></span>
-                <input type="text" ng-model="newEvent.city" placeholder="City">
+                <input name="city" type="text" ng-model="city" placeholder="City">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Zip</b></span>
-                <input type="text" ng-model="newEvent.zip" placeholder="Zip">
+                <input name="zip" type="number" ng-model="zip" placeholder="Zip">
               </label>
               <label class="item item-input item-floating-label">
                 <span class="input-label"><b>Description</b></span>
-                <input type="text" ng-model="newEvent.description" placeholder="Description">
+                <input name="description" type="text" ng-model="description" placeholder="Description">
+              </label>
               <form action="demo_form.asp">
                 <input type="file" name="pic" accept="image/*">
                  <input type="submit">
               </form>
-              </label>
               <button class="button button-block button-positive" type="submit">Create Event</button>
             </div>
           </form>
