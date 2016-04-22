@@ -83,7 +83,7 @@ Promise.all(eventObjArr)
 function fetchGeoCodeLocation (title, created_by, category, start_date, latitude, longitude, venue_name, address, city, zip, i) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
-      geocoder.geocode(address + ' Florida',
+      geocoder.geocode(address + ' California',
         function(err, res) {
           if (err) {
             return resolve(null);
@@ -92,7 +92,7 @@ function fetchGeoCodeLocation (title, created_by, category, start_date, latitude
           var eventObj;
           // console.log(title);
 
-          if (res[0].administrativeLevels.level1short !== 'FL') {
+          if (res[0].administrativeLevels.level1short !== 'CA') {
             eventObj = {
               title: title,
               created_by: created_by,
