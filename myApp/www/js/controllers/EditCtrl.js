@@ -1,4 +1,4 @@
-angular.module('edit.controller', ['ui-leaflet', 'event.factories', 'angularMoment'])
+angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
 
 .controller('EditCtrl', [
   '$scope',
@@ -8,7 +8,8 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories', 'angularMome
   '$window',
   '$state',
   '$filter',
-  function($scope, $stateParams, EventFact, $location, $window, $state, $filter){
+  'GOOGLE_GEOCODER',
+  function($scope, $stateParams, EventFact, $location, $window, $state, $filter, GOOGLE_GEOCODER){
     EventFact.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
@@ -18,8 +19,6 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories', 'angularMome
         $scope.category = event.category;
         $scope.date = $filter('date')(event.start_date, 'yyyy-MM-dd');
         $scope.time = $filter('date')(event.start_date, 'hh:mm:ss');
-        console.log($scope.date);
-        console.log($scope.time);
       });
 
     $scope.editEvent = function(event){
@@ -37,6 +36,23 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories', 'angularMome
       .then(function(data){
         $window.history.back();
       });
+    };
+
+    $scope.remove = function($stateparams){
+      var data = {
+        title: $scope.title,
+        created_by: $scope.created_by,
+        description: $scope.description,
+        start_date: $scope.start_date,
+      };
+      EventFact.deleteEvent(data, $stateParams.id)
+        .then(function(data){
+          $window.history.back();
+        });
+    };
+
+    $scope.goBack = function() {
+      $window.history.back();
     };
   }
 ]);

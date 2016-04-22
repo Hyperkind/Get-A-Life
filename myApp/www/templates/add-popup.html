@@ -6,26 +6,46 @@
         <ion-content class="padding">
           <form ng-submit="doEvent()">
             <div class="list">
-              <label class="item item-input">
-                <span class="input-label">Title</span>
-                <input ng-model="newEvent.title" type="text">
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Event Title</b></span>
+                <input name="title" type="text" ng-model="newEvent.title" placeholder="Title">
+              </label>
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Category</b></span>
+                <input name="category" type="text" ng-model="category" placeholder="Category">
               </label>
               <label class="item item-input">
-                <span class="input-label">Category</span>
-                <input ng-model="newEvent.category" type="text">
+                <span class="input-label"><b>Date</b></span>
+                <input name="start_date" ng-model="start_date" type="date">
               </label>
               <label class="item item-input">
-                <span class="input-label">Date</span>
-                <input ng-model="newEvent.start_date" type="date">
+                <span class="input-label"><b>Time</b></span>
+                <input name="start_time" ng-model="start_time" type="time">
               </label>
-              <label class="item item-input">
-                <span class="input-label">Time</span>
-                <input ng-model="newEvent.start_time" type="time">
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Venue Name</b></span>
+                <input name="venue_name" type="text" ng-model="venue_name" placeholder="Venue Name">
               </label>
-              <label class="item item-input">
-                <span class="input-label">Description</span>
-                <input ng-model="newEvent.description" type="text">
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Address</b></span>
+                <input name="address" type="text" ng-model="address" placeholder="Address">
               </label>
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>City</b></span>
+                <input name="city" type="text" ng-model="city" placeholder="City">
+              </label>
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Zip</b></span>
+                <input name="zip" type="number" ng-model="zip" placeholder="Zip">
+              </label>
+              <label class="item item-input item-floating-label">
+                <span class="input-label"><b>Description</b></span>
+                <input name="description" type="text" ng-model="description" placeholder="Description">
+              </label>
+              <form action="demo_form.asp">
+                <input type="file" name="pic" accept="image/*">
+                 <input type="submit">
+              </form>
               <button class="button button-block button-positive" type="submit">Create Event</button>
             </div>
           </form>
