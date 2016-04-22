@@ -1,11 +1,12 @@
-angular.module('event.controller', ['ui-leaflet', 'event.factories'])
+angular.module('event.controller', ['ui-leaflet', 'event.factories', 'angularMoment'])
 
 .controller("EventCtrl", [
   '$scope',
+  '$filter',
   'EventFact',
   '$ionicModal',
-  'leafletData',
-  function ($scope, EventFact, $ionicModal, leafletData){
+  // 'angularMoment',
+  function ($scope, $filter, EventFact, $ionicModal, leafletData){
     $ionicModal.fromTemplateUrl('templates/edit-event.html', {
       scope: $scope
     }).then(function(editEventModal) {
@@ -26,7 +27,9 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories'])
     EventFact.getEvents()
       .then(function(events){
         $scope.events = events.data;
-        $scope.start_date = events.start_date;
+        console.log(events.data[0].start_date);
+        $scope.date = moment(events.data.start_date).format('L');
+        $scope.time = moment(events.data.start_date).format('LT');
         $scope.eventLists.categories = $scope.events.reduce(function (list, event) {
           if (list.indexOf(event.category) === -1) {
             list.push(event.category);
@@ -68,24 +71,6 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories'])
             $scope.longitude = '';
           });
       }
-    };
-
-
-    $scope.remove = function(event){
-      var data = {
-        title: $scope.title,
-        created_by: $scope.created_by,
-        description: $scope.description,
-        start_date: $scope.start_date,
-      };
-      EventFact.deleteEvent(data, event._id)
-        .then(function(remove){
-          EventFact.getEvents()
-            .then(function(events){
-              $scope.events = events.data;
-            });
-            console.log(event._id);
-        });
     };
 
     $scope.selectedAsset = {};

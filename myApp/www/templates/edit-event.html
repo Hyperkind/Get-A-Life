@@ -2,26 +2,27 @@
   <ion-content>
     <h3>Edit Event</h3>
      <form ng-submit="editEvent($event)">
-      <label class="item item-input">Title:
+      <label class="item item-input item-stacked-label">Title:
         <input name="title" type="text" value="{{title}}">
       </label>
-      <label class="item item-input">Category:
+      <label class="item item-input item-stacked-label">Category:
         <input name="category" type="text" value="{{category}}">
       </label>
-      <label class="item item-input">Start Date:
+      <label class="item item-input item-stacked-label">Start Date:
         <input name="edit_date" type="date" value="{{date}}">
       </label>
-      <label class="item item-input">Start Time:
+      <label class="item item-input item-stacked-label">Start Time:
         <input name="edit_time" type="time" value="{{time}}">
       </label>
-      <label class="item item-input">Description:
+      <label class="item item-input item-stacked-label">Description:
         <input name="description" type="text" value="{{description}}">
       </label>
       <div>
-        <input type="submit" id="submit" value="Save"/>
+        <button class="button button-balanced button-full" type="submit" id="submit" value="Save">Save</button>
       </div>
     </form>
-    <button nav-clear menu-close href="/#/app/events">Cancel</button>
+    <button type="submit" class="button button-assertive button-full" ng-click="remove($event)">Delete Event</button>
+    <button class="button button-dark button-full" nav-clear menu-close ng-click="goBack()">Cancel Edit</button>
   </ion-content>
 </ion-view>
 
