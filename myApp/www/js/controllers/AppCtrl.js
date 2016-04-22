@@ -1,4 +1,4 @@
-angular.module('main.controller', ['ui-leaflet'])
+angular.module('main.controller', ['ui-leaflet', 'angularMoment'])
 
 .controller('AppCtrl', [
   '$scope',
@@ -86,6 +86,7 @@ angular.module('main.controller', ['ui-leaflet'])
     $scope.passedLat = lat;
     $scope.passedLng = lng;
     $scope.addEventModal.show(lat, lng);
+    console.log($scope.passedLat);
   };
 
   $scope.closeEvent = function() {
@@ -96,16 +97,7 @@ angular.module('main.controller', ['ui-leaflet'])
   $scope.doEvent = function() {
     var date = event.target.start_date.value;
     var time = event.target.start_time.value;
-    console.log($scope.passedLat);
     $scope.newEvent = {
-         // title: event.target.title.value,
-         // created_by: 'me',
-         // category: event.target.category.value,
-         // description: event.target.description.value,
-         // lat: $scope.passedLat,
-         // lng: $scope.passedLng,
-        // start_date: moment(date + ' ' + time).toDate()
-         //
         title: event.target.title.value,
         created_by: 'me',
         category: event.target.category.value,
@@ -115,15 +107,10 @@ angular.module('main.controller', ['ui-leaflet'])
         zip: event.target.zip.value,
         description: event.target.description.value,
         start_date: moment(date + ' ' + time).toDate(),
-        latitude: $scope.passedLat,
-        longitude: $scope.passedLng,
-        // location_name: String,
-        // address: String,
-        // city: String,
-        // zip: Number,
-        // posts: Array
-         //
+        lat: $scope.passedLat,
+        long: $scope.passedLng,
         };
+    console.log($scope.newEvent);
     $http.post(ENDPOINT + '/api/events', $scope.newEvent)
     .success(function(data) {
       $scope.newEvent = {};

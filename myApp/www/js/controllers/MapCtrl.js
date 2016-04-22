@@ -137,7 +137,7 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
           $scope.time = $filter('date')($scope.markerData[i].start_date, 'hh:mm:a');          var dataMarker = {
             lat: $scope.markerData[i].latitude,
             lng: $scope.markerData[i].longitude,
-            message: '<h4>' + $scope.markerData[i].title + '</h4>' +  
+            message: '<h4>' + $scope.markerData[i].title + '</h4>' +
                      '<div>' + "<b>CREATED BY</b>: " + $scope.markerData[i].created_by + '</div>' +
                      '<div>'+ "<b>VENUE</b>: " + $scope.markerData[i].venue_name +'</div>' +
                      '<div>'+ "<b>DATE</b>: " + $scope.date +'</div>' +
@@ -184,20 +184,20 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
         });
       });
 
-      $scope.newEvent = {};
-      $scope.doEvent = function() {
-        $http.post(ENDPOINT + '/api/events', $scope.newEvent)
-        .success(function(data) {
-          $scope.newEvent = {};
-          $scope.todos  = $scope.newEvent;
-        })
-        .error(function(data) {
-          console.log('Error: ' + $scope.newEvent);
-        });
-        $timeout(function(data) {
-          $scope.closeEvent();
-        }, 1000);
-      };
+      // $scope.newEvent = {};
+      // $scope.doEvent = function() {
+      //   $http.post(ENDPOINT + '/api/events', $scope.newEvent)
+      //   .success(function(data) {
+      //     $scope.newEvent = {};
+      //     $scope.todos  = $scope.newEvent;
+      //   })
+      //   .error(function(data) {
+      //     console.log('Error: ' + $scope.newEvent);
+      //   });
+      //   $timeout(function(data) {
+      //     $scope.closeEvent();
+      //   }, 1000);
+      // };
 
   });
 }]);
