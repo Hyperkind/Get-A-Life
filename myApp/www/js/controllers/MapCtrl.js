@@ -61,7 +61,7 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
     };
     $scope.markerData = [];
     $scope.markers = [];
-    
+
     leafletData.getMap().then(function(map) {
        $scope.baseLayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -166,6 +166,21 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
             getMessageScope: function() { return $scope; }
         });
       });
+
+      $scope.newEvent = {};
+      $scope.doEvent = function() {
+        $http.post(ENDPOINT + '/api/events', $scope.newEvent)
+        .success(function(data) {
+          $scope.newEvent = {};
+          $scope.todos  = $scope.newEvent;
+        })
+        .error(function(data) {
+          console.log('Error: ' + $scope.newEvent);
+        });
+        $timeout(function(data) {
+          $scope.closeEvent();
+        }, 1000);
+      };
 
   });
 }]);

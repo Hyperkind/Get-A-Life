@@ -53,12 +53,14 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories', 'angularMom
     $scope.newEvent = function(event){
       event.preventDefault();
       if ($scope.title){
+        var date = event.target.edit_date.value;
+        var time = event.target.edit_time.value;
         var data = {
           title: $scope.title,
           category: $scope.category,
           created_by: $scope.created_by,
           description: $scope.description,
-          start_date: $scope.start_date,
+          start_date: moment(date + ' ' + time).toDate(),
         };
         EventFact.postEvent(data)
           .then(function(newEvent){
