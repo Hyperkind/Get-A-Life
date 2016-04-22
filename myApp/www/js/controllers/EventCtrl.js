@@ -70,10 +70,11 @@ angular.module('event.controller', ['ui-leaflet', 'event.factories', 'angularMom
             $scope.created_by = '';
             $scope.description = '';
             $scope.start_date = '';
-            $scope.latitude = '';
-            $scope.longitude = '';
+            $scope.lat = '';
+            $scope.lng = '';
           });
       }
+        console.log(newEvent.data);
     };
 
     $scope.selectedAsset = {};
