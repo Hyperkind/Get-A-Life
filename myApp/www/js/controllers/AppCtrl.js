@@ -9,6 +9,7 @@ angular.module('main.controller', ['ui-leaflet', 'angularMoment'])
   'ENDPOINT',
   'leafletData',
   function($scope, $filter, $ionicModal, $timeout, $http, ENDPOINT, leafletData) {
+  
   $scope.loginData = {};
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
