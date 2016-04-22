@@ -1,4 +1,4 @@
-angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
+angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'angularMoment'])
 
 .controller('GraphCtrl', [
   '$scope',
@@ -18,7 +18,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
       //TODO: improve optimization doing just a reduce, faster
       //label and value is nvd3's setup of data
       .reduce(function(data, category){
-        console.log (category);
+        // console.log (category);
         var targetSlice = data.find(function(slice){
           return slice.label === category;
         });
@@ -37,7 +37,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
       return event.category || "N/A";
     })
     .reduce(function(data, category){
-      console.log(category);
+      // console.log(category);
       var targetBar = data.find(function(bar){
       return bar.key === category;
       });
@@ -45,6 +45,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
         data.push({
           key: category,
           color: "#0000FF",
+          //look to make into an object? and then update
           values:[{
             "category": category,
             "value": 1
@@ -54,10 +55,9 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
           //reflect data structure of nvd3's $scope.data
           targetBar.values[0].value++;
         }
-      console.log('data', data);
       return data;
       }, []);
-    console.log($scope.horizontalChartData);
+    // console.log($scope.horizontalChartData);
 
     $scope.donutData = $scope.events.map(function(event){
         return event.category || "N/A";
@@ -67,7 +67,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
       //TODO: improve optimization doing just a reduce, faster
       //label and value is nvd3' setup of data
       .reduce(function(data, category){
-        console.log (category);
+        // console.log (category);
         var targetSlice = data.find(function(slice){
           return slice.label === category;
         });
@@ -82,8 +82,79 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
         return data;
       }, []);
 
-  });
+    $scope.stckedEventData = $scope.events.map(function(event){
 
+      return {
+        category: event.category || "N/A",
+        //changing from a string to time value
+        date: new Date(event.start_date).getTime(),
+      };
+    })
+    //event has to have a date
+    .filter(function(event){
+      return event.date;
+    })
+    .reduce(function(data, event){
+      var targetLine = data.find(function(line){
+        return line.key === event.category;
+      });
+      //reformating our data to nvd3's StackedChart format
+      var defaultDay = [event.date, 1];
+      if (!targetLine){
+        data.push({
+          //matching to key got categories to appear
+          key: event.category,
+          values: [defaultDay]
+        });
+      } else{
+        var targetDay = targetLine.values.find(function(day){
+        //day[0] = since first thing in defaultDay is a date
+          return day[0] === event.date;
+        });
+        if(targetDay){
+          targetDay[1]++;
+        } else{
+          targetLine.values.push(defaultDay);
+        }
+      }
+      return data;
+    }, []);
+    //timeSpan combines all the lines with different dates into one array
+    var timeSpan = $scope.stckedEventData.reduce(function(timeSpan, line){
+      line.values.forEach(function(day){
+        if(timeSpan.indexOf(day[0]) === -1){
+          timeSpan.push(day[0]);
+        }
+      });
+      return timeSpan;
+    }, []);
+    // console.log(timeSpan);
+    $scope.stckedEventData.forEach(function(line){
+      timeSpan.forEach(function(timeStamp){
+        var targetDay = line.values.find(function(day){
+          return day[0] === timeStamp;
+        });
+        if(!targetDay){
+          line.values.push([
+            timeStamp, 0
+          ]);
+        }
+      });
+      line.values = line.values.sort(function(a, b){
+        return a[0] - b[0];
+      })
+      .slice(0, 30);
+    });
+    console.log(timeStamp);
+    console.log($scope.stckedEventData);
+    var test = $scope.stckedEventData.every(function(line){
+      return line.values.every(function(day){
+        return day[0];
+      });
+    });
+    console.log('test', test);
+  });
+  /******************CHARTS*****************/
   $scope.pieChart = {
             chart: {
                 type: 'pieChart',
@@ -144,6 +215,46 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3'])
                 }
             }
         };
+
+  $scope.stckedEventChart = {
+            chart: {
+                type: 'stackedAreaChart',
+                height: 450,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 30,
+                    left: 40
+                },
+                x: function(d){return d[0];},
+                y: function(d){return d[1];},
+                useVoronoi: false,
+                clipEdge: true,
+                duration: 100,
+                useInteractiveGuideline: true,
+                xAxis: {
+                    showMaxMin: false,
+                    tickFormat: function(d) {
+                        return d3.time.format('%B')(new Date(d));
+                    }
+                },
+                yAxis: {
+                    tickFormat: function(d){
+                        return d3.format(',.0f')(d);
+                    }
+                },
+                zoom: {
+                    enabled: true,
+                    scaleExtent: [1, 10],
+                    useFixedDomain: false,
+                    useNiceScale: false,
+                    horizontalOff: false,
+                    verticalOff: true,
+                    unzoomEventType: 'dblclick.zoom'
+                }
+            }
+        };
+
   }
 ]);
 
