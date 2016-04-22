@@ -13,17 +13,17 @@
     </div>
       <ion-list>
         <ion-item class="card" ng-repeat="event in events | filter:(filterList || null) | orderBy: start_date">
-          <p>Event Title: {{ event.title }}</p>
-          <p>Category: {{ event.category }}</p>
-          <p>Created By: {{ event.created_by }}</p>
-          <p>Start Date: {{ date }}</p>
-          <p>Start Time: {{ time }}</p>
+          <p><b>Event Title:</b> {{ event.title }}</p>
+          <p><b>Category:</b> {{ event.category }}</p>
+          <p><b>Created By:</b> {{ event.created_by }}</p>
+          <p><b>Start Date:</b> {{ date }}</p>
+          <p><b>Start Time:</b> {{ time }}</p>
 <!--           <p>Latitude: {{ event.latitude }}</p>
           <p>Longitude: {{ event.longitude }}</p> -->
-          <p class="icon ion-home"> Address: {{ event.address }}</p>
-          <p>City: {{ event.city }}</p>
-          <p>Zip: {{ event.zip }}</p>
-          <p>Description: {{ event.description }}</p>
+          <p class="icon ion-home"><b> Address:</b> {{ event.address }}</p>
+          <p><b>City:</b> {{ event.city }}</p>
+          <p><b>Zip:</b> {{ event.zip }}</p>
+          <p><b>Description:</b> {{ event.description }}</p>
           <a href="/#/app/events/{{event._id}}"><button class="button button-positive button-small">Edit</button></a>
         </ion-item>
       </ion-list>

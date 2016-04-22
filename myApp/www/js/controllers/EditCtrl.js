@@ -8,7 +8,8 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
   '$window',
   '$state',
   '$filter',
-  function($scope, $stateParams, EventFact, $location, $window, $state, $filter){
+  'GOOGLE_GEOCODER',
+  function($scope, $stateParams, EventFact, $location, $window, $state, $filter, GOOGLE_GEOCODER){
     EventFact.getEventById($stateParams.id)
       .then(function(res){
         var event = res.data;
