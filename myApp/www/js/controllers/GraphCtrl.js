@@ -129,6 +129,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
       return timeSpan;
     }, []);
     // console.log(timeSpan);
+    //looking for dates outside of timeStamp, then setting to 0
     $scope.stckedEventData.forEach(function(line){
       timeSpan.forEach(function(timeStamp){
         var targetDay = line.values.find(function(day){
@@ -143,7 +144,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
       line.values = line.values.sort(function(a, b){
         return a[0] - b[0];
       })
-      .slice(0, 30);
+      .slice(0, 40);
     });
     console.log($scope.stckedEventData);
     var test = $scope.stckedEventData.every(function(line){
@@ -234,7 +235,7 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
                 xAxis: {
                     showMaxMin: false,
                     tickFormat: function(d) {
-                        return d3.time.format('%B')(new Date(d));
+                        return d3.time.format('%x')(new Date(d));
                     }
                 },
                 yAxis: {
