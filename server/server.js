@@ -21,7 +21,6 @@ var eventSchema = mongoose.Schema({
   title: String,
   created_by: String,
   category: String,
-  description: String,
   start_date: Date,
   latitude: Number,
   longitude: Number,
@@ -29,6 +28,7 @@ var eventSchema = mongoose.Schema({
   address: String,
   city: String,
   zip: Number,
+  description: String,
   posts: Array
 });
 var Event = mongoose.model('Event', eventSchema);
@@ -112,7 +112,6 @@ app.route('/api/events')
       title: req.body.title,
       created_by: req.body.created_by,
       category: req.body.category,
-      description: req.body.description,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
       start_date: moment(moment(req.body.date).format('YYYY-MM-DD') + ' ' + moment(req.body.time).format('HH:mm:ss')).toDate(),
@@ -120,6 +119,7 @@ app.route('/api/events')
       address: req.body.address,
       city: req.body.city,
       zip: req.body.zip,
+      description: req.body.description,
       posts: req.body.posts
     });
     console.log(newEvent);
