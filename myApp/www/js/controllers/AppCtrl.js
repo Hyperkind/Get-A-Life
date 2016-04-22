@@ -104,7 +104,7 @@ angular.module('main.controller', ['ui-leaflet'])
          // description: event.target.description.value,
          // lat: $scope.passedLat,
          // lng: $scope.passedLng,
-         // start_date: moment(date + ' ' + time).toDate()
+        // start_date: moment(date + ' ' + time).toDate()
          //
         title: event.target.title.value,
         created_by: 'me',

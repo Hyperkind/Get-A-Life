@@ -15,9 +15,10 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
         zoom: 18
       }
     });
-
+    //mapquest traffic
     var trafficData = MQ.mapLayer(), mapid;
-
+    //esri geosearch
+    // var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
 
 
     var heat = {};
@@ -73,6 +74,7 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
         setView: true,
       }).addTo(map);
 
+
        L.control.locate({
           position: 'bottomright',  // set the location of the control
           layer: undefined,  // use your own layer for the location marker, creates a new layer by default
@@ -107,6 +109,21 @@ angular.module('map.controller', ['ui-leaflet', 'event.factories'])
           locateOptions: {}  // define location options e.g enableHighAccuracy: true or maxZoom: 10
         }).addTo(map);
       MQ.trafficLayer().addTo(map);
+
+      // var searchControl = L.esri.Geocoding.geosearch({
+      //   providers: [arcgisOnline]
+      // }).addTo(map);
+ 
+      // // create an empty layer group to store the results and add it to the map 
+      // var results = L.layerGroup().addTo(map);
+ 
+      // // listen for the results event and add every result to the map 
+      // searchControl.on("results", function(data) {
+      //   results.clearLayers();
+      //   for (var i = data.results.length - 1; i >= 0; i--) {
+      //       results.addLayer(L.marker(data.results[i].latlng));
+      //   }
+      // });
 
       var heatArray = [];
       EventFact.getEvents()

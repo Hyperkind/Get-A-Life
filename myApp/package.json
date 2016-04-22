@@ -4,6 +4,7 @@
   "description": "myApp: An Ionic project",
   "dependencies": {
     "angular-leaflet-directive": "^0.10.0",
+    "esri-leaflet-geocoder": "^2.0.3",
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
     "gulp-minify-css": "^0.3.0",
