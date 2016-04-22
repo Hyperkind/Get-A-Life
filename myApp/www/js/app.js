@@ -90,6 +90,16 @@ angular.module('myApp', [
     }
   })
 
+   .state('app.graphStacked', {
+    url: '/graph/stacked',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/stackedChart.html',
+        controller: 'GraphCtrl'
+      }
+    }
+  })
+
   .state('app.editEvents', {
     url: '/events/:id',
     views: {
