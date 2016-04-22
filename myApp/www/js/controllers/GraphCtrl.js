@@ -145,7 +145,6 @@ angular.module('graph.controller', ['ui-leaflet', 'event.factories','nvd3', 'ang
       })
       .slice(0, 30);
     });
-    console.log(timeStamp);
     console.log($scope.stckedEventData);
     var test = $scope.stckedEventData.every(function(line){
       return line.values.every(function(day){
