@@ -27,6 +27,7 @@ angular.module('edit.controller', ['ui-leaflet', 'event.factories'])
       var editData = {
         title: event.target.title.value,
         category: event.target.category.value,
+        created_by: event.target.created_by.value,
         start_date: moment(date + ' ' + time).toDate(),
         description: event.target.description.value
         };
